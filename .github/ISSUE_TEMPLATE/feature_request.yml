@@ -1,1 +1,12 @@
+name: Feature request
+description: Предложить функцию
+title: "[FEATURE] "
+labels: ["enhancement"]
 
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Что нужно сделать
+    validations:
+      required: true
