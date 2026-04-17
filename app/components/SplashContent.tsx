@@ -1,13 +1,16 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
-import { useLenis } from "./LenisRoot";
+import { useEffect, useLayoutEffect, useRef, type ReactNode } from "react";
+import { shouldAvoidLenis, useLenis } from "./LenisRoot";
+
+const useIsoLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export function SplashContent({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
 
-  useEffect(() => {
+  useIsoLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
 
@@ -37,6 +40,16 @@ export function SplashContent({ children }: { children: ReactNode }) {
       const onRm = () => apply(0);
       ro.addEventListener("change", onRm);
       return () => ro.removeEventListener("change", onRm);
+    }
+
+    /** Нативный скролл на телефоне: параллакс на scroll даёт сильные рывки в WebKit. */
+    if (shouldAvoidLenis()) {
+      el.style.opacity = "1";
+      el.style.transform = "";
+      return () => {
+        el.style.opacity = "";
+        el.style.transform = "";
+      };
     }
 
     /**

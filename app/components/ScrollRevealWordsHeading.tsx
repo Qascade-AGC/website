@@ -19,7 +19,7 @@ export function ScrollRevealWordsHeading({
   as: Tag = "h2",
   text,
   className = "",
-  staggerMs = 68,
+  staggerMs = 54,
   ...props
 }: Props) {
   const ref = useRef<HTMLHeadingElement>(null);
@@ -54,7 +54,7 @@ export function ScrollRevealWordsHeading({
           setVisible(false);
         }
       },
-      { threshold: 0.08, rootMargin: "0px 0px -4% 0px" },
+      { threshold: 0.1, rootMargin: "0px 0px 8% 0px" },
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -78,14 +78,14 @@ export function ScrollRevealWordsHeading({
           }`}
         >
           <span
-            className={`inline-block transform-gpu transition-[transform,opacity] ease-[cubic-bezier(0.26,0.7,0.32,1)] ${
+            className={`inline-block transform-gpu transition-[transform,opacity] ease-[cubic-bezier(0.22,1,0.36,1)] ${
               visible
                 ? "translate-x-0 opacity-100"
-                : "-translate-x-full opacity-0"
+                : "-translate-x-[0.85rem] opacity-0"
             }`}
             style={{
               transitionDelay: visible ? `${i * staggerMs}ms` : "0ms",
-              transitionDuration: visible ? "1250ms" : "200ms",
+              transitionDuration: visible ? "1420ms" : "280ms",
             }}
           >
             {word}

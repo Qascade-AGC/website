@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useLayoutEffect, useRef, useState } from "react";
-import { useLenis } from "../LenisRoot";
+import { shouldAvoidLenis, useLenis } from "../LenisRoot";
+import { useTouchLikeDevice } from "../useTouchLikeDevice";
 import { ScrollRevealHeading } from "../ScrollRevealHeading";
 import { TypewriterReveal } from "../TypewriterReveal";
 
@@ -91,6 +92,7 @@ export function ProcessSection() {
   const rootRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
+  const touchLike = useTouchLikeDevice();
 
   useLayoutEffect(() => {
     const root = rootRef.current;
@@ -135,6 +137,10 @@ export function ProcessSection() {
       return () => mq.removeEventListener("change", onMq);
     }
 
+    if (shouldAvoidLenis()) {
+      return () => {};
+    }
+
     let raf = 0;
     const tick = () => {
       if (raf) return;
@@ -168,7 +174,7 @@ export function ProcessSection() {
   return (
     <section
       id="process"
-      className="relative z-10 scroll-mt-24 px-4 py-20 sm:px-6 lg:py-24"
+      className="relative z-10 scroll-mt-28 px-4 py-16 sm:scroll-mt-24 sm:px-6 sm:py-20 lg:py-24"
       aria-labelledby="process-heading"
     >
       <div className="mx-auto max-w-3xl text-center">
@@ -188,11 +194,17 @@ export function ProcessSection() {
       <div ref={rootRef} className="mx-auto mt-12 max-w-[1100px]">
         <div
           ref={panelRef}
-          className="transform-gpu overflow-hidden rounded-2xl border border-white/[0.14] bg-[rgba(42,42,42,0.26)] shadow-[0_32px_120px_-48px_rgba(0,0,0,0.9),inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-md will-change-[transform,opacity] sm:rounded-3xl"
-          style={{
-            transform: "translate3d(0, 104px, 0)",
-            opacity: 0.26,
-          }}
+          className={`transform-gpu overflow-hidden rounded-2xl border border-white/[0.14] bg-[rgba(42,42,42,0.26)] shadow-[0_32px_120px_-48px_rgba(0,0,0,0.9),inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-md sm:rounded-3xl ${
+            touchLike === true ? "" : "will-change-[transform,opacity]"
+          }`}
+          style={
+            touchLike === true
+              ? { opacity: 1, transform: "translate3d(0, 0, 0)" }
+              : {
+                  transform: "translate3d(0, 104px, 0)",
+                  opacity: 0.26,
+                }
+          }
         >
           {/* Window chrome */}
           <div className="flex items-center gap-3 border-b border-white/[0.08] bg-[rgba(37,37,37,0.28)] px-4 py-3 backdrop-blur-md sm:px-5">
@@ -206,7 +218,7 @@ export function ProcessSection() {
             </span>
           </div>
 
-          <div className="flex min-h-[min(85vh,640px)] flex-col lg:grid lg:h-[min(78vh,700px)] lg:min-h-[640px] lg:grid-cols-[minmax(0,300px)_1fr] lg:items-stretch lg:gap-0">
+          <div className="flex min-h-[min(56dvh,440px)] flex-col sm:min-h-[min(64dvh,520px)] lg:grid lg:h-[min(78vh,700px)] lg:min-h-[min(85vh,640px)] lg:grid-cols-[minmax(0,300px)_1fr] lg:items-stretch lg:gap-0">
             {/* Sidebar */}
             <div
               className="flex min-h-0 flex-col gap-2 border-b border-white/[0.08] bg-[rgba(42,42,42,0.2)] p-3 backdrop-blur-md sm:p-4 lg:h-full lg:overflow-y-auto lg:border-r lg:border-b-0"
@@ -338,7 +350,7 @@ export function ProcessSection() {
       <div className="mx-auto mt-10 max-w-[1100px] text-center">
         <Link
           href="/contact"
-          className="inline-flex h-12 items-center justify-center rounded-lg bg-brand px-8 text-sm font-semibold text-black transition-colors hover:bg-brand-hover"
+          className="inline-flex h-12 w-full max-w-sm items-center justify-center rounded-lg bg-brand px-8 text-sm font-semibold text-black transition-colors hover:bg-brand-hover sm:w-auto sm:max-w-none"
         >
           Start with discovery →
         </Link>

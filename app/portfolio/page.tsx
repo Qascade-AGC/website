@@ -7,7 +7,7 @@ import { SiteFooter } from "../components/SiteFooter";
 import { SiteNav } from "../components/SiteNav";
 
 export const metadata: Metadata = {
-  title: "Our Work · Qascade",
+  title: "Our Work",
   description: "Real products. Real results.",
 };
 
@@ -15,7 +15,7 @@ export default function PortfolioPage() {
   return (
     <>
       <SiteNav />
-      <main className="min-h-dvh bg-transparent px-4 pb-24 pt-28 sm:px-8">
+      <main className="min-h-dvh bg-transparent px-3 pb-[max(6rem,env(safe-area-inset-bottom,0px)+4rem)] pt-[max(7rem,env(safe-area-inset-top,0px)+5.5rem)] sm:px-8 sm:pb-24 sm:pt-28">
         <div className="mx-auto max-w-3xl text-center">
           <ScrollRevealHeading
             as="h1"
@@ -34,7 +34,7 @@ export default function PortfolioPage() {
           {CASE_STUDIES.map((cs) => (
             <article
               key={cs.n}
-              className="scroll-mt-28 rounded-2xl border border-white/[0.14] bg-black/[0.28] p-6 backdrop-blur-md sm:p-10"
+              className="scroll-mt-32 rounded-2xl border border-white/[0.14] bg-black/[0.28] p-5 backdrop-blur-md sm:scroll-mt-28 sm:p-10"
               id={`case-${cs.n}`}
             >
               <p className="text-[11px] font-semibold tracking-widest text-brand uppercase">

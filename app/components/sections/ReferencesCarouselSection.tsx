@@ -1,3 +1,5 @@
+"use client";
+
 import { CasesCarousel } from "../CasesCarousel";
 import { ScrollRevealHeading } from "../ScrollRevealHeading";
 import { TypewriterReveal } from "../TypewriterReveal";
@@ -6,7 +8,7 @@ export function ReferencesCarouselSection() {
   return (
     <section
       id="work-preview"
-      className="relative z-10 scroll-mt-24 overflow-x-clip pt-2 pb-12 sm:pb-16 lg:pt-4 lg:pb-20"
+      className="relative z-10 scroll-mt-28 overflow-x-clip pt-12 pb-12 sm:scroll-mt-24 sm:pt-14 sm:pb-16 lg:pt-4 lg:pb-20"
       aria-labelledby="work-preview-heading"
     >
       <div className="mx-auto mb-5 max-w-[1680px] px-4 text-center sm:mb-6 sm:px-8 md:px-12 lg:px-14 xl:px-16">

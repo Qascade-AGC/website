@@ -1,14 +1,53 @@
+import dynamic from "next/dynamic";
 import { HeroScatterTitle } from "./HeroScatterTitle";
 import { ScrollRevealHeading } from "./ScrollRevealHeading";
 import { TypewriterReveal } from "./TypewriterReveal";
 import { SiteFooter } from "./SiteFooter";
 import { SiteNav } from "./SiteNav";
 import { SplashContent } from "./SplashContent";
-import { AboutSection } from "./sections/AboutSection";
 import { HeroMain } from "./sections/HeroMain";
-import { ProcessSection } from "./sections/ProcessSection";
-import { ReferencesCarouselSection } from "./sections/ReferencesCarouselSection";
-import { ServicesSection } from "./sections/ServicesSection";
+
+function BelowFoldFallback({ minH }: { minH: string }) {
+  return (
+    <div
+      className={`w-full ${minH}`}
+      aria-busy="true"
+      aria-label="Loading section"
+    />
+  );
+}
+
+const ServicesSection = dynamic(
+  () =>
+    import("./sections/ServicesSection").then((m) => ({
+      default: m.ServicesSection,
+    })),
+  { loading: () => <BelowFoldFallback minH="min-h-[36rem]" /> },
+);
+
+const ReferencesCarouselSection = dynamic(
+  () =>
+    import("./sections/ReferencesCarouselSection").then((m) => ({
+      default: m.ReferencesCarouselSection,
+    })),
+  { loading: () => <BelowFoldFallback minH="min-h-[22rem]" /> },
+);
+
+const ProcessSection = dynamic(
+  () =>
+    import("./sections/ProcessSection").then((m) => ({
+      default: m.ProcessSection,
+    })),
+  { loading: () => <BelowFoldFallback minH="min-h-[40rem]" /> },
+);
+
+const AboutSection = dynamic(
+  () =>
+    import("./sections/AboutSection").then((m) => ({
+      default: m.AboutSection,
+    })),
+  { loading: () => <BelowFoldFallback minH="min-h-[48rem]" /> },
+);
 
 function CornerPanel({
   title,
@@ -21,7 +60,7 @@ function CornerPanel({
 }) {
   return (
     <div
-      className={`absolute z-0 max-w-[min(100%,240px)] space-y-2 ${className}`}
+      className={`absolute z-[3] max-w-[min(100%,240px)] space-y-2 ${className}`}
     >
       <ScrollRevealHeading
         as="h3"
@@ -47,21 +86,25 @@ export function Hero() {
         id="splash"
         className="relative flex min-h-dvh flex-col bg-transparent"
       >
+        <div
+          className="pointer-events-none absolute inset-0 z-[1] bg-black/50"
+          aria-hidden
+        />
         <SplashContent>
-          <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 pt-20 pb-32">
-            <p className="mb-5 max-w-md text-center text-sm leading-relaxed text-white/65 md:text-base">
+          <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 pt-[max(5.5rem,calc(env(safe-area-inset-top,0px)+5rem))] pb-28 sm:pb-32 md:pt-20">
+            <p className="mb-4 max-w-md text-center text-sm leading-relaxed text-white/65 sm:mb-5 md:text-base">
               From sketch to scale — products that ship.
             </p>
             <HeroScatterTitle />
           </div>
 
-          <p className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-center text-[11px] tracking-[0.25em] text-zinc-600 uppercase">
+          <p className="absolute bottom-[max(1.5rem,env(safe-area-inset-bottom,0px))] left-1/2 z-10 -translate-x-1/2 text-center text-[10px] tracking-[0.25em] text-zinc-600 uppercase sm:bottom-8 sm:text-[11px]">
             Scroll to explore
           </p>
         </SplashContent>
 
         <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[min(32vh,240px)] bg-gradient-to-b from-transparent via-[#000000]/72 to-[#000000] [mask-image:linear-gradient(to_top,rgb(0,0,0)_55%,transparent_100%)]"
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[min(32vh,240px)] bg-gradient-to-b from-transparent via-[#000000]/84 to-[#000000] [mask-image:linear-gradient(to_top,rgb(0,0,0)_55%,transparent_100%)]"
           aria-hidden
         />
       </section>
@@ -74,8 +117,13 @@ export function Hero() {
           className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-36 bg-gradient-to-b from-[#000000] via-[#000000]/88 to-transparent [mask-image:linear-gradient(to_bottom,rgb(0,0,0)_65%,transparent_100%)]"
           aria-hidden
         />
+        {/* Затемнение фона (видео/Spline) от зоны HeroMain вниз. */}
         <div
-          className="pointer-events-none absolute top-24 right-5 z-0 hidden max-w-[200px] rounded-xl border border-white/[0.08] bg-black/[0.22] px-3 py-2.5 text-[10px] leading-relaxed text-zinc-500 backdrop-blur-sm sm:right-8 lg:block"
+          className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(to_bottom,transparent_0%,transparent_max(11rem,14vh),rgb(0_0_0_/0.58)_min(42%,28rem),rgb(0_0_0_/0.9)_100%)]"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute top-24 right-5 z-[3] hidden max-w-[200px] rounded-xl border border-white/[0.08] bg-black/[0.22] px-3 py-2.5 text-[10px] leading-relaxed text-zinc-500 backdrop-blur-sm sm:right-8 lg:block"
           aria-hidden
         >
           <p className="font-medium text-zinc-400">40+ products shipped</p>
@@ -107,7 +155,7 @@ export function Hero() {
           Headless, custom, or hybrid — tuned for revenue per visitor.
         </CornerPanel>
 
-        <div className="relative z-10 flex min-h-dvh flex-col pb-8">
+        <div className="relative z-10 flex min-h-dvh flex-col pb-10 sm:pb-12 lg:pb-8">
           <HeroMain />
           <ServicesSection />
           <ReferencesCarouselSection />

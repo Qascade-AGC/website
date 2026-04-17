@@ -1,6 +1,10 @@
 "use client";
 
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { useTouchLikeDevice } from "./useTouchLikeDevice";
+
+const useIsoLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 const webm = process.env.NEXT_PUBLIC_SPLASH_VIDEO_WEBM?.trim() ?? "";
 const mp4 = process.env.NEXT_PUBLIC_SPLASH_VIDEO_MP4?.trim() ?? "";
@@ -38,8 +42,9 @@ export function SplashBackground() {
     ready: false,
     allowMotion: true,
   });
+  const touchLike = useTouchLikeDevice();
 
-  useLayoutEffect(() => {
+  useIsoLayoutEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const sync = () =>
       setCtx((c) => ({
@@ -54,10 +59,24 @@ export function SplashBackground() {
 
   const { ready, allowMotion } = ctx;
 
+  /** Видео / Spline WebGL на таче дают сильные фризы при скролле — только постер или градиент. */
+  const easeMobile = touchLike === true;
+
   const showPosterOnly = ready && !allowMotion && Boolean(poster);
-  const showVideo = ready && allowMotion && hasVideo;
+  const showVideo =
+    ready && allowMotion && hasVideo && !easeMobile;
   const showSpline =
-    ready && allowMotion && !hasVideo && useSplineFallback;
+    ready &&
+    allowMotion &&
+    !hasVideo &&
+    useSplineFallback &&
+    !easeMobile;
+  const showTouchStill =
+    ready &&
+    allowMotion &&
+    easeMobile &&
+    Boolean(poster) &&
+    (hasVideo || useSplineFallback);
 
   return (
     <div
@@ -74,6 +93,16 @@ export function SplashBackground() {
           className="absolute inset-0 z-[1] h-full w-full object-cover"
           decoding="async"
           fetchPriority="low"
+        />
+      ) : null}
+      {showTouchStill ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={poster}
+          alt=""
+          className="absolute inset-0 z-[1] h-full w-full object-cover"
+          decoding="async"
+          fetchPriority="high"
         />
       ) : null}
       {showVideo ? (

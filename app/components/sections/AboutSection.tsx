@@ -1,3 +1,5 @@
+"use client";
+
 import { ScrollRevealHeading } from "../ScrollRevealHeading";
 import { TypewriterReveal } from "../TypewriterReveal";
 
@@ -36,7 +38,7 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      className="relative z-10 mx-auto max-w-4xl scroll-mt-24 px-4 py-20 sm:px-6 lg:max-w-6xl"
+      className="relative z-10 mx-auto max-w-4xl scroll-mt-28 px-4 py-16 sm:scroll-mt-24 sm:px-6 sm:py-20 lg:max-w-6xl"
     >
       <div className="text-center">
         <ScrollRevealHeading

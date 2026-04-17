@@ -1,15 +1,25 @@
 "use client";
 
 import Lenis from "lenis";
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 
 const LenisContext = createContext<Lenis | null>(null);
+
+const useIsoLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 /**
  * На iOS и coarse touch Lenis отключаем — нативный скролл.
  * На десктопе smoothWheel + низкий lerp дают «тяжёлую» инерцию; при дёрганье смены направления трекпада можно поднять lerp (~0.08) или снова smoothWheel: false.
  */
-function shouldAvoidLenis(): boolean {
+/** iOS / тач без hover — нативный скролл; те же условия для отключения тяжёлых scroll-эффектов. */
+export function shouldAvoidLenis(): boolean {
   if (typeof navigator === "undefined") return false;
   const ua = navigator.userAgent;
   const ios = /iPad|iPhone|iPod/i.test(ua);
@@ -26,7 +36,7 @@ export function useLenis() {
 export function LenisRoot({ children }: { children: React.ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
 
-  useEffect(() => {
+  useIsoLayoutEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (mq.matches) {
       setLenis(null);

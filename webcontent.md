@@ -428,7 +428,7 @@ Prefer a different channel?
 📅 Book a call: [Schedule 30-min intro call]
 💬 Telegram: @youragency
 
-Based in [City, Country]
+Based in Warsaw, Poland
 Working hours: Mon–Fri, 9:00–18:00 CET
 
 6. PORTFOLIO PAGE

@@ -13,9 +13,9 @@ type Props = {
 /** Без blur: при скролле filter размазывает глифы на соседние строки и моргает в WebKit. */
 const floatInHidden = {
   display:
-    "translate-y-[clamp(2.5rem,6vw,4.5rem)] scale-[0.9] opacity-0",
-  section: "translate-y-10 scale-[0.93] opacity-0",
-  subsection: "translate-y-8 scale-[0.94] opacity-0",
+    "translate-y-[clamp(1.75rem,4.5vw,3.25rem)] scale-[0.96] opacity-0",
+  section: "translate-y-7 scale-[0.96] opacity-0",
+  subsection: "translate-y-6 scale-[0.97] opacity-0",
 } as const;
 
 const floatInVisible = "translate-y-0 scale-100 opacity-100";
@@ -60,14 +60,14 @@ export function ScrollRevealHeading({
           setVisible(false);
         }
       },
-      { threshold: 0.08, rootMargin: "0px 0px -4% 0px" },
+      { threshold: 0.1, rootMargin: "0px 0px 8% 0px" },
     );
     obs.observe(el);
     return () => obs.disconnect();
   }, [reducedMotion]);
 
   const motion =
-    "transform-gpu transition-[transform,opacity] duration-[1050ms] ease-[cubic-bezier(0.2,0.82,0.28,1)]";
+    "transform-gpu transition-[transform,opacity] duration-[1320ms] ease-[cubic-bezier(0.22,1,0.36,1)]";
 
   return (
     <Tag

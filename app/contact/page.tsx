@@ -6,7 +6,7 @@ import { SiteFooter } from "../components/SiteFooter";
 import { SiteNav } from "../components/SiteNav";
 
 export const metadata: Metadata = {
-  title: "Contact · Qascade",
+  title: "Contact",
   description: "Let's talk about your project.",
 };
 
@@ -14,7 +14,7 @@ export default function ContactPage() {
   return (
     <>
       <SiteNav />
-      <main className="min-h-dvh bg-transparent px-4 pb-24 pt-28 sm:px-8">
+      <main className="min-h-dvh bg-transparent px-3 pb-[max(6rem,env(safe-area-inset-bottom,0px)+4rem)] pt-[max(7rem,env(safe-area-inset-top,0px)+5.5rem)] sm:px-8 sm:pb-24 sm:pt-28">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
             <ScrollRevealHeading
@@ -71,7 +71,7 @@ export default function ContactPage() {
                 </li>
               </ul>
               <p className="text-sm text-zinc-500">
-                Based in Berlin, Germany
+                Based in Warsaw, Poland
                 <br />
                 Working hours: Mon–Fri, 9:00–18:00 CET
               </p>

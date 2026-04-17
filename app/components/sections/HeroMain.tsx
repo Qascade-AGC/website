@@ -6,7 +6,7 @@ export function HeroMain() {
   return (
     <section
       id="hero"
-      className="relative z-10 mx-auto max-w-4xl px-4 pt-8 pb-16 text-center sm:px-6 sm:pt-12 sm:pb-20"
+      className="relative z-10 mx-auto max-w-4xl scroll-mt-28 px-3 pt-6 pb-14 text-center sm:scroll-mt-24 sm:px-6 sm:pt-12 sm:pb-20"
     >
       <ScrollRevealHeading
         as="h1"

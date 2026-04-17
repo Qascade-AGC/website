@@ -88,7 +88,7 @@ export function SiteFooter() {
               hello@qascade.com
             </a>
           </p>
-          <p className="mt-2 text-sm text-zinc-500">Berlin, Germany</p>
+          <p className="mt-2 text-sm text-zinc-500">Warsaw, Poland</p>
           <div className="mt-4 flex flex-wrap gap-3 text-[11px] text-zinc-500">
             <span>LinkedIn</span>
             <span>·</span>

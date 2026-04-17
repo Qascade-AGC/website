@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { shouldAvoidLenis } from "./LenisRoot";
 
 const inputClass =
   "w-full rounded-xl border bg-black/30 px-4 py-3 text-sm text-zinc-200 outline-none ring-brand/15 placeholder:text-zinc-600 focus:ring-2";
@@ -137,7 +138,14 @@ export function ContactForm() {
     if (Object.keys(next).length > 0) {
       const firstKey = Object.keys(next)[0];
       const el = form.querySelector<HTMLElement>(`#${CSS.escape(firstKey)}`);
-      el?.scrollIntoView({ behavior: "smooth", block: "center" });
+      const reduce =
+        typeof window !== "undefined" &&
+        (window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+          shouldAvoidLenis());
+      el?.scrollIntoView({
+        behavior: reduce ? "auto" : "smooth",
+        block: "center",
+      });
       el?.focus();
       return;
     }
