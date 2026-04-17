@@ -1,1 +1,12 @@
+name: Client task
+description: Задача от клиента
+title: "[CLIENT] "
+labels: ["client"]
 
+body:
+  - type: input
+    id: client
+    attributes:
+      label: Клиент
+    validations:
+      required: true
