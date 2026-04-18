@@ -107,7 +107,7 @@ export function SplashBackground() {
       ) : null}
       {showVideo ? (
         <video
-          className="absolute inset-0 z-[1] h-full w-full object-cover"
+          className="absolute inset-0 z-[1] h-full w-full object-cover [transform:translate3d(0,0,0)]"
           autoPlay
           muted
           loop

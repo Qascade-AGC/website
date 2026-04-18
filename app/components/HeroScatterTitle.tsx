@@ -25,6 +25,12 @@ const SPREAD = LETTERS.map((_, i) => {
   };
 });
 
+/** Blur на нескольких span + fixed video + Lenis — основной источник фризов в Safari. */
+function isLikelySafari(): boolean {
+  if (typeof navigator === "undefined") return false;
+  return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+}
+
 export function HeroScatterTitle() {
   const lenis = useLenis();
   const spansRef = useRef<(HTMLSpanElement | null)[]>([]);
@@ -41,6 +47,8 @@ export function HeroScatterTitle() {
         el.style.filter = "";
       });
     };
+
+    const allowLetterBlur = !isLikelySafari() && lenis == null;
 
     const apply = (tRaw: number) => {
       const t = Math.min(1, Math.max(0, tRaw));
@@ -60,7 +68,9 @@ export function HeroScatterTitle() {
         el.style.transform = `translate3d(${dx}px, ${dy}px, 0) rotate(${r}deg) scale(${sc})`;
         el.style.opacity = String(op);
         el.style.filter =
-          eased > 0.04 ? `blur(${eased * 2 * blurMul}px)` : "";
+          allowLetterBlur && eased > 0.04
+            ? `blur(${eased * 2 * blurMul}px)`
+            : "";
       });
     };
 
