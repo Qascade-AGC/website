@@ -84,27 +84,28 @@ export function Hero() {
 
       <section
         id="splash"
-        className="relative flex min-h-dvh flex-col bg-transparent"
+        className="relative isolate flex min-h-dvh flex-col overflow-x-clip bg-transparent"
       >
+        {/* Размытие фона (видео/Spline): md+ — backdrop; на узких тач-экранах только затемнение (см. globals). */}
         <div
-          className="pointer-events-none absolute inset-0 z-[1] bg-black/50"
+          className="pointer-events-none absolute inset-0 z-[1] site-blur bg-[linear-gradient(to_bottom,rgba(0,0,0,0.42),rgba(0,0,0,0.58))] md:bg-[radial-gradient(ellipse_100%_58%_at_50%_-8%,rgba(0,0,0,0.14),transparent_56%),linear-gradient(to_bottom,rgba(0,0,0,0.26),rgba(0,0,0,0.4))]"
           aria-hidden
         />
         <SplashContent>
-          <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 pt-[max(5.5rem,calc(env(safe-area-inset-top,0px)+5rem))] pb-28 sm:pb-32 md:pt-20">
-            <p className="mb-4 max-w-md text-center text-sm leading-relaxed text-white/65 sm:mb-5 md:text-base">
+          <div className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center px-4 pt-[max(5.5rem,calc(env(safe-area-inset-top,0px)+5rem))] pb-28 sm:px-6 sm:pb-32 md:pt-20">
+            <p className="mb-4 max-w-md text-balance text-center text-sm leading-relaxed text-white/70 sm:mb-5 md:text-base">
               From sketch to scale — products that ship.
             </p>
             <HeroScatterTitle />
           </div>
 
-          <p className="absolute bottom-[max(1.5rem,env(safe-area-inset-bottom,0px))] left-1/2 z-10 -translate-x-1/2 text-center text-[10px] tracking-[0.25em] text-zinc-600 uppercase sm:bottom-8 sm:text-[11px]">
+          <p className="scroll-hint-breathe absolute bottom-[max(1.5rem,env(safe-area-inset-bottom,0px))] left-1/2 z-10 -translate-x-1/2 text-center text-[10px] tracking-[0.25em] text-zinc-500 uppercase sm:bottom-8 sm:text-[11px]">
             Scroll to explore
           </p>
         </SplashContent>
 
         <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[min(32vh,240px)] bg-gradient-to-b from-transparent via-[#000000]/84 to-[#000000] [mask-image:linear-gradient(to_top,rgb(0,0,0)_55%,transparent_100%)]"
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[min(36vh,280px)] bg-gradient-to-b from-transparent via-[#000000]/78 to-[#000000] [mask-image:linear-gradient(to_top,rgb(0,0,0)_48%,transparent_100%)] sm:h-[min(32vh,260px)]"
           aria-hidden
         />
       </section>
@@ -123,7 +124,7 @@ export function Hero() {
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute top-24 right-5 z-[3] hidden max-w-[200px] rounded-xl border border-white/[0.08] bg-black/[0.22] px-3 py-2.5 text-[10px] leading-relaxed text-zinc-500 backdrop-blur-sm sm:right-8 lg:block"
+          className="pointer-events-none absolute top-24 right-5 z-[3] hidden max-w-[200px] rounded-xl border border-white/[0.08] bg-black/[0.22] px-3 py-2.5 text-[10px] leading-relaxed text-zinc-500 site-blur sm:right-8 lg:block"
           aria-hidden
         >
           <p className="font-medium text-zinc-400">40+ products shipped</p>

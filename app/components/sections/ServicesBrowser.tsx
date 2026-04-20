@@ -43,7 +43,7 @@ function ServiceDetail({ s }: { s: Service }) {
 
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col max-lg:h-auto max-lg:flex-none">
-      <div className="flex shrink-0 items-start gap-3 border-b border-white/[0.08] bg-[rgba(37,37,37,0.28)] p-5 backdrop-blur-md sm:p-7">
+      <div className="flex shrink-0 items-start gap-3 border-b border-white/[0.08] bg-[rgba(37,37,37,0.28)] p-5 site-blur sm:p-7">
         <div
           className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand/25 to-black text-[12px] font-bold tracking-tight text-white ring-1 ring-white/10"
           aria-hidden
@@ -120,7 +120,7 @@ function ServiceDetail({ s }: { s: Service }) {
         ) : null}
       </div>
 
-      <div className="flex shrink-0 flex-col gap-3 border-t border-white/[0.08] bg-[rgba(37,37,37,0.28)] p-4 backdrop-blur-md sm:flex-row sm:items-center sm:justify-between sm:px-7 lg:px-8">
+      <div className="flex shrink-0 flex-col gap-3 border-t border-white/[0.08] bg-[rgba(37,37,37,0.28)] p-4 site-blur sm:flex-row sm:items-center sm:justify-between sm:px-7 lg:px-8">
         <p className="text-[10px] leading-relaxed text-zinc-600 lg:text-[11px]">
           Direct senior team · Weekly demos · No fluff
         </p>
@@ -251,7 +251,7 @@ export function ServicesBrowser() {
         <div className="flex w-full justify-center lg:col-span-8 lg:justify-end xl:col-span-9">
           <div
             ref={panelRef}
-            className={`w-full max-w-[1100px] transform-gpu overflow-hidden rounded-2xl border border-white/[0.14] bg-[rgba(42,42,42,0.26)] shadow-[0_32px_120px_-48px_rgba(0,0,0,0.9),inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-md sm:rounded-3xl ${
+            className={`w-full max-w-[1100px] transform-gpu overflow-hidden rounded-2xl border border-white/[0.14] bg-[rgba(42,42,42,0.26)] shadow-[0_32px_120px_-48px_rgba(0,0,0,0.9),inset_0_1px_0_0_rgba(255,255,255,0.06)] site-blur sm:rounded-3xl ${
               touchLike === true ? "" : "will-change-[transform,opacity]"
             }`}
             style={
@@ -263,7 +263,7 @@ export function ServicesBrowser() {
                   }
             }
           >
-            <div className="flex items-center gap-3 border-b border-white/[0.08] bg-[rgba(37,37,37,0.28)] px-4 py-3 backdrop-blur-md sm:px-5">
+            <div className="flex items-center gap-3 border-b border-white/[0.08] bg-[rgba(37,37,37,0.28)] px-4 py-3 site-blur sm:px-5">
               <div className="flex gap-1.5" aria-hidden>
                 <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
                 <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
@@ -281,7 +281,7 @@ export function ServicesBrowser() {
             <div className="flex min-h-0 flex-col max-lg:max-h-none lg:grid lg:h-[min(78vh,700px)] lg:min-h-[min(85vh,640px)] lg:grid-cols-[minmax(0,300px)_1fr] lg:items-stretch lg:gap-0">
               <div
                 ref={tabStripRef}
-                className="flex min-h-0 shrink-0 flex-col gap-2 border-white/[0.08] bg-[rgba(42,42,42,0.2)] p-3 backdrop-blur-md sm:p-4 max-lg:max-h-[min(28dvh,11rem)] max-lg:overflow-y-auto max-lg:overflow-x-hidden max-lg:border-b max-lg:[-webkit-overflow-scrolling:touch] lg:h-full lg:max-h-none lg:overflow-y-auto lg:overflow-x-hidden lg:border-r lg:border-b-0 [&::-webkit-scrollbar]:hidden"
+                className="flex min-h-0 shrink-0 flex-col gap-2 border-white/[0.08] bg-[rgba(42,42,42,0.2)] p-3 site-blur sm:p-4 max-lg:max-h-[min(28dvh,11rem)] max-lg:overflow-y-auto max-lg:overflow-x-hidden max-lg:border-b max-lg:[-webkit-overflow-scrolling:touch] lg:h-full lg:max-h-none lg:overflow-y-auto lg:overflow-x-hidden lg:border-r lg:border-b-0 [&::-webkit-scrollbar]:hidden"
                 role="tablist"
                 aria-label="Services"
                 onKeyDown={(e) => {
@@ -322,7 +322,7 @@ export function ServicesBrowser() {
                           className={`mt-1 h-1.5 w-1.5 shrink-0 rounded-full max-lg:mt-0.5 lg:mt-1.5 ${
                             isActive
                               ? "bg-white shadow-[0_0_10px_rgba(255,255,255,0.7)]"
-                              : "bg-brand shadow-[0_0_8px_rgba(53,105,234,0.45)]"
+                              : "bg-brand shadow-[0_0_10px_rgba(196,78,255,0.5)]"
                           }`}
                           aria-hidden
                         />
@@ -348,7 +348,7 @@ export function ServicesBrowser() {
                 id="services-panel"
                 role="tabpanel"
                 aria-labelledby={`service-tab-${active.slug}`}
-                className="relative flex min-h-0 flex-1 flex-col overflow-hidden bg-[rgba(42,42,42,0.16)] backdrop-blur-md max-lg:flex-none max-lg:overflow-visible lg:h-full"
+                className="relative flex min-h-0 flex-1 flex-col overflow-hidden bg-[rgba(42,42,42,0.16)] site-blur max-lg:flex-none max-lg:overflow-visible lg:h-full"
               >
                 <div
                   key={active.slug}

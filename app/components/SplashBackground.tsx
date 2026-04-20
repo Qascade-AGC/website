@@ -84,53 +84,60 @@ export function SplashBackground() {
       className="pointer-events-none fixed inset-0 z-0 h-dvh w-full overflow-hidden bg-black"
     >
       {/* Всегда лёгкая подложка — не «абсолютная пустота», пока нет видео/Spline */}
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_120%_80%_at_50%_-20%,rgba(53,105,234,0.14),transparent_50%),radial-gradient(ellipse_90%_70%_at_100%_50%,rgba(99,102,241,0.1),transparent_45%),radial-gradient(ellipse_80%_60%_at_0%_80%,rgba(244,63,94,0.06),transparent_40%)]" />
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_120%_80%_at_50%_-20%,rgba(196,78,255,0.14),transparent_50%),radial-gradient(ellipse_90%_70%_at_100%_50%,rgba(167,139,250,0.1),transparent_45%),radial-gradient(ellipse_80%_60%_at_0%_80%,rgba(236,72,153,0.06),transparent_40%)]" />
       {showPosterOnly ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={poster}
-          alt=""
-          className="absolute inset-0 z-[1] h-full w-full object-cover"
-          decoding="async"
-          fetchPriority="low"
-        />
+        <div className="splash-bg-media">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={poster}
+            alt=""
+            className="object-cover"
+            decoding="async"
+            fetchPriority="low"
+          />
+        </div>
       ) : null}
       {showTouchStill ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={poster}
-          alt=""
-          className="absolute inset-0 z-[1] h-full w-full object-cover"
-          decoding="async"
-          fetchPriority="high"
-        />
+        <div className="splash-bg-media">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={poster}
+            alt=""
+            className="object-cover"
+            decoding="async"
+            fetchPriority="high"
+          />
+        </div>
       ) : null}
       {showVideo ? (
-        <video
-          className="absolute inset-0 z-[1] h-full w-full object-cover [transform:translate3d(0,0,0)]"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster={poster || undefined}
-          disablePictureInPicture
-          disableRemotePlayback
-        >
-          {webm ? <source src={webm} type="video/webm" /> : null}
-          {mp4 ? <source src={mp4} type="video/mp4" /> : null}
-          {single && !webm && !mp4 ? <source src={single} /> : null}
-        </video>
+        <div className="splash-bg-media">
+          <video
+            className="object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster={poster || undefined}
+            disablePictureInPicture
+            disableRemotePlayback
+          >
+            {webm ? <source src={webm} type="video/webm" /> : null}
+            {mp4 ? <source src={mp4} type="video/mp4" /> : null}
+            {single && !webm && !mp4 ? <source src={single} /> : null}
+          </video>
+        </div>
       ) : null}
       {showSpline ? (
-        <iframe
-          title="Qascade — background"
-          src={splineIframeSrc}
-          className="absolute inset-0 z-[1] h-full w-full border-0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; xr-spatial-tracking; fullscreen"
-          allowFullScreen
-          referrerPolicy="strict-origin-when-cross-origin"
-        />
+        <div className="splash-bg-media">
+          <iframe
+            title="Qascade — background"
+            src={splineIframeSrc}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; xr-spatial-tracking; fullscreen"
+            allowFullScreen
+            referrerPolicy="strict-origin-when-cross-origin"
+          />
+        </div>
       ) : null}
     </div>
   );

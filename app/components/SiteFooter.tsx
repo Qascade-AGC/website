@@ -82,10 +82,10 @@ export function SiteFooter() {
           </p>
           <p className="text-sm text-zinc-400">
             <a
-              href="mailto:hello@qascade.com"
+              href="mailto:hello@qascade.dev"
               className="text-white hover:underline"
             >
-              hello@qascade.com
+              hello@qascade.dev
             </a>
           </p>
           <p className="mt-2 text-sm text-zinc-500">Warsaw, Poland</p>

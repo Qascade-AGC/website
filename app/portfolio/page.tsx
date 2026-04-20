@@ -34,7 +34,7 @@ export default function PortfolioPage() {
           {CASE_STUDIES.map((cs) => (
             <article
               key={cs.n}
-              className="scroll-mt-32 rounded-2xl border border-white/[0.14] bg-black/[0.28] p-5 backdrop-blur-md sm:scroll-mt-28 sm:p-10"
+              className="scroll-mt-32 rounded-2xl border border-white/[0.14] bg-black/[0.28] p-5 site-blur sm:scroll-mt-28 sm:p-10"
               id={`case-${cs.n}`}
             >
               <p className="text-[11px] font-semibold tracking-widest text-brand uppercase">
@@ -130,7 +130,7 @@ export default function PortfolioPage() {
           ))}
         </div>
 
-        <div className="mx-auto mt-24 max-w-2xl rounded-2xl border border-white/[0.14] bg-black/[0.28] p-10 text-center backdrop-blur-md">
+        <div className="mx-auto mt-24 max-w-2xl rounded-2xl border border-white/[0.14] bg-black/[0.28] p-10 text-center site-blur">
           <h2 className="text-xl font-semibold text-white">
             Your Project Could Be Next
           </h2>
@@ -140,7 +140,7 @@ export default function PortfolioPage() {
           </p>
           <Link
             href="/contact"
-            className="mt-6 inline-flex h-12 items-center justify-center rounded-lg bg-brand px-8 text-sm font-semibold text-black transition-colors hover:bg-brand-hover"
+            className="mt-6 inline-flex h-12 items-center justify-center rounded-lg bg-brand px-8 text-sm font-semibold text-zinc-950 shadow-[0_0_24px_-6px_rgba(196,78,255,0.45)] transition-[background-color,box-shadow] hover:bg-brand-hover hover:shadow-[0_0_32px_-4px_rgba(196,78,255,0.55)]"
           >
             Start Your Project →
           </Link>

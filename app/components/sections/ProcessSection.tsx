@@ -194,7 +194,7 @@ export function ProcessSection() {
       <div ref={rootRef} className="mx-auto mt-12 max-w-[1100px]">
         <div
           ref={panelRef}
-          className={`transform-gpu overflow-hidden rounded-2xl border border-white/[0.14] bg-[rgba(42,42,42,0.26)] shadow-[0_32px_120px_-48px_rgba(0,0,0,0.9),inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-md sm:rounded-3xl ${
+          className={`transform-gpu overflow-hidden rounded-2xl border border-white/[0.14] bg-[rgba(42,42,42,0.26)] shadow-[0_32px_120px_-48px_rgba(0,0,0,0.9),inset_0_1px_0_0_rgba(255,255,255,0.06)] site-blur sm:rounded-3xl ${
             touchLike === true ? "" : "will-change-[transform,opacity]"
           }`}
           style={
@@ -207,7 +207,7 @@ export function ProcessSection() {
           }
         >
           {/* Window chrome */}
-          <div className="flex items-center gap-3 border-b border-white/[0.08] bg-[rgba(37,37,37,0.28)] px-4 py-3 backdrop-blur-md sm:px-5">
+          <div className="flex items-center gap-3 border-b border-white/[0.08] bg-[rgba(37,37,37,0.28)] px-4 py-3 site-blur sm:px-5">
             <div className="flex gap-1.5" aria-hidden>
               <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
               <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
@@ -221,7 +221,7 @@ export function ProcessSection() {
           <div className="flex min-h-[min(56dvh,440px)] flex-col sm:min-h-[min(64dvh,520px)] lg:grid lg:h-[min(78vh,700px)] lg:min-h-[min(85vh,640px)] lg:grid-cols-[minmax(0,300px)_1fr] lg:items-stretch lg:gap-0">
             {/* Sidebar */}
             <div
-              className="flex min-h-0 flex-col gap-2 border-b border-white/[0.08] bg-[rgba(42,42,42,0.2)] p-3 backdrop-blur-md sm:p-4 lg:h-full lg:overflow-y-auto lg:border-r lg:border-b-0"
+              className="flex min-h-0 flex-col gap-2 border-b border-white/[0.08] bg-[rgba(42,42,42,0.2)] p-3 site-blur sm:p-4 lg:h-full lg:overflow-y-auto lg:border-r lg:border-b-0"
               role="tablist"
               aria-label="Process phases"
               onKeyDown={(e) => {
@@ -260,7 +260,7 @@ export function ProcessSection() {
                         className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${
                           isActive
                             ? "bg-white shadow-[0_0_10px_rgba(255,255,255,0.7)]"
-                            : "bg-brand shadow-[0_0_8px_rgba(53,105,234,0.45)]"
+                            : "bg-brand shadow-[0_0_10px_rgba(196,78,255,0.5)]"
                         }`}
                         aria-hidden
                       />
@@ -287,7 +287,7 @@ export function ProcessSection() {
               id="process-panel"
               role="tabpanel"
               aria-labelledby={`process-tab-${phase.num}`}
-              className="relative flex min-h-0 flex-1 flex-col bg-[rgba(42,42,42,0.16)] backdrop-blur-md lg:h-full"
+              className="relative flex min-h-0 flex-1 flex-col bg-[rgba(42,42,42,0.16)] site-blur lg:h-full"
             >
               <div
                 key={phase.num}
@@ -350,7 +350,7 @@ export function ProcessSection() {
       <div className="mx-auto mt-10 max-w-[1100px] text-center">
         <Link
           href="/contact"
-          className="inline-flex h-12 w-full max-w-sm items-center justify-center rounded-lg bg-brand px-8 text-sm font-semibold text-black transition-colors hover:bg-brand-hover sm:w-auto sm:max-w-none"
+          className="inline-flex h-12 w-full max-w-sm items-center justify-center rounded-lg bg-brand px-8 text-sm font-semibold text-zinc-950 shadow-[0_0_24px_-6px_rgba(196,78,255,0.45)] transition-[background-color,box-shadow] hover:bg-brand-hover hover:shadow-[0_0_32px_-4px_rgba(196,78,255,0.55)] sm:w-auto sm:max-w-none"
         >
           Start with discovery →
         </Link>

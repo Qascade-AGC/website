@@ -118,7 +118,7 @@ export function SiteNav() {
   return (
     <>
       <header
-        className={`fixed top-0 right-0 left-0 z-50 flex items-center justify-between gap-3 border-b border-white/[0.06] bg-black/[0.45] px-4 pt-[max(0.75rem,env(safe-area-inset-top,0px))] pb-3 backdrop-blur-md transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] sm:will-change-transform sm:gap-4 sm:px-8 sm:pb-4 sm:pt-4 ${
+        className={`nav-border-shimmer fixed top-0 right-0 left-0 z-50 flex items-center justify-between gap-3 border-b border-white/[0.06] bg-black/[0.45] px-4 pt-[max(0.75rem,env(safe-area-inset-top,0px))] pb-3 site-blur transition-[transform,border-color] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] sm:will-change-transform sm:gap-4 sm:px-8 sm:pb-4 sm:pt-4 ${
           hidden && !menuOpen ? "-translate-y-full" : "translate-y-0"
         }`}
       >
@@ -156,7 +156,7 @@ export function SiteNav() {
           </button>
           <Link
             href="/contact"
-            className="inline-flex min-h-11 items-center justify-center rounded-sm bg-brand px-3 py-2 text-[10px] font-semibold tracking-wide text-black uppercase transition-colors hover:bg-brand-hover sm:px-4 sm:py-2.5 sm:text-[11px]"
+            className="inline-flex min-h-11 items-center justify-center rounded-sm bg-brand px-3 py-2 text-[10px] font-semibold tracking-wide text-zinc-950 uppercase shadow-[0_0_20px_-4px_rgba(196,78,255,0.45)] transition-[background-color,box-shadow] hover:bg-brand-hover hover:shadow-[0_0_26px_-4px_rgba(196,78,255,0.55)] sm:px-4 sm:py-2.5 sm:text-[11px]"
             onClick={closeMenu}
           >
             Contact us →
@@ -175,7 +175,7 @@ export function SiteNav() {
       >
         <button
           type="button"
-          className={`absolute inset-0 bg-black/75 backdrop-blur-sm transition-opacity duration-300 ${
+          className={`absolute inset-0 bg-black/75 site-blur transition-opacity duration-300 ${
             menuOpen ? "opacity-100" : "opacity-0"
           }`}
           aria-label="Close menu"

@@ -76,7 +76,7 @@ export function AboutSection() {
         {TEAM.map((m) => (
           <div
             key={m.role}
-            className="rounded-2xl border border-white/[0.08] bg-black/[0.26] p-6 backdrop-blur-md"
+            className="rounded-2xl border border-white/[0.08] bg-black/[0.26] p-6 site-blur"
           >
             <p className="text-sm font-semibold text-white">{m.name}</p>
             <p className="mt-1 text-[11px] font-medium tracking-wide text-brand uppercase">
@@ -87,7 +87,7 @@ export function AboutSection() {
         ))}
       </div>
 
-      <div className="mt-16 rounded-2xl border border-white/[0.08] bg-black/[0.26] p-8 backdrop-blur-md">
+      <div className="mt-16 rounded-2xl border border-white/[0.08] bg-black/[0.26] p-8 site-blur">
         <ScrollRevealHeading
           as="h3"
           level="subsection"

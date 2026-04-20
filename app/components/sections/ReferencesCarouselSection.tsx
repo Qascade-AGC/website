@@ -21,7 +21,7 @@ export function ReferencesCarouselSection() {
             Selected work
           </ScrollRevealHeading>
           <TypewriterReveal
-            text="Scroll sideways (trackpad or shift+wheel) · Case opens the full story."
+            text="Hover the strip and scroll with the mouse wheel · Click a case for details."
             className="mt-2 text-xs leading-relaxed text-zinc-500 sm:text-sm"
           />
         </div>

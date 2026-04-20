@@ -1,3 +1,9 @@
+/** Скриншоты в модалке: `src` опционален — без него показывается стилизованный плейсхолдер. */
+export type CaseScreenshot = {
+  alt: string;
+  src?: string;
+};
+
 export type CaseStudy = {
   n: number;
   client: string;
@@ -10,6 +16,7 @@ export type CaseStudy = {
   tech: string;
   results: string[];
   quote?: { text: string; author: string };
+  screenshots?: CaseScreenshot[];
 };
 
 export const CASE_STUDIES: CaseStudy[] = [
@@ -41,6 +48,11 @@ export const CASE_STUDIES: CaseStudy[] = [
       text: "Working with Qascade felt like adding senior engineers to our team. They shipped on time, communicated clearly, and the product quality exceeded our expectations.",
       author: "Alex Rivera, CTO at Northline Payments",
     },
+    screenshots: [
+      { alt: "Payments dashboard — live transaction feed" },
+      { alt: "Compliance exports & audit trail" },
+      { alt: "Multi-tenant admin & roles" },
+    ],
   },
   {
     n: 2,
@@ -64,6 +76,10 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Pilot live with 6 clinics in 8 weeks",
       "Zero critical security findings pre-launch",
       "NPS 62 from first cohort",
+    ],
+    screenshots: [
+      { alt: "Clinic scheduling — week view" },
+      { alt: "Secure provider messaging" },
     ],
   },
   {
@@ -89,6 +105,11 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Sub-2s LCP on core templates",
       "40% faster checkout completion",
     ],
+    screenshots: [
+      { alt: "PDP — mobile-first layout" },
+      { alt: "Checkout — one-tap flow" },
+      { alt: "Drop-time traffic scaling" },
+    ],
   },
   {
     n: 4,
@@ -112,6 +133,10 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Manual coordination time −55%",
       "On-time delivery visibility for 100% loads",
       "Integration errors down 70%",
+    ],
+    screenshots: [
+      { alt: "Operations console — shipment timeline" },
+      { alt: "Exception routing & SLAs" },
     ],
   },
   {
@@ -137,6 +162,10 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Review throughput +2.4x",
       "Enterprise pilot signed in 6 weeks",
     ],
+    screenshots: [
+      { alt: "Clause extraction with citations" },
+      { alt: "Human-in-the-loop review queue" },
+    ],
   },
   {
     n: 6,
@@ -161,6 +190,10 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Churn down 18% after billing clarity",
       "ARR crossed $1M within 10 months of launch",
     ],
+    screenshots: [
+      { alt: "Hiring pipelines — multi-tenant" },
+      { alt: "Billing & entitlements" },
+    ],
   },
   {
     n: 7,
@@ -184,6 +217,10 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Deploy frequency +3x with fewer incidents",
       "Critical vulns caught pre-merge",
       "MTTR down 45%",
+    ],
+    screenshots: [
+      { alt: "CI/CD security gates" },
+      { alt: "Infrastructure & observability dashboards" },
     ],
   },
 ];
