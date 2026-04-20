@@ -126,7 +126,7 @@ function ServiceDetail({ s }: { s: Service }) {
         </p>
         <Link
           href="/contact"
-          className="inline-flex items-center justify-center rounded-lg bg-emerald-500/90 px-5 py-2.5 text-center text-[13px] font-semibold text-black transition-colors hover:bg-emerald-400 lg:px-6"
+          className="brand-cta-glow inline-flex items-center justify-center rounded-lg bg-brand px-5 py-2.5 text-center text-[13px] font-semibold text-zinc-950 shadow-[0_0_24px_-6px_rgba(196,78,255,0.5)] transition-[background-color,box-shadow] hover:bg-brand-hover hover:shadow-[0_0_32px_-4px_rgba(196,78,255,0.6)] lg:px-6"
         >
           {s.cta}
         </Link>

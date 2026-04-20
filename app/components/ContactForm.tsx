@@ -20,7 +20,7 @@ const selectFieldDark =
   "w-full min-h-12 cursor-pointer appearance-none rounded-xl border bg-black/30 py-3 pl-4 pr-11 text-sm leading-normal text-zinc-200 outline-none ring-brand/15 [color-scheme:dark] focus:ring-2";
 
 const selectFieldLight =
-  "w-full min-h-12 cursor-pointer appearance-none rounded-xl border bg-white/[0.09] py-3 pl-4 pr-11 text-sm leading-normal text-zinc-100 outline-none ring-brand/30 [color-scheme:dark] focus:ring-2";
+  "w-full min-h-12 cursor-pointer appearance-none rounded-xl border border-white/[0.18] bg-black py-3 pl-4 pr-11 text-sm leading-normal text-white outline-none ring-brand/25 [color-scheme:dark] focus:ring-2";
 
 const selectBorderOkDark =
   "border-white/[0.12] hover:border-white/[0.16] focus:border-brand/40";
@@ -182,7 +182,7 @@ export function ContactForm({ light = false }: { light?: boolean }) {
 
   return (
     <form
-      className="space-y-5"
+      className={`space-y-5 ${light ? "contact-form-light" : ""}`}
       action="#"
       method="post"
       onSubmit={handleSubmit}
