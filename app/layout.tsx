@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { LenisRoot } from "./components/LenisRoot";
 import { SplashBackground } from "./components/SplashBackground";
+import { Starfield } from "./components/Starfield";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -24,7 +25,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#000000",
+  themeColor: "#140a18",
 };
 
 export const metadata: Metadata = {
@@ -58,6 +59,13 @@ export default function RootLayout({
     >
       <body className="relative flex min-h-dvh flex-col bg-black pb-[env(safe-area-inset-bottom,0px)] font-sans text-zinc-100 antialiased">
         <SplashBackground />
+        <div
+          className="site-ambient-wrap pointer-events-none fixed inset-0 z-[1] overflow-hidden"
+          aria-hidden
+        >
+          <div className="site-ambient-aurora" />
+        </div>
+        <Starfield />
         <LenisRoot>
           <div className="relative z-10 flex min-h-dvh flex-1 flex-col isolate">
             {children}

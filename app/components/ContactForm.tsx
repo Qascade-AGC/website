@@ -3,22 +3,35 @@
 import { useCallback, useState } from "react";
 import { shouldAvoidLenis } from "./LenisRoot";
 
-const inputClass =
+const inputClassDark =
   "w-full rounded-xl border bg-black/30 px-4 py-3 text-sm text-zinc-200 outline-none ring-brand/15 placeholder:text-zinc-600 focus:ring-2";
 
-const inputBorderOk = "border-white/[0.12] focus:border-brand/40";
+const inputClassLight =
+  "w-full rounded-xl border bg-white/[0.09] px-4 py-3 text-sm text-zinc-100 outline-none ring-brand/30 placeholder:text-zinc-500 focus:ring-2";
+
+const inputBorderOkDark = "border-white/[0.12] focus:border-brand/40";
+const inputBorderOkLight =
+  "border-white/[0.2] focus:border-brand/55 focus:ring-brand/25";
+
 const inputBorderErr =
   "border-red-400/55 focus:border-red-400/70 focus:ring-red-400/20";
 
-const selectFieldBase =
+const selectFieldDark =
   "w-full min-h-12 cursor-pointer appearance-none rounded-xl border bg-black/30 py-3 pl-4 pr-11 text-sm leading-normal text-zinc-200 outline-none ring-brand/15 [color-scheme:dark] focus:ring-2";
 
-const selectBorderOk =
+const selectFieldLight =
+  "w-full min-h-12 cursor-pointer appearance-none rounded-xl border bg-white/[0.09] py-3 pl-4 pr-11 text-sm leading-normal text-zinc-100 outline-none ring-brand/30 [color-scheme:dark] focus:ring-2";
+
+const selectBorderOkDark =
   "border-white/[0.12] hover:border-white/[0.16] focus:border-brand/40";
+const selectBorderOkLight =
+  "border-white/[0.2] hover:border-white/[0.24] focus:border-brand/55";
+
 const selectBorderErr =
   "border-red-400/55 hover:border-red-400/50 focus:border-red-400/70 focus:ring-red-400/20";
 
-const labelClass = "mb-1.5 block text-[11px] font-medium text-zinc-500";
+const labelDark = "mb-1.5 block text-[11px] font-medium text-zinc-500";
+const labelLight = "mb-1.5 block text-[11px] font-medium text-zinc-400";
 
 const EMAIL_RE =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
@@ -69,6 +82,8 @@ function ContactSelect({
   required,
   error,
   onFieldChange,
+  selectFieldBase,
+  selectBorderOk,
   children,
 }: {
   id: string;
@@ -76,6 +91,8 @@ function ContactSelect({
   required?: boolean;
   error?: string;
   onFieldChange: (name: string) => void;
+  selectFieldBase: string;
+  selectBorderOk: string;
   children: React.ReactNode;
 }) {
   const border = error ? selectBorderErr : selectBorderOk;
@@ -114,9 +131,15 @@ function ContactSelect({
   );
 }
 
-export function ContactForm() {
+export function ContactForm({ light = false }: { light?: boolean }) {
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<"idle" | "success">("idle");
+
+  const inputClass = light ? inputClassLight : inputClassDark;
+  const inputBorderOk = light ? inputBorderOkLight : inputBorderOkDark;
+  const selectFieldBase = light ? selectFieldLight : selectFieldDark;
+  const selectBorderOk = light ? selectBorderOkLight : selectBorderOkDark;
+  const labelClass = light ? labelLight : labelDark;
 
   const clearField = useCallback((name: string) => {
     setErrors((e) => {
@@ -226,6 +249,8 @@ export function ContactForm() {
           required
           error={e.projectType}
           onFieldChange={clearField}
+          selectFieldBase={selectFieldBase}
+          selectBorderOk={selectBorderOk}
         >
           <option value="">Select…</option>
           <option>Web Application</option>
@@ -246,6 +271,8 @@ export function ContactForm() {
           id="budget"
           name="budget"
           onFieldChange={clearField}
+          selectFieldBase={selectFieldBase}
+          selectBorderOk={selectBorderOk}
         >
           <option value="">Select…</option>
           <option>Less than $10,000</option>
@@ -264,6 +291,8 @@ export function ContactForm() {
           id="timeline"
           name="timeline"
           onFieldChange={clearField}
+          selectFieldBase={selectFieldBase}
+          selectBorderOk={selectBorderOk}
         >
           <option value="">Select…</option>
           <option>ASAP</option>
@@ -296,6 +325,8 @@ export function ContactForm() {
           id="referral"
           name="referral"
           onFieldChange={clearField}
+          selectFieldBase={selectFieldBase}
+          selectBorderOk={selectBorderOk}
         >
           <option value="">Select…</option>
           <option>Google Search</option>
@@ -319,11 +350,13 @@ export function ContactForm() {
 
       <button
         type="submit"
-        className="h-12 w-full rounded-lg bg-brand text-sm font-semibold text-black transition-colors hover:bg-brand-hover sm:w-auto sm:px-10"
+        className="h-12 w-full rounded-lg bg-brand text-sm font-semibold text-zinc-950 shadow-[0_0_28px_-6px_rgba(196,78,255,0.55)] transition-[background-color,box-shadow] hover:bg-brand-hover hover:shadow-[0_0_36px_-4px_rgba(196,78,255,0.65)] sm:w-auto sm:px-10"
       >
         Send Message
       </button>
-      <p className="text-[11px] leading-relaxed text-zinc-600">
+      <p
+        className={`text-[11px] leading-relaxed ${light ? "text-zinc-500" : "text-zinc-600"}`}
+      >
         By submitting this form, you agree to our Privacy Policy. We&apos;ll
         respond within 24 hours. No spam. No automated sequences. Just a real
         reply from a real person.

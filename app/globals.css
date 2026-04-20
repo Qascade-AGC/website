@@ -18,7 +18,7 @@ html.lenis {
   }
 }
 
-/* Телефоны: backdrop-filter + smooth scroll часто дают подлагивания в WebKit. */
+/* Телефоны: нативный скролл; blur оставляем (лёгкий .site-blur везде). */
 @media (hover: none) and (pointer: coarse) and (max-width: 1023.98px) {
   html {
     scroll-behavior: auto;
@@ -28,11 +28,50 @@ html.lenis {
   body {
     overscroll-behavior-y: none;
   }
+}
 
-  .backdrop-blur-md,
-  .backdrop-blur-sm {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+/**
+ * Стекло: сильное размытие того, что под панелью (видео/Spline/aurora).
+ * backdrop-filter не размывает iframe/WebGL — для фона см. .splash-bg-media.
+ */
+.site-blur {
+  backdrop-filter: blur(32px) saturate(1.15);
+  -webkit-backdrop-filter: blur(32px) saturate(1.15);
+}
+
+/**
+ * Spline / видео: размытие именно слоя медиа (filter на контейнере/элементе).
+ * Оверлей с backdrop-blur НЕ размывает cross-origin iframe — только filter.
+ */
+.splash-bg-media {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.splash-bg-media > * {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  min-width: 118%;
+  min-height: 118%;
+  width: 118%;
+  height: 118%;
+  transform: translate3d(-50%, -50%, 0);
+  border: 0;
+  outline: none;
+  object-fit: cover;
+  /* filter на самом iframe/video/img — размывает WebGL Spline (backdrop с оверлея не работает). */
+  filter: blur(18px) saturate(1.1);
+  -webkit-filter: blur(18px) saturate(1.1);
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .splash-bg-media > * {
+    filter: blur(12px) saturate(1.08);
+    -webkit-filter: blur(12px) saturate(1.08);
   }
 }
 
@@ -44,12 +83,29 @@ html.lenis {
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  /* Hex в теме сразу — utilities резолвятся через --color-* в :host без второй очереди */
-  --color-brand: #3569ea;
-  --color-brand-hover: #4a7ef4;
-  --color-brand-soft: #7aa3ff;
+  /* Флюоресцентный фиолетовый + свечение через shadow-* / brand-cta-glow */
+  --color-brand: #c44eff;
+  --color-brand-hover: #dc7aff;
+  --color-brand-soft: #f0c8ff;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+}
+
+/* Страница контактов: светлее фон и мягкий фиолетовый свет */
+.contact-page {
+  background-color: #16101f;
+  background-image:
+    radial-gradient(
+      ellipse 75% 55% at 50% -10%,
+      rgba(196, 78, 255, 0.12),
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse 45% 40% at 85% 30%,
+      rgba(168, 85, 247, 0.08),
+      transparent 50%
+    ),
+    linear-gradient(180deg, #1c1528 0%, #14101c 45%, #0a0a0f 100%);
 }
 
 body {
@@ -58,23 +114,205 @@ body {
   background-color: #000000;
   padding-left: env(safe-area-inset-left, 0px);
   padding-right: env(safe-area-inset-right, 0px);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Лого на splash: как раньше. Пульс только у text-shadow — не трогаем opacity (разлёт букв). */
+/* Обёртка: обрезает края после filter: blur у aurora. */
+.site-ambient-wrap {
+  overflow: hidden;
+}
+
+/* Мягкий «живой» слой: градиенты + сильный размытие самого слоя (было «плоско» без blur). */
+@keyframes site-aurora-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.48;
+  }
+  33% {
+    transform: translate3d(-1.8%, 1.2%, 0) scale(1.04);
+    opacity: 0.58;
+  }
+  66% {
+    transform: translate3d(1.4%, -0.8%, 0) scale(1.02);
+    opacity: 0.52;
+  }
+}
+
+.site-ambient-aurora {
+  position: absolute;
+  /* Запас под blur — иначе по краям виден «обрезанный» круг */
+  inset: -18%;
+  background:
+    radial-gradient(
+      ellipse 75% 55% at 50% 105%,
+      rgba(196, 78, 255, 0.16),
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse 45% 38% at 12% 18%,
+      rgba(236, 72, 153, 0.08),
+      transparent 52%
+    ),
+    radial-gradient(
+      ellipse 50% 42% at 88% 22%,
+      rgba(167, 139, 250, 0.12),
+      transparent 50%
+    );
+  filter: blur(52px) saturate(1.15);
+  -webkit-filter: blur(52px) saturate(1.15);
+  transform: translateZ(0);
+  animation: site-aurora-drift 26s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-ambient-aurora {
+    animation: none;
+    opacity: 0.4;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .site-ambient-aurora {
+    animation: none;
+    opacity: 0.34;
+    filter: blur(40px) saturate(1.2);
+    -webkit-filter: blur(40px) saturate(1.2);
+  }
+}
+
+/* Редкие звёзды: длинный цикл, короткая вспышка яркости */
+@keyframes star-twinkle {
+  0%,
+  91%,
+  100% {
+    opacity: 0.05;
+    transform: scale(1);
+    box-shadow: 0 0 1px rgba(255, 255, 255, 0.07);
+  }
+  94% {
+    opacity: 0.55;
+    transform: scale(1.35);
+    box-shadow:
+      0 0 4px rgba(255, 255, 255, 0.35),
+      0 0 12px rgba(196, 78, 255, 0.35);
+  }
+  96% {
+    opacity: 0.08;
+    transform: scale(1);
+    box-shadow: 0 0 2px rgba(255, 255, 255, 0.12);
+  }
+}
+
+.site-starfield {
+  contain: layout style;
+}
+
+.site-star {
+  position: absolute;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.55);
+  animation: star-twinkle ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-starfield {
+    opacity: 0;
+  }
+}
+
+/* CTA: лёгкое «дыхание» свечения бренда */
+@keyframes brand-cta-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 0 rgba(196, 78, 255, 0.35),
+      0 0 28px -6px rgba(196, 78, 255, 0.22);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(220, 122, 255, 0.45),
+      0 0 44px -4px rgba(196, 78, 255, 0.38);
+  }
+}
+
+.brand-cta-glow {
+  animation: brand-cta-glow 4.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-cta-glow {
+    animation: none;
+    box-shadow: 0 0 28px -10px rgba(196, 78, 255, 0.28);
+  }
+}
+
+/* Подсказка скролла в hero */
+@keyframes scroll-hint-breathe {
+  0%,
+  100% {
+    opacity: 0.38;
+  }
+  50% {
+    opacity: 0.66;
+  }
+}
+
+.scroll-hint-breathe {
+  animation: scroll-hint-breathe 5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hint-breathe {
+    animation: none;
+    opacity: 0.5;
+  }
+}
+
+/* Шапка: тонкая пульсация нижней границы */
+@keyframes nav-border-shimmer {
+  0%,
+  100% {
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+  50% {
+    border-color: rgba(196, 78, 255, 0.22);
+  }
+}
+
+.nav-border-shimmer {
+  animation: nav-border-shimmer 8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-border-shimmer {
+    animation: none;
+  }
+}
+
+/* Лого на splash: пульс text-shadow + лёгкий перелив в белый/холодный. */
 @keyframes qascade-hero-glow {
   0%,
   100% {
-    text-shadow: 0 0 48px rgba(255, 255, 255, 0.07);
+    text-shadow:
+      0 0 44px rgba(255, 255, 255, 0.06),
+      0 0 80px rgba(196, 78, 255, 0.08);
   }
   50% {
-    text-shadow: 0 0 56px rgba(255, 255, 255, 0.1);
+    text-shadow:
+      0 0 58px rgba(255, 255, 255, 0.1),
+      0 0 100px rgba(196, 78, 255, 0.14);
   }
 }
 
 .qascade-hero-word {
   color: rgb(255, 255, 255);
-  text-shadow: 0 0 48px rgba(255, 255, 255, 0.07);
-  animation: qascade-hero-glow 8s ease-in-out infinite;
+  text-shadow:
+    0 0 48px rgba(255, 255, 255, 0.07),
+    0 0 88px rgba(196, 78, 255, 0.08);
+  animation: qascade-hero-glow 9s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

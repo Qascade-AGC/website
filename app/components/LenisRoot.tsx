@@ -48,11 +48,16 @@ export function LenisRoot({ children }: { children: React.ReactNode }) {
       return;
     }
 
+    /** Мягче замедление к концу жеста — без «резкого» отпускания скролла. */
+    const easeOutCubic = (t: number) => 1 - (1 - t) ** 3;
+
     const instance = new Lenis({
-      lerp: 0.065,
-      wheelMultiplier: 0.92,
+      /** Ниже lerp — более «шёлковый» инерционный скролл (дольше догоняет, плавнее). */
+      lerp: 0.056,
+      wheelMultiplier: 0.86,
       touchMultiplier: 0.75,
       smoothWheel: true,
+      easing: easeOutCubic,
       /** Тач — только на устройствах без Lenis (см. shouldAvoidLenis). */
       syncTouch: false,
       syncTouchLerp: 0.055,
@@ -61,19 +66,45 @@ export function LenisRoot({ children }: { children: React.ReactNode }) {
       allowNestedScroll: true,
       /** Иначе Safari: резиновый overscroll + фиксированный фон дают визуальную «тряску». */
       overscroll: false,
-      anchors: { lerp: 0.058, duration: 2.35 },
+      anchors: {
+        lerp: 0.048,
+        duration: 2.95,
+        easing: easeOutCubic,
+      },
       /**
        * Горизонтальный жест над каруселью не смешиваем с вертикальным Lenis —
        * иначе WebKit ловит preventDefault + нативный scrollLeft в одном кадре.
        */
       virtualScroll: (data) => {
         const path = data.event.composedPath();
+        const scrollEl = path.find(
+          (n): n is HTMLElement =>
+            n instanceof HTMLElement &&
+            n.hasAttribute("data-case-carousel-scroll"),
+        );
+        const { deltaX, deltaY } = data;
+
+        if (scrollEl) {
+          const maxScroll = scrollEl.scrollWidth - scrollEl.clientWidth;
+          if (maxScroll > 1) {
+            if (Math.abs(deltaX) > Math.abs(deltaY) && deltaX !== 0) {
+              return false;
+            }
+            if (Math.abs(deltaY) >= Math.abs(deltaX)) {
+              const atStart = scrollEl.scrollLeft <= 0.5;
+              const atEnd = scrollEl.scrollLeft >= maxScroll - 1.5;
+              if (deltaY < 0 && atStart) return true;
+              if (deltaY > 0 && atEnd) return true;
+              return false;
+            }
+          }
+        }
+
         const overCarousel = path.some(
           (n) =>
             n instanceof HTMLElement && n.closest("[data-case-carousel]") != null,
         );
         if (!overCarousel) return true;
-        const { deltaX, deltaY } = data;
         if (Math.abs(deltaX) > Math.abs(deltaY) && deltaX !== 0) return false;
         return true;
       },
