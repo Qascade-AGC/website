@@ -17,6 +17,8 @@ export type CaseStudy = {
   results: string[];
   quote?: { text: string; author: string };
   screenshots?: CaseScreenshot[];
+  /** Только карусель на главной: видео вместо превью-картинки. Не используется в модалке и на /portfolio. */
+  carouselPreviewVideo?: string;
 };
 
 export const CASE_STUDIES: CaseStudy[] = [
@@ -125,59 +127,109 @@ export const CASE_STUDIES: CaseStudy[] = [
   },
   {
     n: 3,
-    client: "Lumen Thread",
-    industry: "D2C Fashion",
-    service: "E-Commerce",
+    client: "Never Tired Centre",
+    industry: "Music / Studio",
+    service: "Studio site · UX & web",
     timeline: "10 weeks",
+    carouselPreviewVideo:
+      "/portfolio/never-tired-carousel-preview.mov?v=5",
     challenge:
-      "A growing fashion brand outgrew their theme store — slow mobile performance and a checkout that bled conversions during peak drops.",
+      "A recording studio needed one dark, high-trust site that sells services (rental, production, mixing), introduces the team, shows gear, and captures leads — without a patchwork of PDFs and DMs.",
     solution:
-      "We delivered a headless storefront with optimized PDPs, server-side rendering for SEO, and a checkout tuned for one-tap payments and local delivery options.",
+      "We built a modular marketing and booking shell: services bento grid, credits and streaming links, team bios, equipment inventory, and stepped modals for production scope, studio rental, and date/time booking.",
     features: [
-      "Headless commerce architecture",
-      "Drop-time traffic scaling",
-      "Stripe + local payment methods",
-      "Inventory sync & returns portal",
-      "CRO experiments framework",
+      "NEVERTIRED hero and scroll narrative",
+      "Services grid with deep links and “more” affordances",
+      "Mixing & post-production credits + release cards",
+      "Team page with long-form engineer bios",
+      "Studio inventory by category (mics, interfaces, racks)",
+      "Lead modals: full production checklist, rental form, booking slot",
     ],
-    tech: "Next.js · Shopify Hydrogen · Node.js · PostgreSQL",
+    tech: "Next.js · TypeScript · Tailwind CSS",
     results: [
-      "32% lift in mobile conversion post-launch",
-      "Sub-2s LCP on core templates",
-      "40% faster checkout completion",
+      "One visual system across marketing and conversion paths",
+      "Clear service → modal → contact funnel for studio rental",
+      "Equipment and team pages ready for CMS content",
+      "Streaming release blocks wired for outbound links",
     ],
     screenshots: [
-      { alt: "PDP — mobile-first layout" },
-      { alt: "Checkout — one-tap flow" },
-      { alt: "Drop-time traffic scaling" },
+      {
+        alt: "Hero — NEVERTIRED mark and infinity visual",
+        src: "/portfolio/case-3/01-hero.png",
+      },
+      {
+        alt: "Services — rental, production, distribution, mixing grid",
+        src: "/portfolio/case-3/02-services.png",
+      },
+      {
+        alt: "Releases — Spotify and Deezer credits with artwork",
+        src: "/portfolio/case-3/03-releases.png",
+      },
+      {
+        alt: "Modal — full production scope (beat, lyrics, video)",
+        src: "/portfolio/case-3/04-full-production.png",
+      },
+      {
+        alt: "Modal — studio rental contact form",
+        src: "/portfolio/case-3/05-studio-rental.png",
+      },
+      {
+        alt: "Modal — booking date and time",
+        src: "/portfolio/case-3/06-booking.png",
+      },
+      {
+        alt: "Team — engineers and producers",
+        src: "/portfolio/case-3/07-team.png",
+      },
+      {
+        alt: "Equipment — microphones and interfaces inventory",
+        src: "/portfolio/case-3/08-equipment.png",
+      },
     ],
   },
   {
     n: 4,
-    client: "CargoMesh",
-    industry: "Logistics",
-    service: "Custom Web Application",
-    timeline: "14 weeks",
+    client: "White Feather Coffee Co.",
+    industry: "Hospitality / Retail",
+    service: "Brand site · UX & web",
+    timeline: "1 week",
+    carouselPreviewVideo:
+      "/portfolio/white-feather-carousel-preview.mov?v=5",
     challenge:
-      "A logistics operator needed a control tower for shipments across carriers — Excel and email were breaking as volume doubled.",
+      "An independent UK coffee brand needed a premium dark-mode site that sells the in-cup experience, explains local sourcing values, and drives footfall to train-station and office locations — without a generic template feel.",
     solution:
-      "We built a unified operations console with live shipment states, exception workflows, and integrations into three carrier APIs plus internal ERP hooks.",
+      "We designed a high-contrast marketing site with editorial typography, split hero and values layouts, a cinematic locations hero, and orange CTAs that match the brand’s warmth. Contact and social links stay visible in the header for quick trust.",
     features: [
-      "Unified shipment timeline",
-      "Exception routing & SLAs",
-      "Carrier API mesh",
-      "Role-based ops views",
-      "Exports & scheduled reports",
+      "Split hero — product photography and “find us” CTA",
+      "Values story — local supply chain and interior photography",
+      "Locations — full-bleed hero and visit funnel",
+      "3D-style product feature card and “explore” path",
+      "Header with phone, email, and social links",
     ],
-    tech: "React · Node.js · PostgreSQL · Redis · AWS",
+    tech: "Next.js · TypeScript · Tailwind CSS",
     results: [
-      "Manual coordination time −55%",
-      "On-time delivery visibility for 100% loads",
-      "Integration errors down 70%",
+      "Coherent black / cream / orange system across pages",
+      "Clear path from story → locations → visit",
+      "Layouts ready for real photography swap-in",
+      "Mobile-friendly navigation and CTAs",
     ],
     screenshots: [
-      { alt: "Operations console — shipment timeline" },
-      { alt: "Exception routing & SLAs" },
+      {
+        alt: "Hero — 3D mug feature and split brand story",
+        src: "/portfolio/case-4/01-hero-mockup.png",
+      },
+      {
+        alt: "Find us — latte art, headline, orange CTA",
+        src: "/portfolio/case-4/02-find-us.png",
+      },
+      {
+        alt: "Values — why we keep it local, café interior",
+        src: "/portfolio/case-4/03-values-local.png",
+      },
+      {
+        alt: "Locations — hero interior and visit section",
+        src: "/portfolio/case-4/04-locations.png",
+      },
     ],
   },
   {

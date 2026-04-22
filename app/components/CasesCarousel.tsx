@@ -24,7 +24,11 @@ function CaseSlide({
   onOpen: (cs: CaseStudy) => void;
 }) {
   const teaser = shortTeaser(study.service);
-  const thumb = study.screenshots?.find((s) => Boolean(s.src))?.src;
+  const video = study.carouselPreviewVideo;
+  const thumb =
+    video == null
+      ? study.screenshots?.find((s) => Boolean(s.src))?.src
+      : undefined;
 
   return (
     <button
@@ -34,7 +38,19 @@ function CaseSlide({
       onClick={() => onOpen(study)}
     >
       <div className="relative aspect-[2/1] w-full shrink-0 overflow-hidden rounded-xl bg-gradient-to-br from-brand/12 to-[rgba(42,42,42,0.45)] ring-1 ring-white/10">
-        {thumb ? (
+        {video ? (
+          <video
+            key={video}
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover object-top"
+            src={video}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-hidden
+          />
+        ) : thumb ? (
           <Image
             src={thumb}
             alt=""
