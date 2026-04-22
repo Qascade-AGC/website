@@ -26,7 +26,7 @@ export default function PortfolioPage() {
             Our Work
           </ScrollRevealHeading>
           <TypewriterReveal
-            text="Real products. Real results. Here are seven projects that show how we think, build, and deliver."
+            text="Real products. Real results. Here are eight projects that show how we think, build, and deliver."
             className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-zinc-400 sm:text-base"
           />
         </div>
