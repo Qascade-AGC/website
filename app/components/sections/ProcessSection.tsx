@@ -260,7 +260,7 @@ export function ProcessSection() {
                         className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${
                           isActive
                             ? "bg-white shadow-[0_0_10px_rgba(255,255,255,0.7)]"
-                            : "bg-brand shadow-[0_0_10px_rgba(196,78,255,0.5)]"
+                            : "bg-brand shadow-[0_0_10px_rgba(196,205,216,0.5)]"
                         }`}
                         aria-hidden
                       />
@@ -350,7 +350,7 @@ export function ProcessSection() {
       <div className="mx-auto mt-10 max-w-[1100px] text-center">
         <Link
           href="/contact"
-          className="inline-flex h-12 w-full max-w-sm items-center justify-center rounded-lg bg-brand px-8 text-sm font-semibold text-zinc-950 shadow-[0_0_24px_-6px_rgba(196,78,255,0.45)] transition-[background-color,box-shadow] hover:bg-brand-hover hover:shadow-[0_0_32px_-4px_rgba(196,78,255,0.55)] sm:w-auto sm:max-w-none"
+          className="inline-flex h-12 w-full max-w-sm items-center justify-center rounded-lg bg-brand px-8 text-sm font-semibold text-zinc-950 shadow-[0_0_24px_-6px_rgba(196,205,216,0.45)] transition-[background-color,box-shadow] hover:bg-brand-hover hover:shadow-[0_0_32px_-4px_rgba(196,205,216,0.55)] sm:w-auto sm:max-w-none"
         >
           Start with discovery →
         </Link>

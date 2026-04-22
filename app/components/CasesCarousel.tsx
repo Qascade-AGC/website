@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CaseStudy } from "../../data/portfolio";
 import { CASE_STUDIES } from "../../data/portfolio";
@@ -23,6 +24,11 @@ function CaseSlide({
   onOpen: (cs: CaseStudy) => void;
 }) {
   const teaser = shortTeaser(study.service);
+  const video = study.carouselPreviewVideo;
+  const thumb =
+    video == null
+      ? study.screenshots?.find((s) => Boolean(s.src))?.src
+      : undefined;
 
   return (
     <button
@@ -32,9 +38,27 @@ function CaseSlide({
       onClick={() => onOpen(study)}
     >
       <div className="relative aspect-[2/1] w-full shrink-0 overflow-hidden rounded-xl bg-gradient-to-br from-brand/12 to-[rgba(42,42,42,0.45)] ring-1 ring-white/10">
-        <span className="absolute top-2.5 right-3 font-mono text-[9px] tracking-wider text-zinc-600 uppercase">
-          #{study.n}
-        </span>
+        {video ? (
+          <video
+            key={video}
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover object-top"
+            src={video}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-hidden
+          />
+        ) : thumb ? (
+          <Image
+            src={thumb}
+            alt=""
+            fill
+            className="object-cover object-top"
+            sizes="(max-width: 640px) 92vw, 720px"
+          />
+        ) : null}
       </div>
 
       <div className="mt-3 flex min-h-0 items-start justify-between gap-3">

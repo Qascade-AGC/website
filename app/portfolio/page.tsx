@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { CASE_STUDIES } from "../../data/portfolio";
 import { ScrollRevealHeading } from "../components/ScrollRevealHeading";
@@ -31,16 +32,31 @@ export default function PortfolioPage() {
         </div>
 
         <div className="mx-auto mt-16 max-w-4xl space-y-24">
-          {CASE_STUDIES.map((cs) => (
+          {CASE_STUDIES.map((cs) => {
+            const hero = cs.screenshots?.find((s) => Boolean(s.src));
+            const heroSrc = hero?.src;
+            const heroAlt = hero?.alt ?? `${cs.client} — preview`;
+
+            return (
             <article
               key={cs.n}
               className="scroll-mt-32 rounded-2xl border border-white/[0.14] bg-black/[0.28] p-5 site-blur sm:scroll-mt-28 sm:p-10"
               id={`case-${cs.n}`}
             >
               <p className="text-[11px] font-semibold tracking-widest text-brand uppercase">
-                Case Study #{cs.n}
+                Case study
               </p>
-              <div className="mt-4 aspect-[21/9] w-full overflow-hidden rounded-xl bg-gradient-to-br from-black to-black ring-1 ring-white/10" />
+              <div className="relative mt-4 aspect-[21/9] w-full overflow-hidden rounded-xl bg-gradient-to-br from-black to-black ring-1 ring-white/10">
+                {heroSrc ? (
+                  <Image
+                    src={heroSrc}
+                    alt={heroAlt}
+                    fill
+                    className="object-cover object-center"
+                    sizes="(max-width: 896px) 100vw, 896px"
+                  />
+                ) : null}
+              </div>
 
               <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-zinc-400">
                 <span>
@@ -110,24 +126,9 @@ export default function PortfolioPage() {
                   </footer>
                 </blockquote>
               ) : null}
-
-              <div className="mt-8 flex flex-wrap gap-4">
-                <a
-                  href="#"
-                  className="text-sm font-semibold text-brand hover:text-brand-soft"
-                >
-                  View Live Project (external)
-                </a>
-                <span className="text-zinc-700">·</span>
-                <a
-                  href="#"
-                  className="text-sm font-semibold text-brand hover:text-brand-soft"
-                >
-                  Read Full Case Study →
-                </a>
-              </div>
             </article>
-          ))}
+            );
+          })}
         </div>
 
         <div className="mx-auto mt-24 max-w-2xl rounded-2xl border border-white/[0.14] bg-black/[0.28] p-10 text-center site-blur">
@@ -140,7 +141,7 @@ export default function PortfolioPage() {
           </p>
           <Link
             href="/contact"
-            className="mt-6 inline-flex h-12 items-center justify-center rounded-lg bg-brand px-8 text-sm font-semibold text-zinc-950 shadow-[0_0_24px_-6px_rgba(196,78,255,0.45)] transition-[background-color,box-shadow] hover:bg-brand-hover hover:shadow-[0_0_32px_-4px_rgba(196,78,255,0.55)]"
+            className="mt-6 inline-flex h-12 items-center justify-center rounded-lg bg-brand px-8 text-sm font-semibold text-zinc-950 shadow-[0_0_24px_-6px_rgba(196,205,216,0.45)] transition-[background-color,box-shadow] hover:bg-brand-hover hover:shadow-[0_0_32px_-4px_rgba(196,205,216,0.55)]"
           >
             Start Your Project →
           </Link>
