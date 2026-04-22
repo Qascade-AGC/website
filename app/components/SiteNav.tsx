@@ -156,7 +156,7 @@ export function SiteNav() {
           </button>
           <Link
             href="/contact"
-            className="inline-flex min-h-11 items-center justify-center rounded-sm bg-brand px-3 py-2 text-[10px] font-semibold tracking-wide text-zinc-950 uppercase shadow-[0_0_20px_-4px_rgba(196,78,255,0.45)] transition-[background-color,box-shadow] hover:bg-brand-hover hover:shadow-[0_0_26px_-4px_rgba(196,78,255,0.55)] sm:px-4 sm:py-2.5 sm:text-[11px]"
+            className="inline-flex min-h-11 items-center justify-center rounded-sm bg-brand px-3 py-2 text-[10px] font-semibold tracking-wide text-zinc-950 uppercase shadow-[0_0_20px_-4px_rgba(196,205,216,0.45)] transition-[background-color,box-shadow] hover:bg-brand-hover hover:shadow-[0_0_26px_-4px_rgba(196,205,216,0.55)] sm:px-4 sm:py-2.5 sm:text-[11px]"
             onClick={closeMenu}
           >
             Contact us →

@@ -17,7 +17,7 @@ function ScreenshotSlide({
   shot: NonNullable<CaseStudy["screenshots"]>[number];
   index: number;
 }) {
-  const hue = (index * 47) % 360;
+  const silverL = 17 + (index % 5) * 1.4;
   if (shot.src) {
     const clip = "inset(0 round 1rem)";
     return (
@@ -43,10 +43,10 @@ function ScreenshotSlide({
     <div
       className="relative h-[min(52vh,420px)] w-full overflow-hidden rounded-2xl sm:h-[min(56vh,480px)]"
       style={{
-        background: `linear-gradient(135deg, hsla(${hue}, 35%, 18%, 0.9), rgba(24, 24, 27, 0.95))`,
+        background: `linear-gradient(135deg, hsla(220, 10%, ${silverL}%, 0.92), rgba(24, 24, 27, 0.95))`,
       }}
     >
-      <span className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_70%_30%,rgba(196,78,255,0.14),transparent_55%)]" />
+      <span className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_70%_30%,rgba(196,205,216,0.14),transparent_55%)]" />
       <span className="absolute bottom-3 left-3 font-mono text-[10px] tracking-wider text-zinc-600 uppercase">
         Preview
       </span>

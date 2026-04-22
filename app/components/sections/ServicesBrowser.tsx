@@ -126,7 +126,7 @@ function ServiceDetail({ s }: { s: Service }) {
         </p>
         <Link
           href="/contact"
-          className="brand-cta-glow inline-flex items-center justify-center rounded-lg bg-brand px-5 py-2.5 text-center text-[13px] font-semibold text-zinc-950 shadow-[0_0_24px_-6px_rgba(196,78,255,0.5)] transition-[background-color,box-shadow] hover:bg-brand-hover hover:shadow-[0_0_32px_-4px_rgba(196,78,255,0.6)] lg:px-6"
+          className="brand-cta-glow inline-flex items-center justify-center rounded-lg bg-brand px-5 py-2.5 text-center text-[13px] font-semibold text-zinc-950 shadow-[0_0_24px_-6px_rgba(196,205,216,0.5)] transition-[background-color,box-shadow] hover:bg-brand-hover hover:shadow-[0_0_32px_-4px_rgba(196,205,216,0.6)] lg:px-6"
         >
           {s.cta}
         </Link>
@@ -322,7 +322,7 @@ export function ServicesBrowser() {
                           className={`mt-1 h-1.5 w-1.5 shrink-0 rounded-full max-lg:mt-0.5 lg:mt-1.5 ${
                             isActive
                               ? "bg-white shadow-[0_0_10px_rgba(255,255,255,0.7)]"
-                              : "bg-brand shadow-[0_0_10px_rgba(196,78,255,0.5)]"
+                              : "bg-brand shadow-[0_0_10px_rgba(196,205,216,0.5)]"
                           }`}
                           aria-hidden
                         />

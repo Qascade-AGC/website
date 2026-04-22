@@ -350,7 +350,7 @@ export function ContactForm({ light = false }: { light?: boolean }) {
 
       <button
         type="submit"
-        className="h-12 w-full rounded-lg bg-brand text-sm font-semibold text-zinc-950 shadow-[0_0_28px_-6px_rgba(196,78,255,0.55)] transition-[background-color,box-shadow] hover:bg-brand-hover hover:shadow-[0_0_36px_-4px_rgba(196,78,255,0.65)] sm:w-auto sm:px-10"
+        className="h-12 w-full rounded-lg bg-brand text-sm font-semibold text-zinc-950 shadow-[0_0_28px_-6px_rgba(196,205,216,0.55)] transition-[background-color,box-shadow] hover:bg-brand-hover hover:shadow-[0_0_36px_-4px_rgba(196,205,216,0.65)] sm:w-auto sm:px-10"
       >
         Send Message
       </button>

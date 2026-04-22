@@ -28,6 +28,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     industry: "Life sciences",
     service: "B2B catalog · UX & web",
     timeline: "1 week",
+    carouselPreviewVideo: "/portfolio/illumina-carousel-preview.mov?v=1",
     challenge:
       "A research reagent supplier needed a calm, credible storefront for complex SKUs — kits, panels, and instruments — without overwhelming lab buyers who compare specs, compliance tags, and quote flows in one session.",
     solution:
@@ -234,30 +235,60 @@ export const CASE_STUDIES: CaseStudy[] = [
   },
   {
     n: 5,
-    client: "Clausewise",
-    industry: "Legal Tech",
-    service: "AI Integration",
-    timeline: "9 weeks",
+    client: "Axelyth",
+    industry: "AI infrastructure · Web3",
+    service: "Landing · product UX",
+    timeline: "1 week",
+    carouselPreviewVideo: "/portfolio/axelyth-carousel-preview.mov?v=1",
     challenge:
-      "A document automation vendor needed AI-assisted clause extraction without hallucinations — legal teams demanded citations and traceability.",
+      "A deep-tech team needed a credible enterprise narrative for AI provenance — explain hybrid Polygon + Ethereum anchoring, compliance postures, and ROI — without drowning buyers in whitepaper density.",
     solution:
-      "We implemented RAG over customer corpora with citation grounding, human-in-the-loop review queues, and evaluation harnesses for precision/recall tracking.",
+      "We structured a dark, neon-accent marketing site: hero with ROI calculator, solution pillars, three-step “model to proof” flow, integration grid, industry use cases, performance claims, and a public roadmap with highlighted milestones.",
     features: [
-      "RAG pipeline with source spans",
-      "Human review workflow",
-      "Model evaluation dashboards",
-      "Tenant-isolated vector stores",
-      "Audit logs for every inference",
+      "Hero + enterprise ROI calculator widget",
+      "Solution — schema, hybrid chain architecture, compliance",
+      "How it works — IPFS, PostgreSQL/Redis, batch anchoring",
+      "Built for enterprise ecosystems — tech partner grid",
+      "Critical industries — forensics, healthcare, enterprise, research",
+      "Performance story — cost, throughput, TCO framing",
+      "Roadmap — quarterly milestones and CTA",
     ],
-    tech: "Next.js · Python · PostgreSQL · OpenAI · Pinecone",
+    tech: "Next.js · TypeScript · Tailwind CSS",
     results: [
-      "Citation accuracy >94% on eval set",
-      "Review throughput +2.4x",
-      "Enterprise pilot signed in 6 weeks",
+      "Single visual language from hero to roadmap",
+      "Calculator and metrics blocks ready for live data wiring",
+      "Compliance and chain messaging aligned for enterprise reviewers",
+      "Modular sections map 1:1 to product story",
     ],
     screenshots: [
-      { alt: "Clause extraction with citations" },
-      { alt: "Human-in-the-loop review queue" },
+      {
+        alt: "Hero — AI provenance headline and ROI calculator",
+        src: "/portfolio/case-5/01-hero-roi.png",
+      },
+      {
+        alt: "The solution — schema, hybrid blockchain, compliance cards",
+        src: "/portfolio/case-5/02-solution.png",
+      },
+      {
+        alt: "How it works — three steps from model to on-chain proof",
+        src: "/portfolio/case-5/03-how-it-works.png",
+      },
+      {
+        alt: "Enterprise ecosystems — integration grid and contact sales",
+        src: "/portfolio/case-5/04-enterprise-ecosystems.png",
+      },
+      {
+        alt: "Use cases — critical industries (forensics, healthcare, …)",
+        src: "/portfolio/case-5/05-use-cases.png",
+      },
+      {
+        alt: "Performance — cost, speed, enterprise readiness metrics",
+        src: "/portfolio/case-5/06-performance.png",
+      },
+      {
+        alt: "Roadmap — what’s next through 2026",
+        src: "/portfolio/case-5/07-roadmap.png",
+      },
     ],
   },
   {

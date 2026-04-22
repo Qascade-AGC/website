@@ -141,7 +141,7 @@ export default function PortfolioPage() {
           </p>
           <Link
             href="/contact"
-            className="mt-6 inline-flex h-12 items-center justify-center rounded-lg bg-brand px-8 text-sm font-semibold text-zinc-950 shadow-[0_0_24px_-6px_rgba(196,78,255,0.45)] transition-[background-color,box-shadow] hover:bg-brand-hover hover:shadow-[0_0_32px_-4px_rgba(196,78,255,0.55)]"
+            className="mt-6 inline-flex h-12 items-center justify-center rounded-lg bg-brand px-8 text-sm font-semibold text-zinc-950 shadow-[0_0_24px_-6px_rgba(196,205,216,0.45)] transition-[background-color,box-shadow] hover:bg-brand-hover hover:shadow-[0_0_32px_-4px_rgba(196,205,216,0.55)]"
           >
             Start Your Project →
           </Link>

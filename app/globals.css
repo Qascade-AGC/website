@@ -83,29 +83,29 @@ html.lenis {
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  /* Флюоресцентный фиолетовый + свечение через shadow-* / brand-cta-glow */
-  --color-brand: #c44eff;
-  --color-brand-hover: #dc7aff;
-  --color-brand-soft: #f0c8ff;
+  /* Серебристо-стальной акцент + свечение через shadow-* / brand-cta-glow */
+  --color-brand: #c4cdd8;
+  --color-brand-hover: #dde4ee;
+  --color-brand-soft: #eef2f8;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-/* Страница контактов: светлее фон и мягкий фиолетовый свет */
+/* Страница контактов: светлее фон и мягкий серебристый свет */
 .contact-page {
-  background-color: #16101f;
+  background-color: #13151a;
   background-image:
     radial-gradient(
       ellipse 75% 55% at 50% -10%,
-      rgba(196, 78, 255, 0.12),
+      rgba(196, 205, 216, 0.12),
       transparent 58%
     ),
     radial-gradient(
       ellipse 45% 40% at 85% 30%,
-      rgba(168, 85, 247, 0.08),
+      rgba(176, 186, 200, 0.08),
       transparent 50%
     ),
-    linear-gradient(180deg, #1c1528 0%, #14101c 45%, #0a0a0f 100%);
+    linear-gradient(180deg, #181a20 0%, #121418 45%, #0a0a0f 100%);
 }
 
 /* Селекты на /contact: выпадающий список — чёрный фон и белый текст (натив option). */
@@ -153,17 +153,17 @@ body {
   background:
     radial-gradient(
       ellipse 75% 55% at 50% 105%,
-      rgba(196, 78, 255, 0.16),
+      rgba(196, 205, 216, 0.16),
       transparent 58%
     ),
     radial-gradient(
       ellipse 45% 38% at 12% 18%,
-      rgba(236, 72, 153, 0.08),
+      rgba(210, 218, 230, 0.08),
       transparent 52%
     ),
     radial-gradient(
       ellipse 50% 42% at 88% 22%,
-      rgba(167, 139, 250, 0.12),
+      rgba(188, 198, 212, 0.12),
       transparent 50%
     );
   filter: blur(52px) saturate(1.15);
@@ -203,7 +203,7 @@ body {
     transform: scale(1.35);
     box-shadow:
       0 0 4px rgba(255, 255, 255, 0.35),
-      0 0 12px rgba(196, 78, 255, 0.35);
+      0 0 12px rgba(196, 205, 216, 0.35);
   }
   96% {
     opacity: 0.08;
@@ -234,13 +234,13 @@ body {
   0%,
   100% {
     box-shadow:
-      0 0 0 0 rgba(196, 78, 255, 0.35),
-      0 0 28px -6px rgba(196, 78, 255, 0.22);
+      0 0 0 0 rgba(196, 205, 216, 0.35),
+      0 0 28px -6px rgba(196, 205, 216, 0.22);
   }
   50% {
     box-shadow:
-      0 0 0 1px rgba(220, 122, 255, 0.45),
-      0 0 44px -4px rgba(196, 78, 255, 0.38);
+      0 0 0 1px rgba(221, 228, 238, 0.45),
+      0 0 44px -4px rgba(196, 205, 216, 0.38);
   }
 }
 
@@ -251,7 +251,7 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .brand-cta-glow {
     animation: none;
-    box-shadow: 0 0 28px -10px rgba(196, 78, 255, 0.28);
+    box-shadow: 0 0 28px -10px rgba(196, 205, 216, 0.28);
   }
 }
 
@@ -284,7 +284,7 @@ body {
     border-color: rgba(255, 255, 255, 0.06);
   }
   50% {
-    border-color: rgba(196, 78, 255, 0.22);
+    border-color: rgba(196, 205, 216, 0.22);
   }
 }
 
@@ -304,12 +304,12 @@ body {
   100% {
     text-shadow:
       0 0 44px rgba(255, 255, 255, 0.06),
-      0 0 80px rgba(196, 78, 255, 0.08);
+      0 0 80px rgba(196, 205, 216, 0.08);
   }
   50% {
     text-shadow:
       0 0 58px rgba(255, 255, 255, 0.1),
-      0 0 100px rgba(196, 78, 255, 0.14);
+      0 0 100px rgba(196, 205, 216, 0.14);
   }
 }
 
@@ -317,7 +317,7 @@ body {
   color: rgb(255, 255, 255);
   text-shadow:
     0 0 48px rgba(255, 255, 255, 0.07),
-    0 0 88px rgba(196, 78, 255, 0.08);
+    0 0 88px rgba(196, 205, 216, 0.08);
   animation: qascade-hero-glow 9s ease-in-out infinite;
 }
 

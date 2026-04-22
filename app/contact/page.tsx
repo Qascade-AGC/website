@@ -33,7 +33,7 @@ export default function ContactPage() {
           <div className="mt-14 grid gap-12 lg:grid-cols-[1fr_320px] lg:gap-16">
             <ContactForm light />
 
-            <aside className="space-y-6 rounded-2xl border border-white/[0.16] bg-white/[0.06] p-6 shadow-[0_0_48px_-20px_rgba(196,78,255,0.15)] site-blur lg:p-8">
+            <aside className="space-y-6 rounded-2xl border border-white/[0.16] bg-white/[0.06] p-6 shadow-[0_0_48px_-20px_rgba(196,205,216,0.15)] site-blur lg:p-8">
               <ScrollRevealHeading
                 as="h2"
                 level="subsection"
