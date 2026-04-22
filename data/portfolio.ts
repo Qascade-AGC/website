@@ -347,4 +347,43 @@ export const CASE_STUDIES: CaseStudy[] = [
       { alt: "Infrastructure & observability dashboards" },
     ],
   },
+  {
+    n: 8,
+    client: "x3vault",
+    industry: "Crypto · Fintech",
+    service: "Marketing site · UX & web",
+    timeline: "1 week",
+    challenge:
+      "A custody-adjacent product team needed a premium dark landing that reads “institutional trust” while still feeling fast and modern — hero metrics, security story, multi-chain credibility, and a clear get-started path without dense whitepaper copy.",
+    solution:
+      "We built a layered marketing narrative: AI-context pill and typographic hero, flanking proof metrics, feature cards with scam-detection and triage story beats, a horizontal network marquee with recognizable chain marks, and a conversion block with trust chips (encryption, latency, network count).",
+    features: [
+      "Hero — mixed display type, emoji accents, side stats (TVL, market, awards, txs)",
+      "Mid-page — team credibility line and three feature modules (monitoring, AI detection, triage)",
+      "Network rail — scrollable chain logos with carousel affordances",
+      "Get started — italic accent word, primary CTA, “no seed phrase” reassurance row",
+      "Header — pill nav, date, login; consistent orange glow on dark canvas",
+    ],
+    tech: "Next.js · TypeScript · Tailwind CSS",
+    results: [
+      "One visual system from hero through conversion",
+      "Modular sections map to product proof points",
+      "Layouts ready for live chain list and metrics wiring",
+      "Strong hierarchy for skimming institutional buyers",
+    ],
+    screenshots: [
+      {
+        alt: "Hero — crypto & fintech headline, metrics, carousel hints",
+        src: "/portfolio/case-8/01-hero.png",
+      },
+      {
+        alt: "Story + feature cards — monitoring, AI detection, triage",
+        src: "/portfolio/case-8/02-features.png",
+      },
+      {
+        alt: "Networks rail and get started — chains, CTA, trust chips",
+        src: "/portfolio/case-8/03-networks-cta.png",
+      },
+    ],
+  },
 ];
