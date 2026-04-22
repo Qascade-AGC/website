@@ -124,20 +124,20 @@ export function SiteNav() {
       >
         <Link
           href="/#splash"
-          className="min-h-11 min-w-0 shrink truncate text-sm font-medium tracking-tight text-white uppercase"
+          className="flex min-h-11 min-w-0 shrink items-center truncate text-sm font-medium tracking-tight text-white uppercase"
           onClick={closeMenu}
         >
           Qascade
         </Link>
         <nav
-          className="hidden items-center gap-7 text-[11px] font-medium tracking-[0.12em] text-white/80 uppercase md:flex"
+          className="hidden min-h-11 items-center gap-7 text-[11px] font-medium leading-none tracking-[0.12em] text-white/80 uppercase md:flex md:whitespace-nowrap"
           aria-label="Main navigation"
         >
           {navLinks.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
-              className="transition-colors hover:text-white"
+              className="inline-flex items-center transition-colors hover:text-white"
             >
               {label}
             </Link>
