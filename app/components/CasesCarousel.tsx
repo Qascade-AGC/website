@@ -9,6 +9,14 @@ import { CaseStudyModal } from "./CaseStudyModal";
 /** Как окна Services/Process: серое стекло + blur (карточка компактнее — чуть выше альфа для читаемости). */
 const CASE_PANEL =
   "w-[min(40rem,min(720px,92vw))] shrink-0 rounded-2xl border border-white/[0.14] bg-[rgba(42,42,42,0.32)] text-left shadow-[0_20px_56px_-18px_rgba(0,0,0,0.65)] site-blur sm:w-[min(44rem,min(800px,94vw))] lg:w-[min(48rem,min(920px,96vw))]";
+const CASE_CAROUSEL_ORDER = [
+  "ILLUMINA",
+  "White Feather Coffee Co.",
+  "Never Tired Centre",
+  "Axelyth",
+  "Bilimshop",
+  "x3vault",
+] as const;
 
 function shortTeaser(service: string) {
   const part = service.split(/[+,]/)[0]?.trim() ?? service;
@@ -84,6 +92,9 @@ function CaseSlide({
 export function CasesCarousel() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [modalStudy, setModalStudy] = useState<CaseStudy | null>(null);
+  const orderedStudies = CASE_CAROUSEL_ORDER.flatMap((client) =>
+    CASE_STUDIES.filter((cs) => cs.client === client),
+  );
 
   const closeModal = useCallback(() => setModalStudy(null), []);
 
@@ -130,7 +141,7 @@ export function CasesCarousel() {
             className="flex gap-4 overflow-x-auto overflow-y-hidden overscroll-x-contain py-1 [scrollbar-width:none] touch-pan-x sm:gap-5 lg:gap-6 [&::-webkit-scrollbar]:hidden scroll-px-[max(0.5rem,calc(50%-20rem))] sm:scroll-px-[max(0.5rem,calc(50%-22rem))] lg:scroll-px-[max(0.5rem,calc(50%-24rem))]"
             tabIndex={0}
           >
-            {CASE_STUDIES.map((cs) => (
+            {orderedStudies.map((cs) => (
               <CaseSlide key={cs.n} study={cs} onOpen={setModalStudy} />
             ))}
           </div>
