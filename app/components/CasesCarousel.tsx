@@ -15,6 +15,7 @@ const CASE_CAROUSEL_ORDER = [
   "Never Tired Centre",
   "Axelyth",
   "Bilimshop",
+  "The Guardian",
   "x3vault",
 ] as const;
 

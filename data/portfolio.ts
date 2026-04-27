@@ -388,4 +388,44 @@ export const CASE_STUDIES: CaseStudy[] = [
       },
     ],
   },
+  {
+    n: 9,
+    client: "The Guardian",
+    industry: "Publishing · News media",
+    service: "Editorial platform · UX & web",
+    timeline: "1 week",
+    carouselPreviewVideo: "/portfolio/the-guardian-carousel-preview.mov?v=1",
+    challenge:
+      "A publishing team needed a premium news homepage that balances fast story scanning, visual hierarchy across sections, and strong editorial identity on dark and light surfaces.",
+    solution:
+      "We designed a newsroom-style layout with cinematic top story treatment, oversized section typography, modular feed cards, and an opinion rail optimized for quick reading and subscription conversion points.",
+    features: [
+      "Breaking headline hero with video-led top story",
+      "Large section anchors for Politics and Culture",
+      "Checkerboard-style article feed for fast scanning",
+      "Opinion panel with author avatars and metadata",
+      "Subscription CTA surfaces integrated in feed blocks",
+    ],
+    tech: "Next.js · TypeScript · Tailwind CSS",
+    results: [
+      "Clear editorial hierarchy from hero to section feeds",
+      "Reusable card system for daily newsroom updates",
+      "Improved scanability for headline-heavy sessions",
+      "Subscription prompts embedded without clutter",
+    ],
+    screenshots: [
+      {
+        alt: "Hero — global newsroom visual with highlighted regions",
+        src: "/portfolio/case-9/01-hero.png",
+      },
+      {
+        alt: "Politics section — breaking headline and modular feed cards",
+        src: "/portfolio/case-9/02-politics-feed.png",
+      },
+      {
+        alt: "Opinion and Culture — commentary rail with section transition",
+        src: "/portfolio/case-9/03-opinion-culture.png",
+      },
+    ],
+  },
 ];
