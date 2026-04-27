@@ -80,6 +80,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     industry: "E‑commerce · Publishing",
     service: "D2C storefront · UX & web",
     timeline: "1 week",
+    carouselPreviewVideo: "/portfolio/bilimshop-carousel-preview.mov?v=2",
     challenge:
       "A bilingual Poland / RU shop selling POD posters and Russian-language books needed one dark, editorial brand world — catalog, bundles, editorial hub, community gallery, and a print-on-demand configurator — without feeling like five separate sites.",
     solution:
@@ -353,6 +354,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     industry: "Crypto · Fintech",
     service: "Marketing site · UX & web",
     timeline: "1 week",
+    carouselPreviewVideo: "/portfolio/x3vault-carousel-preview.mov?v=1",
     challenge:
       "A custody-adjacent product team needed a premium dark landing that reads “institutional trust” while still feeling fast and modern — hero metrics, security story, multi-chain credibility, and a clear get-started path without dense whitepaper copy.",
     solution:
