@@ -2,8 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import type { CaseStudy } from "../../data/portfolio";
+import { useI18n } from "../../lib/i18n/LanguageProvider";
 
 type Props = {
   study: CaseStudy | null;
@@ -13,9 +15,11 @@ type Props = {
 function ScreenshotSlide({
   shot,
   index,
+  previewLabel,
 }: {
   shot: NonNullable<CaseStudy["screenshots"]>[number];
   index: number;
+  previewLabel: string;
 }) {
   const silverL = 17 + (index % 5) * 1.4;
   if (shot.src) {
@@ -48,7 +52,7 @@ function ScreenshotSlide({
     >
       <span className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_70%_30%,rgba(196,205,216,0.14),transparent_55%)]" />
       <span className="absolute bottom-3 left-3 font-mono text-[10px] tracking-wider text-zinc-600 uppercase">
-        Preview
+        {previewLabel}
       </span>
     </div>
   );
@@ -58,9 +62,11 @@ function ScreenshotSlide({
 function ScreenshotGallery({
   shots,
   studyN,
+  previewLabel,
 }: {
   shots: NonNullable<CaseStudy["screenshots"]>;
   studyN: number;
+  previewLabel: string;
 }) {
   return (
     <div className="space-y-4">
@@ -69,7 +75,7 @@ function ScreenshotGallery({
           key={`${studyN}-${shot.alt}-${i}`}
           className="m-0 overflow-hidden rounded-2xl bg-zinc-950/40"
         >
-          <ScreenshotSlide shot={shot} index={i} />
+          <ScreenshotSlide shot={shot} index={i} previewLabel={previewLabel} />
           <figcaption className="px-4 pb-3 pt-4 text-[12px] leading-snug text-zinc-400 sm:px-6">
             <span className="mr-2 font-mono text-[10px] tracking-wider text-zinc-600 uppercase">
               {i + 1} / {shots.length}
@@ -83,16 +89,25 @@ function ScreenshotGallery({
 }
 
 export function CaseStudyModal({ study, onClose }: Props) {
+  const { t } = useI18n();
+  const m = t.modal;
   const titleId = useId();
   const closeRef = useRef<HTMLButtonElement>(null);
+  const [mounted, setMounted] = useState(false);
   const open = study != null;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    document.body.classList.add("case-modal-open");
     return () => {
       document.body.style.overflow = prev;
+      document.body.classList.remove("case-modal-open");
     };
   }, [open]);
 
@@ -110,28 +125,31 @@ export function CaseStudyModal({ study, onClose }: Props) {
     closeRef.current?.focus();
   }, [open, study?.n]);
 
-  if (!study) return null;
+  if (!study || !mounted) return null;
 
   const shots = study.screenshots?.length
     ? study.screenshots
-    : [{ alt: `${study.client} — product preview` }, { alt: "Interface overview" }];
+    : [
+        { alt: `${study.client}${m.defaultProductPreview}` },
+        { alt: m.defaultInterfaceOverview },
+      ];
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex items-end justify-center p-0 sm:items-center sm:p-4"
+      className="fixed inset-0 z-[200] flex items-end justify-center p-0 sm:items-center sm:p-4"
       role="presentation"
     >
       <button
         type="button"
-        className="absolute inset-0 bg-black/75 site-blur transition-opacity"
-        aria-label="Close case study"
+        className="case-modal-backdrop absolute inset-0 transition-opacity"
+        aria-label={m.closeAria}
         onClick={onClose}
       />
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="relative z-[1] flex max-h-[min(92dvh,920px)] w-full max-w-2xl flex-col overflow-hidden rounded-t-2xl border border-white/[0.05] bg-[#0a0a0a] shadow-[0_24px_80px_-20px_rgba(0,0,0,0.85)] sm:rounded-2xl"
+        className="relative z-[1] flex max-h-[min(92dvh,920px)] w-full max-w-2xl flex-col overflow-hidden rounded-t-2xl border border-white/[0.08] bg-[#0a0a0a]/95 shadow-[0_24px_80px_-20px_rgba(0,0,0,0.85)] site-blur sm:rounded-2xl"
       >
         <div className="flex shrink-0 items-start justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4">
           <div className="min-w-0">
@@ -154,7 +172,7 @@ export function CaseStudyModal({ study, onClose }: Props) {
             className="shrink-0 rounded-lg border border-white/[0.08] px-3 py-1.5 text-[12px] font-medium text-zinc-300 transition-colors hover:border-white/[0.14] hover:bg-white/[0.04] hover:text-white"
             onClick={onClose}
           >
-            Close
+            {m.close}
           </button>
         </div>
 
@@ -164,16 +182,16 @@ export function CaseStudyModal({ study, onClose }: Props) {
         >
           <section>
             <h3 className="text-[11px] font-semibold tracking-wider text-zinc-500 uppercase">
-              Screenshots
+              {m.screenshots}
             </h3>
             <div className="mt-3 -mx-4 sm:-mx-6">
-              <ScreenshotGallery shots={shots} studyN={study.n} />
+              <ScreenshotGallery shots={shots} studyN={study.n} previewLabel={m.preview} />
             </div>
           </section>
 
           <section className="mt-8">
             <h3 className="text-[11px] font-semibold tracking-wider text-zinc-500 uppercase">
-              The challenge
+              {m.challenge}
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
               {study.challenge}
@@ -182,7 +200,7 @@ export function CaseStudyModal({ study, onClose }: Props) {
 
           <section className="mt-6">
             <h3 className="text-[11px] font-semibold tracking-wider text-zinc-500 uppercase">
-              Our solution
+              {m.solution}
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
               {study.solution}
@@ -191,7 +209,7 @@ export function CaseStudyModal({ study, onClose }: Props) {
 
           <section className="mt-6">
             <h3 className="text-[11px] font-semibold tracking-wider text-zinc-500 uppercase">
-              Key features
+              {m.keyFeatures}
             </h3>
             <ul className="mt-2 space-y-2 text-sm text-zinc-300">
               {study.features.map((f) => (
@@ -204,13 +222,13 @@ export function CaseStudyModal({ study, onClose }: Props) {
           </section>
 
           <p className="mt-6 text-xs text-zinc-500">
-            <span className="font-semibold text-zinc-400">Tech stack:</span>{" "}
+            <span className="font-semibold text-zinc-400">{m.techStack}</span>{" "}
             {study.tech}
           </p>
 
           <section className="mt-6">
             <h3 className="text-[11px] font-semibold tracking-wider text-zinc-500 uppercase">
-              Results
+              {m.results}
             </h3>
             <ul className="mt-2 space-y-2 text-sm text-zinc-300">
               {study.results.map((r) => (
@@ -237,11 +255,12 @@ export function CaseStudyModal({ study, onClose }: Props) {
               className="text-sm font-semibold text-brand hover:text-brand-soft"
               onClick={onClose}
             >
-              Open full page on Portfolio →
+              {m.openFullPage}
             </Link>
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

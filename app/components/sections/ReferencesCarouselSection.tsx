@@ -3,8 +3,12 @@
 import { CasesCarousel } from "../CasesCarousel";
 import { ScrollRevealHeading } from "../ScrollRevealHeading";
 import { TypewriterReveal } from "../TypewriterReveal";
+import { useI18n } from "../../../lib/i18n/LanguageProvider";
 
 export function ReferencesCarouselSection() {
+  const { t } = useI18n();
+  const w = t.work;
+
   return (
     <section
       id="work-preview"
@@ -18,15 +22,14 @@ export function ReferencesCarouselSection() {
             id="work-preview-heading"
             className="font-sans text-2xl font-semibold tracking-tight text-white sm:text-3xl"
           >
-            Selected work
+            {w.title}
           </ScrollRevealHeading>
           <TypewriterReveal
-            text="Hover the strip and scroll with the mouse wheel · Click a case for details."
+            text={w.subtitle}
             className="mt-2 text-xs leading-relaxed text-zinc-500 sm:text-sm"
           />
         </div>
       </div>
-      {/* Без w-screen / calc(50%−50vw): иначе на границе зоны 50% и 50vw расходятся из‑за скроллбара → дёрганье. */}
       <div className="relative min-w-0 w-full overflow-x-clip">
         <CasesCarousel />
       </div>

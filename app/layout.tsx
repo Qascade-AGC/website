@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { LenisRoot } from "./components/LenisRoot";
+import { LanguageProvider } from "../lib/i18n/LanguageProvider";
 import { SplashBackground } from "./components/SplashBackground";
 import { Starfield } from "./components/Starfield";
 import "./globals.css";
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
     template: "%s · Qascade",
   },
   description:
-    "Qascade builds digital products that drive revenue — web apps, SaaS, e-commerce, MVP, AI, and DevSecOps.",
+    "Qascade tworzy produkty cyfrowe, które generują przychód — aplikacje webowe, SaaS, e-commerce, MVP, AI i DevSecOps.",
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -54,7 +55,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="ru"
+      lang="pl"
       className={`${geistSans.variable} ${geistMono.variable} h-full bg-black antialiased`}
     >
       <body className="relative flex min-h-dvh flex-col bg-black pb-[env(safe-area-inset-bottom,0px)] font-sans text-zinc-100 antialiased">
@@ -66,11 +67,16 @@ export default function RootLayout({
           <div className="site-ambient-aurora" />
         </div>
         <Starfield />
-        <LenisRoot>
-          <div className="relative z-10 flex min-h-dvh flex-1 flex-col isolate">
-            {children}
-          </div>
-        </LenisRoot>
+        <LanguageProvider>
+          <LenisRoot>
+            <div
+              data-page-shell
+              className="relative z-10 flex min-h-dvh flex-1 flex-col isolate"
+            >
+              {children}
+            </div>
+          </LenisRoot>
+        </LanguageProvider>
       </body>
     </html>
   );

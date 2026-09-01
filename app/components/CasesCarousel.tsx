@@ -3,8 +3,9 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CaseStudy } from "../../data/portfolio";
-import { CASE_STUDIES } from "../../data/portfolio";
+import { getCaseStudies } from "../../data/portfolio";
 import { CaseStudyModal } from "./CaseStudyModal";
+import { useI18n } from "../../lib/i18n/LanguageProvider";
 
 /** Как окна Services/Process: серое стекло + blur (карточка компактнее — чуть выше альфа для читаемости). */
 const CASE_PANEL =
@@ -28,9 +29,13 @@ function shortTeaser(service: string) {
 function CaseSlide({
   study,
   onOpen,
+  detailsLabel,
+  openAria,
 }: {
   study: CaseStudy;
   onOpen: (cs: CaseStudy) => void;
+  detailsLabel: string;
+  openAria: (client: string) => string;
 }) {
   const teaser = shortTeaser(study.service);
   const video = study.carouselPreviewVideo;
@@ -43,7 +48,7 @@ function CaseSlide({
     <button
       type="button"
       className={`${CASE_PANEL} flex cursor-pointer flex-col overflow-hidden p-3 text-left transition-[transform,box-shadow] duration-200 hover:border-white/20 hover:shadow-[0_24px_64px_-18px_rgba(0,0,0,0.75)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:scale-[0.99] sm:p-4`}
-      aria-label={`Open case study: ${study.client}`}
+      aria-label={openAria(study.client)}
       onClick={() => onOpen(study)}
     >
       <div className="relative aspect-[2/1] w-full shrink-0 overflow-hidden rounded-xl bg-gradient-to-br from-brand/12 to-[rgba(42,42,42,0.45)] ring-1 ring-white/10">
@@ -83,7 +88,7 @@ function CaseSlide({
           </p>
         </div>
         <span className="shrink-0 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-[11px] font-semibold text-brand">
-          Details →
+          {detailsLabel}
         </span>
       </div>
     </button>
@@ -91,6 +96,9 @@ function CaseSlide({
 }
 
 export function CasesCarousel() {
+  const { locale, t } = useI18n();
+  const w = t.work;
+  const CASE_STUDIES = getCaseStudies(locale);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [modalStudy, setModalStudy] = useState<CaseStudy | null>(null);
   const orderedStudies = CASE_CAROUSEL_ORDER.flatMap((client) =>
@@ -133,7 +141,7 @@ export function CasesCarousel() {
         className="relative mx-auto w-full max-w-[100vw]"
         data-case-carousel
         role="region"
-        aria-label="Portfolio case studies carousel"
+        aria-label={w.carouselAria}
       >
         <div className="overflow-hidden py-1">
           <div
@@ -143,7 +151,13 @@ export function CasesCarousel() {
             tabIndex={0}
           >
             {orderedStudies.map((cs) => (
-              <CaseSlide key={cs.n} study={cs} onOpen={setModalStudy} />
+              <CaseSlide
+                key={cs.n}
+                study={cs}
+                onOpen={setModalStudy}
+                detailsLabel={w.details}
+                openAria={(client) => w.openCaseStudy.replace("{client}", client)}
+              />
             ))}
           </div>
         </div>

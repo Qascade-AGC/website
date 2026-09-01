@@ -6,87 +6,12 @@ import { shouldAvoidLenis, useLenis } from "../LenisRoot";
 import { useTouchLikeDevice } from "../useTouchLikeDevice";
 import { ScrollRevealHeading } from "../ScrollRevealHeading";
 import { TypewriterReveal } from "../TypewriterReveal";
-
-function clamp01(x: number) {
-  return Math.min(1, Math.max(0, x));
-}
-
-function smoothstep(t: number) {
-  const c = clamp01(t);
-  return c * c * (3 - 2 * c);
-}
-
-const PHASES = [
-  {
-    num: "01",
-    title: "DISCOVERY",
-    duration: "1–2 weeks",
-    body: "We start by understanding your business, your users, and your goals. Not with a generic questionnaire — with real conversations, market analysis, and tough questions that save you months of rework later.",
-    happens: [
-      "Stakeholder interviews & goal alignment",
-      "User research & competitor analysis",
-      "Feature scoping & prioritization (MoSCoW method)",
-      "Technical architecture planning",
-      "Security & compliance requirements assessment",
-      "Project roadmap with fixed milestones",
-    ],
-    deliverable:
-      "Project Brief — a single document that defines scope, timeline, tech stack, budget, and success metrics. You approve it before we write a single line of code.",
-  },
-  {
-    num: "02",
-    title: "DESIGN",
-    duration: "2–3 weeks",
-    body: "We design how your product looks, feels, and works. Every screen. Every interaction. Every edge case. You see clickable prototypes in Figma before development starts — so there are zero visual surprises at launch.",
-    happens: [
-      "Wireframes for all core user flows",
-      "Visual design system (colors, typography, components)",
-      "High-fidelity UI mockups — desktop & mobile",
-      "Clickable prototype for user testing",
-      "Design review sessions with your team",
-    ],
-    deliverable:
-      "Approved Figma prototype + complete design system ready for pixel-perfect development.",
-  },
-  {
-    num: "03",
-    title: "DEVELOPMENT",
-    duration: "4–10 weeks (depends on scope)",
-    body: "This is where your product becomes real. We work in 1-week sprints with demos every Friday. You see progress weekly — not monthly. If priorities shift, we adapt fast. Security scanning runs automatically on every commit.",
-    happens: [
-      "Frontend & backend development in parallel",
-      "CI/CD pipeline with automated security checks",
-      "Weekly sprint demos — live, working software",
-      "Continuous integration & automated testing",
-      "Third-party integrations (payments, APIs, analytics)",
-      "Code reviews & QA on every feature",
-    ],
-    deliverable:
-      "Fully functional, tested product on a staging environment. You can click through everything before launch.",
-  },
-  {
-    num: "04",
-    title: "LAUNCH",
-    duration: "1 week",
-    body: "We don't just push code and disappear. We handle deployment, monitoring setup, security hardening, performance optimization, and provide 30 days of post-launch support to catch and fix anything that comes up in the real world.",
-    happens: [
-      "Production deployment & server configuration",
-      "Infrastructure security hardening",
-      "Performance & security audit",
-      "Analytics & monitoring setup",
-      "Team handoff & documentation",
-      "30-day post-launch support (included)",
-    ],
-    deliverable:
-      "Live product + technical documentation + monitoring dashboards + peace of mind.",
-  },
-] as const;
-
-function titleCasePhase(t: string) {
-  return t.charAt(0) + t.slice(1).toLowerCase();
-}
+import { useI18n } from "../../../lib/i18n/LanguageProvider";
 
 export function ProcessSection() {
+  const { t } = useI18n();
+  const proc = t.process;
+  const PHASES = proc.phases;
   const [active, setActive] = useState(0);
   const phase = PHASES[active]!;
   const rootRef = useRef<HTMLDivElement>(null);
@@ -109,25 +34,15 @@ export function ProcessSection() {
       }
       const rect = root.getBoundingClientRect();
       const vh = window.innerHeight || 1;
-      const h = Math.max(rect.height, 1);
-
-      const enterRaw =
-        (vh * 0.9 - rect.top) / (vh * 0.9 - vh * 0.34);
-      const enterP = smoothstep(clamp01(enterRaw));
-
-      /* Выезд / затухание только когда окно реально уходит вверх — порог ниже, диапазон длиннее */
-      let exitRaw = 0;
-      const exitStart = vh * 0.1;
-      if (rect.top < exitStart) {
-        exitRaw = (exitStart - rect.top) / (exitStart + h * 0.62);
-      }
-      const exitP = smoothstep(clamp01(exitRaw));
-
-      const ty = (1 - enterP) * 104 - exitP * 92;
-      const op = (0.26 + 0.74 * enterP) * (1 - 0.52 * exitP);
-
+      const start = vh * 0.88;
+      const end = vh * 0.24;
+      const raw = (start - rect.top) / (start - end);
+      const t = Math.min(1, Math.max(0, raw));
+      const u = t * t * (3 - 2 * t);
+      const ty = (1 - u) * 40;
+      const opacity = 0.88 + 0.12 * u;
       panel.style.transform = `translate3d(0, ${ty}px, 0)`;
-      panel.style.opacity = String(Math.max(0.1, Math.min(1, op)));
+      panel.style.opacity = String(opacity);
     };
 
     if (mq.matches) {
@@ -183,10 +98,10 @@ export function ProcessSection() {
           id="process-heading"
           className="font-sans text-3xl font-semibold tracking-tight text-white sm:text-4xl"
         >
-          How we work
+          {proc.title}
         </ScrollRevealHeading>
         <TypewriterReveal
-          text="Four phases, one framework. Pick a step to see what happens inside."
+          text={proc.subtitle}
           className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-zinc-500 sm:text-base"
         />
       </div>
@@ -201,8 +116,8 @@ export function ProcessSection() {
             touchLike === true
               ? { opacity: 1, transform: "translate3d(0, 0, 0)" }
               : {
-                  transform: "translate3d(0, 104px, 0)",
-                  opacity: 0.26,
+                  transform: "translate3d(0, 40px, 0)",
+                  opacity: 0.88,
                 }
           }
         >
@@ -214,7 +129,7 @@ export function ProcessSection() {
               <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
             </div>
             <span className="font-mono text-[10px] tracking-widest text-zinc-600 uppercase">
-              how-we-work
+              {proc.windowChrome}
             </span>
           </div>
 
@@ -223,7 +138,7 @@ export function ProcessSection() {
             <div
               className="flex min-h-0 flex-col gap-2 border-b border-white/[0.08] bg-[rgba(42,42,42,0.2)] p-3 site-blur sm:p-4 lg:h-full lg:overflow-y-auto lg:border-r lg:border-b-0"
               role="tablist"
-              aria-label="Process phases"
+              aria-label={proc.phasesAria}
               onKeyDown={(e) => {
                 if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
                 e.preventDefault();
@@ -232,14 +147,14 @@ export function ProcessSection() {
                 setActive(next);
               }}
             >
-              {PHASES.map((p, i) => {
+              {PHASES.map((ph, i) => {
                 const isActive = i === active;
                 return (
                   <button
-                    key={p.num}
+                    key={ph.num}
                     type="button"
                     role="tab"
-                    id={`process-tab-${p.num}`}
+                    id={`process-tab-${ph.num}`}
                     aria-selected={isActive}
                     aria-controls="process-panel"
                     tabIndex={isActive ? 0 : -1}
@@ -266,14 +181,14 @@ export function ProcessSection() {
                       />
                       <div className="min-w-0">
                         <p className="text-[10px] font-medium tracking-wide text-zinc-500">
-                          Phase {p.num} · {p.duration}
+                          {proc.phaseLabel} {ph.num} · {ph.duration}
                         </p>
                         <p
                           className={`mt-0.5 font-sans text-sm font-semibold tracking-tight sm:text-[15px] ${
                             isActive ? "text-white" : "text-zinc-300"
                           }`}
                         >
-                          {titleCasePhase(p.title)}
+                          {ph.title}
                         </p>
                       </div>
                     </div>
@@ -302,14 +217,14 @@ export function ProcessSection() {
                   </div>
                   <div className="min-w-0 pt-0.5">
                     <p className="text-[10px] font-medium tracking-[0.2em] text-zinc-500 uppercase">
-                      Phase {phase.num}
+                      {proc.phaseLabel} {phase.num}
                     </p>
                     <p className="mt-1 text-[11px] text-zinc-500">
-                      <span className="text-zinc-600">Timeline ·</span>{" "}
+                      <span className="text-zinc-600">{proc.timelinePrefix}</span>{" "}
                       {phase.duration}
                     </p>
                     <h3 className="mt-3 font-sans text-xl font-semibold leading-snug tracking-tight text-white sm:text-2xl">
-                      {titleCasePhase(phase.title)}
+                      {phase.title}
                     </h3>
                   </div>
                 </div>
@@ -322,7 +237,7 @@ export function ProcessSection() {
                   </p>
                   <div>
                     <p className="text-[10px] font-semibold tracking-wider text-zinc-500 uppercase">
-                      What happens
+                      {proc.whatHappens}
                     </p>
                     <ul className="mt-3 space-y-2.5 text-sm leading-snug text-zinc-300 sm:text-[15px]">
                       {phase.happens.map((h) => (
@@ -338,7 +253,7 @@ export function ProcessSection() {
                 </div>
 
                 <p className="mt-8 border-t border-white/[0.06] pt-5 text-xs leading-relaxed text-zinc-600">
-                  <span className="font-medium text-zinc-500">Deliverable ·</span>{" "}
+                  <span className="font-medium text-zinc-500">{proc.deliverablePrefix}</span>{" "}
                   {phase.deliverable}
                 </p>
               </div>
@@ -352,7 +267,7 @@ export function ProcessSection() {
           href="/contact"
           className="inline-flex h-12 w-full max-w-sm items-center justify-center rounded-lg bg-brand px-8 text-sm font-semibold text-zinc-950 shadow-[0_0_24px_-6px_rgba(196,205,216,0.45)] transition-[background-color,box-shadow] hover:bg-brand-hover hover:shadow-[0_0_32px_-4px_rgba(196,205,216,0.55)] sm:w-auto sm:max-w-none"
         >
-          Start with discovery →
+          {proc.cta}
         </Link>
       </div>
     </section>

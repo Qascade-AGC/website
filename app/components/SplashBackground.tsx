@@ -81,7 +81,7 @@ export function SplashBackground() {
   return (
     <div
       aria-hidden
-      className="pointer-events-none fixed inset-0 z-0 h-dvh w-full overflow-hidden bg-black"
+      className="splash-bg-root pointer-events-none fixed inset-0 z-0 h-dvh w-full overflow-hidden bg-black"
     >
       {/* Всегда лёгкая подложка — не «абсолютная пустота», пока нет видео/Spline */}
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_120%_80%_at_50%_-20%,rgba(196,205,216,0.14),transparent_50%),radial-gradient(ellipse_90%_70%_at_100%_50%,rgba(188,198,212,0.1),transparent_45%),radial-gradient(ellipse_80%_60%_at_0%_80%,rgba(210,218,230,0.06),transparent_40%)]" />
