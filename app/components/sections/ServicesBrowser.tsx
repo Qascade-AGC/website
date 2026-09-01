@@ -7,7 +7,10 @@ import { useTouchLikeDevice } from "../useTouchLikeDevice";
 import { TypewriterReveal } from "../TypewriterReveal";
 import { ScrollRevealWordsHeading } from "../ScrollRevealWordsHeading";
 import type { Service } from "../../../data/services";
-import { SERVICES } from "../../../data/services";
+import { getServices } from "../../../data/services";
+import { formatPriceRange, SERVICE_PRICING } from "../../../data/pricing";
+import { getPricingMessages } from "../../../lib/i18n/pricing";
+import { useI18n } from "../../../lib/i18n/LanguageProvider";
 
 function initials(headline: string) {
   return headline
@@ -37,7 +40,17 @@ function InlineEmphasis({ text }: { text: string }) {
   );
 }
 
-function ServiceDetail({ s }: { s: Service }) {
+function ServiceDetail({
+  s,
+  labels,
+  locale,
+}: {
+  s: Service;
+  labels: ReturnType<typeof useI18n>["t"]["services"];
+  locale: ReturnType<typeof useI18n>["locale"];
+}) {
+  const pricing = getPricingMessages(locale);
+  const tier = SERVICE_PRICING[s.slug];
   const secondary =
     s.bodyExtra ?? (s.slug === "devsecops" ? null : (s.footnote ?? null));
 
@@ -52,13 +65,33 @@ function ServiceDetail({ s }: { s: Service }) {
         </div>
         <div className="min-w-0 pt-0.5">
           <p className="text-[10px] font-medium tracking-[0.2em] text-zinc-500 uppercase">
-            Service
+            {labels.service}
           </p>
           <p className="mt-1 font-sans text-xl font-semibold leading-snug text-white sm:text-2xl">
             {s.title}
           </p>
         </div>
       </div>
+
+      {tier ? (
+        <div className="flex shrink-0 flex-wrap gap-x-6 gap-y-2 border-b border-white/[0.08] bg-[rgba(37,37,37,0.18)] px-5 py-3 site-blur sm:px-7">
+          <div>
+            <p className="text-[10px] text-zinc-500">{pricing.setupLabel}</p>
+            <p className="text-sm font-semibold text-brand">
+              {formatPriceRange(tier, "setup", locale)}
+            </p>
+          </div>
+          {tier.monthly ? (
+            <div>
+              <p className="text-[10px] text-zinc-500">{pricing.monthlyLabel}</p>
+              <p className="text-sm font-semibold text-brand">
+                {formatPriceRange(tier, "monthly", locale)}
+              </p>
+            </div>
+          ) : null}
+          <p className="w-full text-[10px] text-zinc-600">{pricing.nettoNote}</p>
+        </div>
+      ) : null}
 
       <div className="flex min-h-0 flex-1 flex-col space-y-5 overflow-y-auto overscroll-contain p-5 sm:p-7 lg:p-8 max-lg:flex-none max-lg:overflow-visible max-lg:min-h-0">
         <p className="text-[15px] leading-relaxed text-zinc-200 lg:text-[16px]">
@@ -73,7 +106,7 @@ function ServiceDetail({ s }: { s: Service }) {
         {s.whyMatters?.length ? (
           <div>
             <p className="text-[10px] font-semibold tracking-wider text-zinc-500 uppercase">
-              Why it matters
+              {labels.whyMatters}
             </p>
             <ul className="mt-3 space-y-2 text-sm text-zinc-400 lg:text-[15px]">
               {s.whyMatters.map((line) => (
@@ -90,7 +123,7 @@ function ServiceDetail({ s }: { s: Service }) {
 
         <div>
           <p className="text-[10px] font-semibold tracking-wider text-zinc-500 uppercase">
-            Key deliverables
+            {labels.deliverables}
           </p>
           <ul className="mt-3 space-y-1.5 text-sm text-zinc-300 lg:text-[15px]">
             {s.deliverables.map((d) => (
@@ -105,7 +138,7 @@ function ServiceDetail({ s }: { s: Service }) {
         {s.tech ? (
           <div className="rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 lg:px-5 lg:py-4">
             <p className="text-[10px] font-semibold tracking-wider text-zinc-500 uppercase">
-              Tech stack
+              {labels.techStack}
             </p>
             <p className="mt-2 font-mono text-[12px] leading-relaxed text-zinc-400 lg:text-[13px]">
               {s.tech}
@@ -122,7 +155,7 @@ function ServiceDetail({ s }: { s: Service }) {
 
       <div className="flex shrink-0 flex-col gap-3 border-t border-white/[0.08] bg-[rgba(37,37,37,0.28)] p-4 site-blur sm:flex-row sm:items-center sm:justify-between sm:px-7 lg:px-8">
         <p className="text-[10px] leading-relaxed text-zinc-600 lg:text-[11px]">
-          Direct senior team · Weekly demos · No fluff
+          {labels.footerLine}
         </p>
         <Link
           href="/contact"
@@ -136,6 +169,9 @@ function ServiceDetail({ s }: { s: Service }) {
 }
 
 export function ServicesBrowser() {
+  const { locale, t } = useI18n();
+  const labels = t.services;
+  const SERVICES = getServices(locale);
   const [selected, setSelected] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -237,12 +273,12 @@ export function ServicesBrowser() {
         <div className="text-left lg:sticky lg:top-28 lg:col-span-4 lg:max-w-xl lg:self-start xl:col-span-3">
           <ScrollRevealWordsHeading
             as="h2"
-            text="What We Build"
-            staggerMs={72}
+            text={labels.title}
+            staggerMs={48}
             className="font-sans text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1]"
           />
           <TypewriterReveal
-            text="We focus on six core areas where we deliver the most value. No fluff. No filler. Just solutions that work."
+            text={labels.subtitle}
             className="mt-5 text-sm leading-relaxed text-zinc-400 sm:text-base lg:mt-6"
           />
         </div>
@@ -270,12 +306,12 @@ export function ServicesBrowser() {
                 <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
               </div>
               <span className="font-mono text-[10px] tracking-widest text-zinc-600 uppercase">
-                what-we-build
+                {labels.windowChrome}
               </span>
             </div>
 
             <p className="border-b border-white/[0.06] px-3 py-1.5 text-[10px] leading-snug text-zinc-500 lg:hidden">
-              Scroll the list or tap a service to read details.
+              {labels.mobileHint}
             </p>
 
             <div className="flex min-h-0 flex-col max-lg:max-h-none lg:grid lg:h-[min(78vh,700px)] lg:min-h-[min(85vh,640px)] lg:grid-cols-[minmax(0,300px)_1fr] lg:items-stretch lg:gap-0">
@@ -283,7 +319,7 @@ export function ServicesBrowser() {
                 ref={tabStripRef}
                 className="flex min-h-0 shrink-0 flex-col gap-2 border-white/[0.08] bg-[rgba(42,42,42,0.2)] p-3 site-blur sm:p-4 max-lg:max-h-[min(28dvh,11rem)] max-lg:overflow-y-auto max-lg:overflow-x-hidden max-lg:border-b max-lg:[-webkit-overflow-scrolling:touch] lg:h-full lg:max-h-none lg:overflow-y-auto lg:overflow-x-hidden lg:border-r lg:border-b-0 [&::-webkit-scrollbar]:hidden"
                 role="tablist"
-                aria-label="Services"
+                aria-label={labels.tablistAria}
                 onKeyDown={(e) => {
                   if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
                   e.preventDefault();
@@ -352,9 +388,9 @@ export function ServicesBrowser() {
               >
                 <div
                   key={active.slug}
-                  className="flex min-h-0 flex-1 flex-col max-lg:flex-none"
+                  className="service-panel-in flex min-h-0 flex-1 flex-col max-lg:flex-none"
                 >
-                  <ServiceDetail s={active} />
+                  <ServiceDetail s={active} labels={labels} locale={locale} />
                 </div>
               </div>
             </div>

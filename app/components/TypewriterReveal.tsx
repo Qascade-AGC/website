@@ -18,7 +18,7 @@ type Props = {
   wordRevealMs?: number;
 } & Omit<React.HTMLAttributes<HTMLParagraphElement>, "children">;
 
-const easeReveal = "cubic-bezier(0.22, 1, 0.36, 1)";
+const easeReveal = "cubic-bezier(0.16, 1, 0.3, 1)";
 
 /**
  * Подтекст: по словам — плавное opacity + лёгкий сдвиг (CSS, без дискретного набора).
@@ -28,14 +28,15 @@ export function TypewriterReveal({
   text,
   className = "",
   byWord: byWordProp,
-  charMs = 26,
+  charMs = 22,
   wordMs: _wordMs = 52,
-  startDelayMs = 520,
-  wordStaggerMs = 52,
-  wordRevealMs = 780,
+  startDelayMs = 240,
+  wordStaggerMs = 36,
+  wordRevealMs = 560,
   ...rest
 }: Props) {
   const ref = useRef<HTMLParagraphElement | null>(null);
+  const revealedOnce = useRef(false);
   const [shown, setShown] = useState("");
   const [active, setActive] = useState(false);
   /** После startDelayMs — запускаем CSS-анимацию слов */
@@ -58,38 +59,29 @@ export function TypewriterReveal({
     if (reducedMotion) return;
     const el = ref.current;
     if (!el) return;
-    let hideTimer: ReturnType<typeof setTimeout> | null = null;
     const obs = new IntersectionObserver(
       ([e]) => {
-        const on = !!e?.isIntersecting;
-        if (on) {
-          if (hideTimer) {
-            clearTimeout(hideTimer);
-            hideTimer = null;
-          }
+        if (!e) return;
+        if (e.isIntersecting) {
+          revealedOnce.current = true;
           setActive(true);
-        } else {
-          if (hideTimer) clearTimeout(hideTimer);
-          hideTimer = setTimeout(() => {
-            setActive(false);
-            hideTimer = null;
-          }, 320);
+        } else if (!revealedOnce.current) {
+          setActive(false);
         }
       },
       { threshold: 0.12, rootMargin: "0px 0px 10% 0px" },
     );
     obs.observe(el);
-    return () => {
-      obs.disconnect();
-      if (hideTimer) clearTimeout(hideTimer);
-    };
+    return () => obs.disconnect();
   }, [reducedMotion]);
 
   useEffect(() => {
     if (reducedMotion || !byWord) return;
     if (!active) {
-      setRun(false);
-      setDone(false);
+      if (!revealedOnce.current) {
+        setRun(false);
+        setDone(false);
+      }
       return;
     }
     setRun(false);
@@ -105,7 +97,7 @@ export function TypewriterReveal({
       setDone(true);
       return;
     }
-    const ms = (n - 1) * wordStaggerMs + wordRevealMs + 100;
+    const ms = (n - 1) * wordStaggerMs + wordRevealMs + 80;
     const t = window.setTimeout(() => setDone(true), ms);
     return () => clearTimeout(t);
   }, [run, byWord, reducedMotion, words.length, wordStaggerMs, wordRevealMs]);
@@ -119,8 +111,10 @@ export function TypewriterReveal({
     if (byWord) return;
 
     if (!active) {
-      setShown("");
-      setDone(false);
+      if (!revealedOnce.current) {
+        setShown("");
+        setDone(false);
+      }
       return;
     }
 
@@ -178,10 +172,10 @@ export function TypewriterReveal({
           {words.map((word, i) => (
             <span key={`${word}-${i}`} className="mr-[0.28em] inline-block last:mr-0">
               <span
-                className="inline-block transform-gpu will-change-[opacity,transform]"
+                className="inline-block transform-gpu"
                 style={{
                   opacity: run ? 1 : 0,
-                  transform: run ? "translateY(0)" : "translateY(0.4em)",
+                  transform: run ? "translateY(0)" : "translateY(0.28em)",
                   transitionProperty: "opacity, transform",
                   transitionDuration: `${wordRevealMs}ms`,
                   transitionTimingFunction: easeReveal,
@@ -194,7 +188,7 @@ export function TypewriterReveal({
           ))}
           {run && !done ? (
             <span
-              className="ml-0.5 inline-block h-[0.95em] w-px translate-y-px self-center bg-zinc-400 align-middle opacity-50 transition-opacity duration-[800ms] ease-out"
+              className="ml-0.5 inline-block h-[0.95em] w-px translate-y-px self-center bg-zinc-400 align-middle opacity-40"
               aria-hidden
             />
           ) : null}
@@ -219,7 +213,7 @@ export function TypewriterReveal({
         {shown}
         {!done && active ? (
           <span
-            className="ml-px inline-block h-[0.95em] w-px translate-y-px bg-zinc-400 align-middle opacity-45 transition-opacity duration-[700ms] ease-out"
+            className="ml-px inline-block h-[0.95em] w-px translate-y-px bg-zinc-400 align-middle opacity-40"
             aria-hidden
           />
         ) : null}

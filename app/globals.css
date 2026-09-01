@@ -134,14 +134,10 @@ body {
   0%,
   100% {
     transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.48;
+    opacity: 0.44;
   }
-  33% {
-    transform: translate3d(-1.8%, 1.2%, 0) scale(1.04);
-    opacity: 0.58;
-  }
-  66% {
-    transform: translate3d(1.4%, -0.8%, 0) scale(1.02);
+  50% {
+    transform: translate3d(-1%, 0.6%, 0) scale(1.02);
     opacity: 0.52;
   }
 }
@@ -169,8 +165,7 @@ body {
   filter: blur(52px) saturate(1.15);
   -webkit-filter: blur(52px) saturate(1.15);
   transform: translateZ(0);
-  animation: site-aurora-drift 26s ease-in-out infinite;
-  will-change: transform, opacity;
+  animation: site-aurora-drift 32s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -189,26 +184,26 @@ body {
   }
 }
 
-/* Редкие звёзды: длинный цикл, короткая вспышка яркости */
+/* Редкие звёзды: длинный цикл, мягкая вспышка яркости */
 @keyframes star-twinkle {
   0%,
-  91%,
+  88%,
   100% {
-    opacity: 0.05;
+    opacity: 0.06;
     transform: scale(1);
-    box-shadow: 0 0 1px rgba(255, 255, 255, 0.07);
+    box-shadow: 0 0 1px rgba(255, 255, 255, 0.06);
   }
-  94% {
-    opacity: 0.55;
-    transform: scale(1.35);
+  93% {
+    opacity: 0.42;
+    transform: scale(1.12);
     box-shadow:
-      0 0 4px rgba(255, 255, 255, 0.35),
-      0 0 12px rgba(196, 205, 216, 0.35);
+      0 0 3px rgba(255, 255, 255, 0.28),
+      0 0 8px rgba(196, 205, 216, 0.22);
   }
   96% {
     opacity: 0.08;
     transform: scale(1);
-    box-shadow: 0 0 2px rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 2px rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -234,18 +229,18 @@ body {
   0%,
   100% {
     box-shadow:
-      0 0 0 0 rgba(196, 205, 216, 0.35),
-      0 0 28px -6px rgba(196, 205, 216, 0.22);
+      0 0 0 0 rgba(196, 205, 216, 0.3),
+      0 0 24px -8px rgba(196, 205, 216, 0.2);
   }
   50% {
     box-shadow:
-      0 0 0 1px rgba(221, 228, 238, 0.45),
-      0 0 44px -4px rgba(196, 205, 216, 0.38);
+      0 0 0 1px rgba(221, 228, 238, 0.35),
+      0 0 36px -6px rgba(196, 205, 216, 0.32);
   }
 }
 
 .brand-cta-glow {
-  animation: brand-cta-glow 4.2s ease-in-out infinite;
+  animation: brand-cta-glow 5.5s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -259,15 +254,15 @@ body {
 @keyframes scroll-hint-breathe {
   0%,
   100% {
-    opacity: 0.38;
+    opacity: 0.42;
   }
   50% {
-    opacity: 0.66;
+    opacity: 0.62;
   }
 }
 
 .scroll-hint-breathe {
-  animation: scroll-hint-breathe 5s ease-in-out infinite;
+  animation: scroll-hint-breathe 4s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -284,12 +279,12 @@ body {
     border-color: rgba(255, 255, 255, 0.06);
   }
   50% {
-    border-color: rgba(196, 205, 216, 0.22);
+    border-color: rgba(196, 205, 216, 0.14);
   }
 }
 
 .nav-border-shimmer {
-  animation: nav-border-shimmer 8s ease-in-out infinite;
+  animation: nav-border-shimmer 12s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -303,22 +298,22 @@ body {
   0%,
   100% {
     text-shadow:
-      0 0 44px rgba(255, 255, 255, 0.06),
-      0 0 80px rgba(196, 205, 216, 0.08);
+      0 0 40px rgba(255, 255, 255, 0.05),
+      0 0 72px rgba(196, 205, 216, 0.07);
   }
   50% {
     text-shadow:
-      0 0 58px rgba(255, 255, 255, 0.1),
-      0 0 100px rgba(196, 205, 216, 0.14);
+      0 0 52px rgba(255, 255, 255, 0.08),
+      0 0 88px rgba(196, 205, 216, 0.11);
   }
 }
 
 .qascade-hero-word {
   color: rgb(255, 255, 255);
   text-shadow:
-    0 0 48px rgba(255, 255, 255, 0.07),
-    0 0 88px rgba(196, 205, 216, 0.08);
-  animation: qascade-hero-glow 9s ease-in-out infinite;
+    0 0 44px rgba(255, 255, 255, 0.06),
+    0 0 80px rgba(196, 205, 216, 0.07);
+  animation: qascade-hero-glow 12s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -330,21 +325,70 @@ body {
 @keyframes how-we-work-panel-in {
   from {
     opacity: 0;
-    transform: translateX(14px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 
 .how-we-work-panel {
-  animation: how-we-work-panel-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: how-we-work-panel-in 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .how-we-work-panel {
     animation: none;
   }
+}
+
+/* Панель сервисов: мягкий fade-in при смене вкладки */
+@keyframes service-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.service-panel-in {
+  animation: service-panel-in 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-panel-in {
+    animation: none;
+  }
+}
+
+/* Модалка кейса: размытие всего фона страницы */
+body.case-modal-open [data-page-shell],
+body.case-modal-open .site-ambient-wrap,
+body.case-modal-open .site-starfield,
+body.case-modal-open .splash-bg-root {
+  filter: blur(16px) saturate(0.92);
+  -webkit-filter: blur(16px) saturate(0.92);
+  transition: filter 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.case-modal-open [data-page-shell],
+  body.case-modal-open .site-ambient-wrap,
+  body.case-modal-open .site-starfield,
+  body.case-modal-open .splash-bg-root {
+    filter: none;
+    -webkit-filter: none;
+    transition: none;
+  }
+}
+
+.case-modal-backdrop {
+  background: rgba(0, 0, 0, 0.68);
+  backdrop-filter: blur(40px) saturate(1.08);
+  -webkit-backdrop-filter: blur(40px) saturate(1.08);
 }
 

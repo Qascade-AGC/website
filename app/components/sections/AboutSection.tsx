@@ -2,39 +2,12 @@
 
 import { ScrollRevealHeading } from "../ScrollRevealHeading";
 import { TypewriterReveal } from "../TypewriterReveal";
-
-const TEAM = [
-  {
-    name: "Name Surname",
-    role: "Founder & Product Strategist",
-    bio: "12 years in digital product development. Former Head of Product at [Company]. Obsessed with scope control, user outcomes, and shipping on time. Leads every project from discovery to launch.",
-  },
-  {
-    name: "Name Surname",
-    role: "Lead Designer · UI/UX",
-    bio: "8 years designing interfaces for SaaS, fintech, and e-commerce. Believes great design is invisible — users should reach their goal without thinking about the interface. Figma addict.",
-  },
-  {
-    name: "Name Surname",
-    role: "Senior Full-Stack Developer",
-    bio: "10 years building web applications at scale. React, Node.js, PostgreSQL, AWS — this is his natural habitat. Writes clean, documented, maintainable code. Every single time.",
-  },
-  {
-    name: "Name Surname",
-    role: "Backend & AI Engineer",
-    bio: "7 years in backend architecture and 3 years integrating AI into production systems. Handles databases, APIs, DevOps, and everything that runs behind the scenes.",
-  },
-];
-
-const TRUST = [
-  "40+ projects delivered since 2021",
-  "93% of projects launched on time and within budget",
-  "4.9/5 average client satisfaction score",
-  "70% of clients return with a second project",
-  "Direct access to the people doing the actual work",
-];
+import { useI18n } from "../../../lib/i18n/LanguageProvider";
 
 export function AboutSection() {
+  const { t } = useI18n();
+  const a = t.about;
+
   return (
     <section
       id="about"
@@ -45,35 +18,22 @@ export function AboutSection() {
           as="h2"
           className="font-sans text-3xl font-semibold tracking-tight text-white sm:text-4xl"
         >
-          The Team Behind the Code
+          {a.title}
         </ScrollRevealHeading>
         <TypewriterReveal
-          text="We're a focused team of four. No account managers. No middlemen. When you work with us, you work directly with the people who design, build, and ship your product."
+          text={a.subtitle}
           className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-zinc-400 sm:text-base"
         />
       </div>
 
       <div className="mx-auto mt-10 max-w-3xl space-y-6 text-sm leading-relaxed text-zinc-400 sm:text-[15px]">
-        <p>
-          We started this agency because we saw the same pattern everywhere:
-          bloated teams, endless meetings, and products that launch months late
-          and thousands over budget.
-        </p>
-        <p>
-          We do things differently. Four senior specialists. Direct
-          communication. Weekly deliverables. Full transparency on timeline,
-          budget, and progress — every single week.
-        </p>
-        <p>
-          Since 2021, we&apos;ve shipped 40+ products across 12 industries.
-          Our clients range from pre-seed startups to mid-market companies
-          doing $50M+ in annual revenue. We treat every project like it&apos;s
-          our own.
-        </p>
+        {a.paragraphs.map((p) => (
+          <p key={p}>{p}</p>
+        ))}
       </div>
 
       <div className="mt-14 grid gap-6 sm:grid-cols-2">
-        {TEAM.map((m) => (
+        {a.team.map((m) => (
           <div
             key={m.role}
             className="rounded-2xl border border-white/[0.08] bg-black/[0.26] p-6 site-blur"
@@ -93,15 +53,15 @@ export function AboutSection() {
           level="subsection"
           className="text-lg font-semibold text-white"
         >
-          Why Teams Trust Us
+          {a.trustTitle}
         </ScrollRevealHeading>
         <ul className="mt-6 space-y-3 text-sm text-zinc-300">
-          {TRUST.map((t) => (
-            <li key={t} className="flex gap-3">
+          {a.trustItems.map((item) => (
+            <li key={item} className="flex gap-3">
               <span className="shrink-0 text-brand" aria-hidden>
                 {"\u2713"}
               </span>
-              {t}
+              {item}
             </li>
           ))}
         </ul>

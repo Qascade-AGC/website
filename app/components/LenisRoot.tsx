@@ -52,9 +52,9 @@ export function LenisRoot({ children }: { children: React.ReactNode }) {
     const easeOutCubic = (t: number) => 1 - (1 - t) ** 3;
 
     const instance = new Lenis({
-      /** Ниже lerp — более «шёлковый» инерционный скролл (дольше догоняет, плавнее). */
-      lerp: 0.056,
-      wheelMultiplier: 0.86,
+      /** Баланс: плавность без «плывущего» ощущения. */
+      lerp: 0.072,
+      wheelMultiplier: 0.92,
       touchMultiplier: 0.75,
       smoothWheel: true,
       easing: easeOutCubic,
@@ -67,8 +67,8 @@ export function LenisRoot({ children }: { children: React.ReactNode }) {
       /** Иначе Safari: резиновый overscroll + фиксированный фон дают визуальную «тряску». */
       overscroll: false,
       anchors: {
-        lerp: 0.048,
-        duration: 2.95,
+        lerp: 0.06,
+        duration: 2.2,
         easing: easeOutCubic,
       },
       /**

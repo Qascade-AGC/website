@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 /**
  * Редкое мерцание: длинный цикл, короткий всплеск яркости (см. .site-star в globals.css).
  */
-const STAR_COUNT = 28;
+const STAR_COUNT = 20;
 
 function starStyle(i: number): CSSProperties {
   const left = ((i * 7919 + 17) % 940) / 10;

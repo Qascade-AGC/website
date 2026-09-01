@@ -9,6 +9,11 @@ const useIsoLayoutEffect =
 const WORD = "Qascade";
 const LETTERS = WORD.split("");
 
+/** ease-out cubic — быстрый старт, мягкое завершение */
+function easeOutCubic(t: number) {
+  return 1 - (1 - t) ** 3;
+}
+
 /**
  * Направления разлёта по индексу буквы (усиливаются прогрессом скролла 0…1).
  * Веер вверх/в стороны + лёгкий поворот.
@@ -16,20 +21,14 @@ const LETTERS = WORD.split("");
 const SPREAD = LETTERS.map((_, i) => {
   const n = LETTERS.length;
   const u = n > 1 ? i / (n - 1) : 0.5;
-  const angle = (u - 0.5) * Math.PI * 0.92;
-  const mag = 0.92 + Math.abs(u - 0.5) * 0.75;
+  const angle = (u - 0.5) * Math.PI * 0.75;
+  const mag = 0.78 + Math.abs(u - 0.5) * 0.55;
   return {
-    x: Math.sin(angle) * 118 * mag,
-    y: -Math.cos(angle) * 72 * mag - 36,
-    r: (u - 0.5) * 22,
+    x: Math.sin(angle) * 88 * mag,
+    y: -Math.cos(angle) * 52 * mag - 24,
+    r: (u - 0.5) * 16,
   };
 });
-
-/** Blur на нескольких span + fixed video + Lenis — основной источник фризов в Safari. */
-function isLikelySafari(): boolean {
-  if (typeof navigator === "undefined") return false;
-  return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-}
 
 export function HeroScatterTitle() {
   const lenis = useLenis();
@@ -44,33 +43,25 @@ export function HeroScatterTitle() {
         if (!el) return;
         el.style.transform = "";
         el.style.opacity = "";
-        el.style.filter = "";
       });
     };
 
-    const allowLetterBlur = !isLikelySafari() && lenis == null;
-
     const apply = (tRaw: number) => {
       const t = Math.min(1, Math.max(0, tRaw));
-      const eased = t * t * (3 - 2 * t);
+      const eased = easeOutCubic(t);
       const w =
         typeof window !== "undefined" ? window.innerWidth : 1024;
-      const spreadScale = w < 480 ? 0.55 : w < 640 ? 0.68 : 1;
-      const blurMul = w < 640 ? 0.65 : 1;
+      const spreadScale = w < 480 ? 0.5 : w < 640 ? 0.65 : 1;
       spans.forEach((el, i) => {
         if (!el) return;
         const s = SPREAD[i] ?? { x: 0, y: 0, r: 0 };
         const dx = s.x * eased * spreadScale;
         const dy = s.y * eased * spreadScale;
         const r = s.r * eased * spreadScale;
-        const sc = 1 - 0.2 * eased;
-        const op = Math.max(0, 1 - Math.pow(eased, 0.85) * 0.97);
+        const sc = 1 - 0.1 * eased;
+        const op = Math.max(0.18, 1 - Math.pow(eased, 1.4) * 0.82);
         el.style.transform = `translate3d(${dx}px, ${dy}px, 0) rotate(${r}deg) scale(${sc})`;
         el.style.opacity = String(op);
-        el.style.filter =
-          allowLetterBlur && eased > 0.04
-            ? `blur(${eased * 2 * blurMul}px)`
-            : "";
       });
     };
 
@@ -81,7 +72,7 @@ export function HeroScatterTitle() {
       }
       const y = lenis?.scroll ?? window.scrollY;
       const vh = window.innerHeight || 1;
-      apply(y / (vh * 0.56));
+      apply(y / (vh * 0.62));
     };
 
     if (mq.matches) {
@@ -91,7 +82,6 @@ export function HeroScatterTitle() {
       return () => mq.removeEventListener("change", onMq);
     }
 
-    /** Тач: blur + 7 transform на scroll — очень дорого; оставляем статичный титул. */
     if (shouldAvoidLenis()) {
       apply(0);
       return () => {};
@@ -138,7 +128,7 @@ export function HeroScatterTitle() {
             spansRef.current[i] = el;
           }}
           aria-hidden
-          className="inline-block origin-center md:will-change-transform"
+          className="inline-block origin-center"
           style={{ backfaceVisibility: "hidden" }}
         >
           {ch}
