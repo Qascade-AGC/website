@@ -170,7 +170,6 @@ export interface Messages {
     asidePhone: string;
     asideBookCall: string;
     asideBookCallLink: string;
-    asideTelegram: string;
     asideLocation: string;
     asideHours: string;
     form: ContactFormMessages;
@@ -422,7 +421,6 @@ const plMessages: Messages = {
     asidePhone: "Telefon / WhatsApp:",
     asideBookCall: "Rozmowa:",
     asideBookCallLink: "Zadzwoń lub napisz — umówimy termin w tym tygodniu",
-    asideTelegram: "Telegram:",
     asideLocation: "Poznań, Polska",
     asideHours: "Pn–pt., 9:00–18:00",
     form: {
@@ -740,7 +738,6 @@ const enMessages: Messages = {
     asidePhone: "Phone / WhatsApp:",
     asideBookCall: "Call:",
     asideBookCallLink: "Call or write — we’ll schedule a slot this week",
-    asideTelegram: "Telegram:",
     asideLocation: "Poznań, Poland",
     asideHours: "Mon–Fri, 9:00–18:00 CET",
     form: {
