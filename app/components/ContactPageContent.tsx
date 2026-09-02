@@ -68,19 +68,10 @@ export function ContactPageContent() {
                 <li>
                   <span className="text-zinc-500">{c.asideBookCall}</span>{" "}
                   <a
-                    href="#"
+                    href={`tel:${CONTACT_PHONE}`}
                     className="text-brand hover:text-brand-soft hover:underline"
                   >
                     {c.asideBookCallLink}
-                  </a>
-                </li>
-                <li>
-                  <span className="text-zinc-500">{c.asideTelegram}</span>{" "}
-                  <a
-                    href="#"
-                    className="text-brand hover:text-brand-soft hover:underline"
-                  >
-                    @qascade
                   </a>
                 </li>
               </ul>
