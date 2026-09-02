@@ -4,6 +4,7 @@ import { SiteFooter } from "./SiteFooter";
 import { SiteNav } from "./SiteNav";
 import { SplashContent } from "./SplashContent";
 import { HeroMain } from "./sections/HeroMain";
+import { HomeContactSection } from "./HomeContactSection";
 import {
   BelowFoldFallbackI18n,
   HeroScrollHint,
@@ -96,11 +97,12 @@ export function Hero() {
 
         <div className="relative z-10 flex min-h-dvh flex-col pb-10 sm:pb-12 lg:pb-8">
           <HeroMain />
+          <ReferencesCarouselSection />
           <ServicesSection />
           <PricingSection />
-          <ReferencesCarouselSection />
           <ProcessSection />
           <AboutSection />
+          <HomeContactSection />
           <SiteFooter />
         </div>
       </section>

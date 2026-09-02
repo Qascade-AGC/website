@@ -5,6 +5,10 @@ import { useEffect, useRef, useState } from "react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { shouldAvoidLenis, useLenis } from "./LenisRoot";
 import { useI18n } from "../../lib/i18n/LanguageProvider";
+import {
+  CONTACT_PHONE,
+  CONTACT_PHONE_DISPLAY,
+} from "../../data/contact";
 
 const DELTA = 10;
 const TOP_ALWAYS_VISIBLE = 40;
@@ -145,6 +149,15 @@ export function SiteNav() {
           ))}
         </nav>
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          <a
+            href={`tel:${CONTACT_PHONE}`}
+            className="hidden min-h-11 shrink-0 flex-col items-center justify-center self-center text-center leading-tight text-zinc-400 transition-colors hover:text-white lg:flex"
+          >
+            <span className="text-[10px] font-medium tracking-wide">
+              {CONTACT_PHONE_DISPLAY}
+            </span>
+            <span className="text-[9px] text-zinc-600">Poznań</span>
+          </a>
           <LanguageSwitcher />
           <button
             type="button"
@@ -203,6 +216,15 @@ export function SiteNav() {
               </li>
             ))}
             <li className="mt-4 border-t border-white/[0.08] pt-4">
+              <a
+                href={`tel:${CONTACT_PHONE}`}
+                className="block rounded-lg px-4 py-3.5 text-[13px] font-medium tracking-[0.06em] text-brand transition-colors hover:bg-white/[0.06]"
+                onClick={closeMenu}
+              >
+                {CONTACT_PHONE_DISPLAY}
+              </a>
+            </li>
+            <li>
               <Link
                 href="/portfolio"
                 className="block rounded-lg px-4 py-3.5 text-[13px] font-medium tracking-[0.08em] text-white/90 uppercase transition-colors hover:bg-white/[0.06] hover:text-white"

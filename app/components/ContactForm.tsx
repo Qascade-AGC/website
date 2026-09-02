@@ -40,7 +40,11 @@ const EMAIL_RE =
 
 type Errors = Partial<Record<string, string>>;
 
-function validateForm(data: FormData, f: ContactFormMessages["errors"]): Errors {
+function validateForm(
+  data: FormData,
+  f: ContactFormMessages["errors"],
+  short: boolean,
+): Errors {
   const errors: Errors = {};
 
   const fullName = String(data.get("fullName") ?? "").trim();
@@ -48,19 +52,25 @@ function validateForm(data: FormData, f: ContactFormMessages["errors"]): Errors 
   else if (fullName.length < 2) errors.fullName = f.fullNameMin;
   else if (fullName.length > 120) errors.fullName = f.fullNameMax;
 
-  const email = String(data.get("email") ?? "").trim();
-  if (!email) errors.email = f.emailRequired;
-  else if (!EMAIL_RE.test(email)) errors.email = f.emailInvalid;
+  if (!short) {
+    const email = String(data.get("email") ?? "").trim();
+    if (!email) errors.email = f.emailRequired;
+    else if (!EMAIL_RE.test(email)) errors.email = f.emailInvalid;
 
-  const company = String(data.get("company") ?? "").trim();
-  if (company.length > 200) errors.company = f.companyMax;
+    const company = String(data.get("company") ?? "").trim();
+    if (company.length > 200) errors.company = f.companyMax;
 
-  const projectType = String(data.get("projectType") ?? "").trim();
-  if (!projectType) errors.projectType = f.projectTypeRequired;
+    const projectType = String(data.get("projectType") ?? "").trim();
+    if (!projectType) errors.projectType = f.projectTypeRequired;
+  } else {
+    const company = String(data.get("company") ?? "").trim();
+    if (!company) errors.company = f.companyRequired ?? f.fullNameRequired;
+    else if (company.length > 200) errors.company = f.companyMax;
+  }
 
   const message = String(data.get("message") ?? "").trim();
   if (!message) errors.message = f.messageRequired;
-  else if (message.length < 20) errors.message = f.messageMin;
+  else if (message.length < (short ? 10 : 20)) errors.message = f.messageMin;
   else if (message.length > 8000) errors.message = f.messageMax;
 
   return errors;
@@ -126,11 +136,19 @@ function ContactSelect({
   );
 }
 
-export function ContactForm({ light = false }: { light?: boolean }) {
-  const { t } = useI18n();
+export function ContactForm({
+  light = false,
+  short = false,
+}: {
+  light?: boolean;
+  short?: boolean;
+}) {
+  const { t, locale } = useI18n();
   const f = t.contact.form;
   const [errors, setErrors] = useState<Errors>({});
-  const [status, setStatus] = useState<"idle" | "success">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
 
   const inputClass = light ? inputClassLight : inputClassDark;
   const inputBorderOk = light ? inputBorderOkLight : inputBorderOkDark;
@@ -147,12 +165,12 @@ export function ContactForm({ light = false }: { light?: boolean }) {
     });
   }, []);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("idle");
     const form = e.currentTarget;
     const data = new FormData(form);
-    const next = validateForm(data, f.errors);
+    const next = validateForm(data, f.errors, short);
     setErrors(next);
 
     if (Object.keys(next).length > 0) {
@@ -170,9 +188,39 @@ export function ContactForm({ light = false }: { light?: boolean }) {
       return;
     }
 
-    setStatus("success");
-    form.reset();
-    setErrors({});
+    setStatus("submitting");
+
+    const payload = {
+      fullName: String(data.get("fullName") ?? "").trim(),
+      company: String(data.get("company") ?? "").trim() || undefined,
+      email: String(data.get("email") ?? "").trim() || undefined,
+      projectType: String(data.get("projectType") ?? "").trim() || undefined,
+      budget: String(data.get("budget") ?? "").trim() || undefined,
+      timeline: String(data.get("timeline") ?? "").trim() || undefined,
+      message: String(data.get("message") ?? "").trim(),
+      referral: String(data.get("referral") ?? "").trim() || undefined,
+      short,
+      locale,
+    };
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        setStatus("error");
+        return;
+      }
+
+      setStatus("success");
+      form.reset();
+      setErrors({});
+    } catch {
+      setStatus("error");
+    }
   };
 
   const e = errors;
@@ -202,26 +250,11 @@ export function ContactForm({ light = false }: { light?: boolean }) {
         />
         <FieldError id="fullName-error" message={e.fullName} />
       </div>
-      <div>
-        <label className={labelClass} htmlFor="email">
-          {f.labels.email} <span className="text-brand">*</span>
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          autoComplete="email"
-          placeholder={f.placeholders.email}
-          aria-invalid={e.email ? true : undefined}
-          aria-describedby={e.email ? "email-error" : undefined}
-          onChange={() => clearField("email")}
-          className={`${inputClass} ${e.email ? inputBorderErr : inputBorderOk}`}
-        />
-        <FieldError id="email-error" message={e.email} />
-      </div>
+
       <div>
         <label className={labelClass} htmlFor="company">
-          {f.labels.company}
+          {f.labels.company}{" "}
+          {short ? <span className="text-brand">*</span> : null}
         </label>
         <input
           id="company"
@@ -236,60 +269,83 @@ export function ContactForm({ light = false }: { light?: boolean }) {
         />
         <FieldError id="company-error" message={e.company} />
       </div>
-      <div>
-        <label className={labelClass} htmlFor="projectType">
-          {f.labels.projectType} <span className="text-brand">*</span>
-        </label>
-        <ContactSelect
-          id="projectType"
-          name="projectType"
-          required
-          error={e.projectType}
-          onFieldChange={clearField}
-          selectFieldBase={selectFieldBase}
-          selectBorderOk={selectBorderOk}
-        >
-          <option value="">{f.selectPlaceholder}</option>
-          {f.projectTypeOptions.map((opt) => (
-            <option key={opt}>{opt}</option>
-          ))}
-        </ContactSelect>
-        <FieldError id="projectType-error" message={e.projectType} />
-      </div>
-      <div>
-        <label className={labelClass} htmlFor="budget">
-          {f.labels.budget}
-        </label>
-        <ContactSelect
-          id="budget"
-          name="budget"
-          onFieldChange={clearField}
-          selectFieldBase={selectFieldBase}
-          selectBorderOk={selectBorderOk}
-        >
-          <option value="">{f.selectPlaceholder}</option>
-          {f.budgetOptions.map((opt) => (
-            <option key={opt}>{opt}</option>
-          ))}
-        </ContactSelect>
-      </div>
-      <div>
-        <label className={labelClass} htmlFor="timeline">
-          {f.labels.timeline}
-        </label>
-        <ContactSelect
-          id="timeline"
-          name="timeline"
-          onFieldChange={clearField}
-          selectFieldBase={selectFieldBase}
-          selectBorderOk={selectBorderOk}
-        >
-          <option value="">{f.selectPlaceholder}</option>
-          {f.timelineOptions.map((opt) => (
-            <option key={opt}>{opt}</option>
-          ))}
-        </ContactSelect>
-      </div>
+
+      {!short ? (
+        <>
+          <div>
+            <label className={labelClass} htmlFor="email">
+              {f.labels.email} <span className="text-brand">*</span>
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              placeholder={f.placeholders.email}
+              aria-invalid={e.email ? true : undefined}
+              aria-describedby={e.email ? "email-error" : undefined}
+              onChange={() => clearField("email")}
+              className={`${inputClass} ${e.email ? inputBorderErr : inputBorderOk}`}
+            />
+            <FieldError id="email-error" message={e.email} />
+          </div>
+          <div>
+            <label className={labelClass} htmlFor="projectType">
+              {f.labels.projectType} <span className="text-brand">*</span>
+            </label>
+            <ContactSelect
+              id="projectType"
+              name="projectType"
+              required
+              error={e.projectType}
+              onFieldChange={clearField}
+              selectFieldBase={selectFieldBase}
+              selectBorderOk={selectBorderOk}
+            >
+              <option value="">{f.selectPlaceholder}</option>
+              {f.projectTypeOptions.map((opt) => (
+                <option key={opt}>{opt}</option>
+              ))}
+            </ContactSelect>
+            <FieldError id="projectType-error" message={e.projectType} />
+          </div>
+          <div>
+            <label className={labelClass} htmlFor="budget">
+              {f.labels.budget}
+            </label>
+            <ContactSelect
+              id="budget"
+              name="budget"
+              onFieldChange={clearField}
+              selectFieldBase={selectFieldBase}
+              selectBorderOk={selectBorderOk}
+            >
+              <option value="">{f.selectPlaceholder}</option>
+              {f.budgetOptions.map((opt) => (
+                <option key={opt}>{opt}</option>
+              ))}
+            </ContactSelect>
+          </div>
+          <div>
+            <label className={labelClass} htmlFor="timeline">
+              {f.labels.timeline}
+            </label>
+            <ContactSelect
+              id="timeline"
+              name="timeline"
+              onFieldChange={clearField}
+              selectFieldBase={selectFieldBase}
+              selectBorderOk={selectBorderOk}
+            >
+              <option value="">{f.selectPlaceholder}</option>
+              {f.timelineOptions.map((opt) => (
+                <option key={opt}>{opt}</option>
+              ))}
+            </ContactSelect>
+          </div>
+        </>
+      ) : null}
+
       <div>
         <label className={labelClass} htmlFor="message">
           {f.labels.message} <span className="text-brand">*</span>
@@ -297,7 +353,7 @@ export function ContactForm({ light = false }: { light?: boolean }) {
         <textarea
           id="message"
           name="message"
-          rows={6}
+          rows={short ? 4 : 6}
           placeholder={f.placeholders.message}
           aria-invalid={e.message ? true : undefined}
           aria-describedby={e.message ? "message-error" : undefined}
@@ -306,23 +362,26 @@ export function ContactForm({ light = false }: { light?: boolean }) {
         />
         <FieldError id="message-error" message={e.message} />
       </div>
-      <div>
-        <label className={labelClass} htmlFor="referral">
-          {f.labels.referral}
-        </label>
-        <ContactSelect
-          id="referral"
-          name="referral"
-          onFieldChange={clearField}
-          selectFieldBase={selectFieldBase}
-          selectBorderOk={selectBorderOk}
-        >
-          <option value="">{f.selectPlaceholder}</option>
-          {f.referralOptions.map((opt) => (
-            <option key={opt}>{opt}</option>
-          ))}
-        </ContactSelect>
-      </div>
+
+      {!short ? (
+        <div>
+          <label className={labelClass} htmlFor="referral">
+            {f.labels.referral}
+          </label>
+          <ContactSelect
+            id="referral"
+            name="referral"
+            onFieldChange={clearField}
+            selectFieldBase={selectFieldBase}
+            selectBorderOk={selectBorderOk}
+          >
+            <option value="">{f.selectPlaceholder}</option>
+            {f.referralOptions.map((opt) => (
+              <option key={opt}>{opt}</option>
+            ))}
+          </ContactSelect>
+        </div>
+      ) : null}
 
       {status === "success" ? (
         <p
@@ -333,11 +392,21 @@ export function ContactForm({ light = false }: { light?: boolean }) {
         </p>
       ) : null}
 
+      {status === "error" ? (
+        <p
+          className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200/95"
+          role="alert"
+        >
+          {f.submitError}
+        </p>
+      ) : null}
+
       <button
         type="submit"
-        className="h-12 w-full rounded-lg bg-brand text-sm font-semibold text-zinc-950 shadow-[0_0_28px_-6px_rgba(196,205,216,0.55)] transition-[background-color,box-shadow] hover:bg-brand-hover hover:shadow-[0_0_36px_-4px_rgba(196,205,216,0.65)] sm:w-auto sm:px-10"
+        disabled={status === "submitting"}
+        className="h-12 w-full rounded-lg bg-brand text-sm font-semibold text-zinc-950 shadow-[0_0_28px_-6px_rgba(196,205,216,0.55)] transition-[background-color,box-shadow,opacity] hover:bg-brand-hover hover:shadow-[0_0_36px_-4px_rgba(196,205,216,0.65)] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-10"
       >
-        {f.submit}
+        {status === "submitting" ? f.submitting : f.submit}
       </button>
       <p
         className={`text-[11px] leading-relaxed ${light ? "text-zinc-500" : "text-zinc-600"}`}

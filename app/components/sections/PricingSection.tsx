@@ -149,9 +149,10 @@ export function PricingSection() {
             {p.servicesSubtitle}
           </p>
           <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((s) => {
+            {services
+              .filter((s) => s.tier === "product" && SERVICE_PRICING[s.slug])
+              .map((s) => {
               const tier = SERVICE_PRICING[s.slug];
-              if (!tier) return null;
               return (
                 <div
                   key={s.slug}
@@ -181,6 +182,9 @@ export function PricingSection() {
               );
             })}
           </div>
+          <p className="mx-auto mt-6 max-w-2xl text-center text-[12px] leading-relaxed text-zinc-500">
+            {p.entryNote}
+          </p>
         </div>
 
         <div className="text-center">

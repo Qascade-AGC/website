@@ -7,8 +7,39 @@ export type {
   CaseStudy,
 } from "./portfolio.pl";
 
+/** Realizacje bliższe polskiemu SMB — pierwsze w karuzeli EN. */
+const EN_CASE_PRIORITY = [
+  "Bilimshop",
+  "White Feather Coffee Co.",
+  "Never Tired Centre",
+  "PeopleOrbit",
+] as const;
+
+function orderCases<T extends { client: string; n: number }>(
+  cases: readonly T[],
+  priority: readonly string[],
+): T[] {
+  const picked: T[] = [];
+  const used = new Set<T>();
+
+  for (const name of priority) {
+    const match = cases.find((c) => c.client === name);
+    if (match) {
+      picked.push(match);
+      used.add(match);
+    }
+  }
+
+  for (const c of cases) {
+    if (!used.has(c)) picked.push(c);
+  }
+
+  return picked.map((c, i) => ({ ...c, n: i + 1 }));
+}
+
 export function getCaseStudies(locale: Locale) {
-  return locale === "en" ? CASE_STUDIES_EN : CASE_STUDIES_PL;
+  if (locale === "pl") return CASE_STUDIES_PL;
+  return orderCases(CASE_STUDIES_EN, EN_CASE_PRIORITY);
 }
 
 /** Domyślnie polski — preferuj getCaseStudies(locale) w komponentach. */

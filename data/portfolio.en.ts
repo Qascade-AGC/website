@@ -15,6 +15,7 @@ export type CaseStudy = {
   features: string[];
   tech: string;
   results: string[];
+  conceptNote?: string;
   quote?: { text: string; author: string };
   screenshots?: CaseScreenshot[];
   /** Только карусель на главной: видео вместо превью-картинки. Не используется в модалке и на /portfolio. */
@@ -24,7 +25,8 @@ export type CaseStudy = {
 export const CASE_STUDIES: CaseStudy[] = [
   {
     n: 1,
-    client: "ILLUMINA",
+    client: "Life sciences B2B catalog",
+    conceptNote: "Concept project — not delivered for the brand",
     industry: "Life sciences",
     service: "B2B catalog · UX & web",
     timeline: "1 week",
@@ -390,7 +392,8 @@ export const CASE_STUDIES: CaseStudy[] = [
   },
   {
     n: 9,
-    client: "The Guardian",
+    client: "Newsroom homepage",
+    conceptNote: "Concept project — not delivered for the brand",
     industry: "Publishing · News media",
     service: "Editorial platform · UX & web",
     timeline: "1 week",
