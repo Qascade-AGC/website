@@ -45,8 +45,13 @@ export function PortfolioPageContent() {
                 id={`case-${cs.n}`}
               >
                 <p className="text-[11px] font-semibold tracking-widest text-brand uppercase">
-                  {p.caseStudyLabel}
+                  {p.caseStudyLabel} · {cs.n}
                 </p>
+                {cs.conceptNote ? (
+                  <p className="mt-2 text-[11px] font-medium text-amber-200/90">
+                    {p.conceptNoteLabel}: {cs.conceptNote}
+                  </p>
+                ) : null}
                 <div className="relative mt-4 aspect-[21/9] w-full overflow-hidden rounded-xl bg-gradient-to-br from-black to-black ring-1 ring-white/10">
                   {heroSrc ? (
                     <Image
@@ -61,17 +66,17 @@ export function PortfolioPageContent() {
 
                 <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-zinc-400">
                   <span>
-                    <span className="text-zinc-600">{p.client}:</span> {cs.client}
+                    <span className="text-zinc-600">{p.client}</span> {cs.client}
                   </span>
                   <span>
-                    <span className="text-zinc-600">{p.industry}:</span>{" "}
+                    <span className="text-zinc-600">{p.industry}</span>{" "}
                     {cs.industry}
                   </span>
                   <span>
-                    <span className="text-zinc-600">{p.service}:</span> {cs.service}
+                    <span className="text-zinc-600">{p.service}</span> {cs.service}
                   </span>
                   <span>
-                    <span className="text-zinc-600">{p.timeline}:</span>{" "}
+                    <span className="text-zinc-600">{p.timeline}</span>{" "}
                     {cs.timeline}
                   </span>
                 </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useLayoutEffect, useRef, useState } from "react";
+import { Fragment, useLayoutEffect, useRef, useState } from "react";
 import { shouldAvoidLenis, useLenis } from "../LenisRoot";
 import { useTouchLikeDevice } from "../useTouchLikeDevice";
 import { TypewriterReveal } from "../TypewriterReveal";
@@ -75,6 +75,15 @@ function ServiceDetail({
 
       {tier ? (
         <div className="flex shrink-0 flex-wrap gap-x-6 gap-y-2 border-b border-white/[0.08] bg-[rgba(37,37,37,0.18)] px-5 py-3 site-blur sm:px-7">
+          {s.tier === "entry" ? (
+            <div>
+              <p className="text-[10px] text-zinc-500">{pricing.setupLabel}</p>
+              <p className="text-sm font-semibold text-brand">
+                {labels.quoteOnRequest}
+              </p>
+            </div>
+          ) : (
+            <>
           <div>
             <p className="text-[10px] text-zinc-500">{pricing.setupLabel}</p>
             <p className="text-sm font-semibold text-brand">
@@ -89,7 +98,12 @@ function ServiceDetail({
               </p>
             </div>
           ) : null}
-          <p className="w-full text-[10px] text-zinc-600">{pricing.nettoNote}</p>
+            </>
+          )}
+        </div>
+      ) : s.tier === "entry" ? (
+        <div className="flex shrink-0 border-b border-white/[0.08] bg-[rgba(37,37,37,0.18)] px-5 py-3 site-blur sm:px-7">
+          <p className="text-sm font-semibold text-brand">{labels.quoteOnRequest}</p>
         </div>
       ) : null}
 
@@ -331,9 +345,25 @@ export function ServicesBrowser() {
               >
                 {SERVICES.map((s, i) => {
                   const isActive = i === selected;
+                  const prev = SERVICES[i - 1];
+                  const showEntryHeading =
+                    s.tier === "entry" &&
+                    (i === 0 || prev?.tier !== "entry");
+                  const showProductHeading =
+                    s.tier === "product" && prev?.tier === "entry";
                   return (
+                    <Fragment key={s.slug}>
+                      {showEntryHeading ? (
+                        <p className="px-1 pt-2 text-[9px] font-semibold tracking-[0.18em] text-zinc-500 uppercase">
+                          {labels.tierEntryHeading}
+                        </p>
+                      ) : null}
+                      {showProductHeading ? (
+                        <p className="px-1 pt-3 text-[9px] font-semibold tracking-[0.18em] text-zinc-500 uppercase">
+                          {labels.tierProductHeading}
+                        </p>
+                      ) : null}
                     <button
-                      key={s.slug}
                       type="button"
                       role="tab"
                       id={`service-tab-${s.slug}`}
@@ -376,6 +406,7 @@ export function ServicesBrowser() {
                         </div>
                       </div>
                     </button>
+                    </Fragment>
                   );
                 })}
               </div>

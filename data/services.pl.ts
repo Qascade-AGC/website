@@ -1,5 +1,8 @@
+export type ServiceTier = "entry" | "product";
+
 export type Service = {
   slug: string;
+  tier: ServiceTier;
   headline: string;
   title: string;
   body: string;
@@ -11,95 +14,132 @@ export type Service = {
   cta: string;
 };
 
-export const SERVICES: Service[] = [
+/** Wejście — strony i proste systemy dla lokalnych firm. */
+const ENTRY_SERVICES: Service[] = [
+  {
+    slug: "business-site",
+    tier: "entry",
+    headline: "Strona firmowa",
+    title: "Strona, która zbiera zapytania",
+    body: "Dla salonu, kliniki, warsztatu, biura usługowego. **Jasna oferta**, telefon i formularz na wierzchu — nie szablon z 2019 roku, który nic nie sprzedaje.",
+    deliverables: [
+      "Strona główna z ofertą i dowodami zaufania",
+      "Formularz kontaktowy i integracja z messengermi",
+      "Wersja mobile — większość klientów wchodzi z telefonu",
+      "Podstawowe SEO i szybkie ładowanie",
+    ],
+    tech: "Next.js · TypeScript · Tailwind CSS",
+    cta: "Porozmawiajmy o stronie →",
+  },
+  {
+    slug: "booking",
+    tier: "entry",
+    headline: "Rezerwacje online",
+    title: "Zapisy bez chaosu w telefonie",
+    body: "Kalendarz, wolne terminy, przypomnienia. Dla gabinetów, studiów, salonów i usług, gdzie **każdy nieodebrany telefon to strata**.",
+    deliverables: [
+      "Widok terminów dla klienta i panel dla firmy",
+      "Formularz zapisu i potwierdzenia",
+      "Integracja z kalendarzem (Google / iCal)",
+      "Powiadomienia e-mail lub SMS (wg potrzeb)",
+    ],
+    cta: "Uporządkujmy zapisy →",
+  },
+  {
+    slug: "simple-shop",
+    tier: "entry",
+    headline: "Prosty sklep",
+    title: "Sklep internetowy bez przerostu",
+    body: "Katalog, koszyk, płatność online. Dla firm, które **już sprzedają**, ale mają chaos w zamówieniach albo brak sensownej witryny.",
+    deliverables: [
+      "Katalog produktów i kategorie",
+      "Koszyk i checkout (Przelewy24 / Stripe)",
+      "Panel zamówień dla właściciela",
+      "Podstawowa analityka sprzedaży",
+    ],
+    tech: "Next.js · Stripe / Przelewy24",
+    cta: "Zacznij sprzedawać online →",
+  },
+];
+
+/** Produkt — większe systemy, wyższy budżet. */
+const PRODUCT_SERVICES: Service[] = [
   {
     slug: "web-apps",
-    headline: "Aplikacje webowe",
-    title: "Dedykowane aplikacje webowe",
-    body: "Złożone procesy zasługują na eleganckie rozwiązania. Budujemy **wydajne**, **skalowalne** aplikacje webowe dopasowane do logiki Twojego biznesu — od wewnętrznych paneli i CRM-ów po platformy klienckie obsługujące **tysiące użytkowników** dziennie.",
+    tier: "product",
+    headline: "Panel i aplikacja",
+    title: "System dopasowany do firmy",
+    body: "Wewnętrzny panel, CRM, katalog B2B, platforma dla klientów — gdy **Excel i pięć narzędzi** już nie wystarczają. Tu zaczyna się widełka 18–85 tys. zł.",
     deliverables: [
-      "Dedykowana logika biznesowa i automatyzacja procesów",
-      "Dostęp oparty na rolach i zarządzanie użytkownikami",
-      "Integracje z zewnętrznymi API",
-      "Przetwarzanie danych w czasie rzeczywistym i raportowanie",
+      "Logika biznesowa i role użytkowników",
+      "Integracje z zewnętrznymi systemami",
+      "Raporty i dane w czasie rzeczywistym",
+      "Architektura gotowa na rozwój",
     ],
-    tech: "React, Next.js, Node.js, PostgreSQL, AWS",
-    cta: "Porozmawiajmy o Twojej aplikacji →",
+    tech: "React, Next.js, Node.js, PostgreSQL",
+    cta: "Porozmawiajmy o systemie →",
   },
   {
     slug: "mvp",
-    headline: "Rozwój MVP",
-    title: "Rozwój MVP",
-    body: "Masz pomysł na produkt? Pomagamy founderom szybko go zweryfikować. Nasz zwinny proces MVP prowadzi od koncepcji do działającego produktu w **6–10 tygodni** — żebyś mógł przetestować rynek, zdobyć pierwszych użytkowników i pozyskać finansowanie na dowodach, nie obietnicach.",
+    tier: "product",
+    headline: "MVP produktu",
+    title: "Od pomysłu do działającego produktu",
+    body: "Masz pomysł na usługę cyfrową i chcesz **sprawdzić rynek**, zanim zatrudnisz cały zespół. Budujemy rdzeń produktu w ustalonym czasie — z planem, nie na ślepo.",
     deliverables: [
-      "Zakres produktu i priorytetyzacja funkcji",
-      "Klikalny prototyp w 2. tygodniu",
-      "Budowa kluczowych funkcji w czystej architekturze",
-      "Wdrożenie gotowe do startu i konfiguracja analityki",
+      "Zakres i priorytety na starcie",
+      "Klikalny prototyp przed kodem",
+      "Kluczowe funkcje w czystej architekturze",
+      "Wdrożenie i pierwsze pomiary",
     ],
-    footnote: "Średni czas realizacji: 6–10 tygodni od kickoffu do launchu.",
-    cta: "Zbuduj swoje MVP →",
+    footnote: "Typowy czas: 6–10 tygodni od rozpoznania do wdrożenia.",
+    cta: "Omówmy MVP →",
   },
   {
     slug: "ecommerce",
+    tier: "product",
     headline: "E-commerce",
-    title: "Rozwiązania e-commerce",
-    body: "Budujemy sklepy internetowe, które naprawdę konwertują. Niezależnie od tego, czy potrzebujesz dedykowanej realizacji na **Shopify**, konfiguracji **headless commerce**, czy w pełni autorskiego sklepu — projektujemy każdą stronę, każdy flow i każdy krok checkoutu pod maksymalny przychód na odwiedzającego.",
+    title: "Sklep, który rośnie z firmą",
+    body: "Większy katalog, integracje magazynowe, wielojęzyczność, niestandardowy checkout. Dla firm, które **już mają obrót** i potrzebują narzędzia, nie wizytówki.",
     deliverables: [
-      "Dedykowany design i development sklepu",
-      "Integracja bramek płatności (Stripe, PayPal, lokalne metody)",
-      "Zarządzanie magazynem i obsługa zamówień",
-      "Optymalizacja współczynnika konwersji i testy A/B",
+      "Architektura sklepu pod skalę",
+      "Płatności, dostawy, stany magazynowe",
+      "Panel administracyjny zamówień",
+      "Optymalizacja konwersji",
     ],
-    footnote: "Klienci notują średnio 25–40% wzrost konwersji po launchu.",
-    cta: "Zwiększ sprzedaż →",
+    cta: "Porozmawiajmy o sklepie →",
   },
   {
     slug: "saas",
-    headline: "Platformy SaaS",
-    title: "Platformy SaaS",
-    body: "Współpracujemy z founderami SaaS i zespołami produktowymi, by budować platformy, za które ludzie chcą płacić. Architektura **multi-tenant**, **rozliczenia subskrypcyjne**, onboarding, panele administracyjne — budowaliśmy to wszystko i wiemy, gdzie czają się pułapki.",
+    tier: "product",
+    headline: "Platforma SaaS",
+    title: "System z abonamentem dla wielu klientów",
+    body: "Konto użytkownika, subskrypcja, panel admina — gdy **sprzedajesz dostęp do oprogramowania**, nie jednorazową usługę.",
     deliverables: [
-      "Architektura multi-tenant i izolacja danych",
-      "Rozliczenia subskrypcyjne (Stripe, Paddle, custom)",
-      "Onboarding użytkowników i self-serve workflows",
-      "Panele administracyjne i analityka użycia",
+      "Architektura multi-tenant",
+      "Rozliczenia subskrypcyjne",
+      "Onboarding i panel klienta",
+      "Analityka użycia",
     ],
-    footnote: "4 produkty SaaS, które zbudowaliśmy, osiągnęły $1M+ ARR.",
-    cta: "Uruchom swój SaaS →",
+    cta: "Zbudujmy platformę →",
   },
   {
     slug: "ai",
-    headline: "Integracja AI",
-    title: "Integracja AI",
-    body: "AI to nie magia — to narzędzie. Pomagamy firmom integrować **duże modele językowe**, computer vision i analitykę predykcyjną z istniejącymi produktami i procesami. Efekt: mądrzejsza automatyzacja, lepsze doświadczenia użytkowników i pipeline'y gotowe na **RAG**, gdy potrzebujesz odpowiedzi opartych na danych.",
+    tier: "product",
+    headline: "Automatyzacja i AI",
+    title: "AI w codziennym procesie firmy",
+    body: "Bot na stronie, automatyczne odpowiedzi, przetwarzanie dokumentów, asystent w CRM — **konkretne oszczędności czasu**, nie slajd „wdrożymy sztuczną inteligencję”.",
     deliverables: [
-      "Integracja LLM (OpenAI, Anthropic, modele open-source)",
-      "Wyszukiwanie, chat i generowanie treści wspierane przez AI",
-      "Analityka predykcyjna i silniki rekomendacji",
-      "Fine-tuning modeli i pipeline'y RAG",
+      "Integracja z istniejącymi narzędziami",
+      "Chatbot lub asystent w workflow",
+      "Bezpieczne przetwarzanie danych firmy",
+      "Monitoring i poprawki po wdrożeniu",
     ],
-    footnote: "Sprawiamy, że AI jest praktyczne, nie eksperymentalne.",
-    cta: "Dodaj AI do swojego produktu →",
-  },
-  {
-    slug: "devsecops",
-    headline: "DevSecOps",
-    title: "DevSecOps",
-    body: "Wbudowujemy bezpieczeństwo i niezawodność w **CI/CD**, chmurę i codzienne procesy — **Terraform**, **Kubernetes**, automatyczne skany przy każdym merge — żebyś mógł szybko wdrażać bez gaszenia pożarów.",
-    whyMatters: [
-      "Kontrole w pipeline'ie wychwytują większość problemów przed produkcją.",
-      "Solidne IaC i monitoring oznaczają mniej awarii i szybszą rekonwalescencję.",
-    ],
-    deliverables: [
-      "Automatyzacja CI/CD i pipeline'y release'ów",
-      "Infrastructure as Code (Terraform, cloud-native)",
-      "Kontenery i orkiestracja (Docker, Kubernetes)",
-      "Skanowanie bezpieczeństwa w buildach i hardening chmury",
-      "Monitoring, alerty i podstawy incident response",
-    ],
-    tech: "AWS / GCP / Azure · Terraform · Kubernetes · Docker · GitHub Actions · Datadog / Grafana",
-    footnote: "Doświadczenie z workloadami fintech i w stylu HIPAA.",
-    cta: "Zabezpiecz swoją infrastrukturę →",
+    cta: "Dodajmy automatyzację →",
   },
 ];
+
+export const SERVICES: Service[] = [...ENTRY_SERVICES, ...PRODUCT_SERVICES];
+
+export function getServicesByTier(tier: ServiceTier) {
+  return SERVICES.filter((s) => s.tier === tier);
+}

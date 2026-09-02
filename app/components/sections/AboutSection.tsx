@@ -32,7 +32,7 @@ export function AboutSection() {
         ))}
       </div>
 
-      <div className="mt-14 grid gap-6 sm:grid-cols-2">
+      <div className="mt-14 grid max-w-2xl gap-6 sm:mx-auto sm:grid-cols-2">
         {a.team.map((m) => (
           <div
             key={m.role}

@@ -30,6 +30,7 @@ export type PricingMessages = {
   packages: Record<string, PricingPackageCopy>;
   setupLabel: string;
   monthlyLabel: string;
+  entryNote: string;
   cta: string;
 };
 
@@ -90,6 +91,8 @@ const pl: PricingMessages = {
   },
   setupLabel: "Wdrożenie",
   monthlyLabel: "Abonament",
+  entryNote:
+    "Prostsza strona lub landing — wycena osobno po rozmowie (zwykle niżej niż widełki produktowe powyżej).",
   cta: "Umów wycenę →",
 };
 
@@ -147,6 +150,8 @@ const en: PricingMessages = {
   },
   setupLabel: "Setup",
   monthlyLabel: "Retainer",
+  entryNote:
+    "Simpler site or landing — quoted separately after a call (usually below the product ranges above).",
   cta: "Get a quote →",
 };
 

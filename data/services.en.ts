@@ -1,92 +1,133 @@
-export type Service = {
-  slug: string;
-  headline: string;
-  title: string;
-  body: string;
-  bodyExtra?: string;
-  deliverables: string[];
-  whyMatters?: string[];
-  tech?: string;
-  footnote?: string;
-  cta: string;
-};
+import type { Service } from "./services.pl";
 
-export const SERVICES: Service[] = [
+export type { Service, ServiceTier } from "./services.pl";
+
+const ENTRY: Service[] = [
+  {
+    slug: "business-site",
+    tier: "entry",
+    headline: "Business website",
+    title: "A site that captures leads",
+    body: "For local service businesses. **Clear offer**, phone and form up front — not a 2019 template that sells nothing.",
+    deliverables: [
+      "Homepage with offer and trust signals",
+      "Contact form and messenger hooks",
+      "Mobile-first layout",
+      "Core SEO and fast loading",
+    ],
+    tech: "Next.js · TypeScript · Tailwind CSS",
+    cta: "Talk about your site →",
+  },
+  {
+    slug: "booking",
+    tier: "entry",
+    headline: "Online booking",
+    title: "Appointments without phone chaos",
+    body: "Calendar, open slots, reminders — for clinics, studios, salons where **every missed call is lost revenue**.",
+    deliverables: [
+      "Client booking view and owner panel",
+      "Booking forms and confirmations",
+      "Calendar sync (Google / iCal)",
+      "Email or SMS reminders",
+    ],
+    cta: "Fix your booking flow →",
+  },
+  {
+    slug: "simple-shop",
+    tier: "entry",
+    headline: "Simple shop",
+    title: "E-commerce without bloat",
+    body: "Catalog, cart, online payment — for businesses **already selling** but stuck with messy orders or no real storefront.",
+    deliverables: [
+      "Product catalog and categories",
+      "Cart and checkout",
+      "Owner order panel",
+      "Basic sales analytics",
+    ],
+    tech: "Next.js · Stripe",
+    cta: "Start selling online →",
+  },
+];
+
+const PRODUCT: Service[] = [
   {
     slug: "web-apps",
-    headline: "Web Applications",
-    title: "Custom Web Applications",
-    body: "Complex workflows deserve elegant solutions. We build **performant**, **scalable** web applications tailored to your business logic — from internal dashboards and CRMs to customer-facing platforms handling **thousands of users** daily.",
+    tier: "product",
+    headline: "Web applications",
+    title: "Custom systems for your business",
+    body: "Internal panels, CRM, B2B catalogs — when **spreadsheets and five tools** no longer scale. This is the 18–85k tier.",
     deliverables: [
-      "Custom business logic & workflow automation",
-      "Role-based access & user management",
-      "Third-party API integrations",
-      "Real-time data processing & reporting",
+      "Business logic and user roles",
+      "Third-party integrations",
+      "Reporting and live data",
+      "Architecture built to grow",
     ],
     tech: "React, Next.js, Node.js, PostgreSQL, AWS",
-    cta: "Discuss Your App →",
+    cta: "Discuss your app →",
   },
   {
     slug: "mvp",
-    headline: "MVP Development",
-    title: "MVP Development",
-    body: "Got a product idea? We help founders validate it fast. Our lean MVP process takes you from concept to a functional product in **6–10 weeks** — so you can test the market, get early users, and raise funding with proof, not promises.",
+    tier: "product",
+    headline: "MVP development",
+    title: "From idea to live product",
+    body: "Validate a digital product **before hiring a full team**. We ship a focused core on a fixed plan — not blind scope creep.",
     deliverables: [
-      "Product scoping & feature prioritization",
-      "Clickable prototype in week 2",
-      "Core-feature build with clean architecture",
-      "Launch-ready deployment & analytics setup",
+      "Scope and priorities upfront",
+      "Clickable prototype before code",
+      "Core features in clean architecture",
+      "Launch and first metrics",
     ],
-    footnote: "Average timeline: 6–10 weeks from kickoff to launch.",
-    cta: "Build Your MVP →",
+    footnote: "Typical timeline: 6–10 weeks from discovery to launch.",
+    cta: "Build your MVP →",
   },
   {
     slug: "ecommerce",
-    headline: "E-Commerce",
-    title: "E-Commerce Solutions",
-    body: "We build online stores that actually convert. Whether you need a custom **Shopify** build, a **headless commerce** setup, or a fully bespoke storefront — we engineer every page, every flow, and every checkout step for maximum revenue per visitor.",
+    tier: "product",
+    headline: "E-commerce",
+    title: "Stores built to grow",
+    body: "Larger catalogs, warehouse hooks, multi-language, custom checkout — for businesses **already doing volume**.",
     deliverables: [
-      "Custom storefront design & development",
-      "Payment gateway integration (Stripe, PayPal, local methods)",
-      "Inventory management & order processing",
-      "Conversion rate optimization & A/B testing",
+      "Store architecture for scale",
+      "Payments, shipping, inventory",
+      "Admin order panel",
+      "Conversion optimization",
     ],
-    footnote: "Clients see 25–40% conversion lift on average after launch.",
-    cta: "Boost Your Sales →",
+    cta: "Boost your sales →",
   },
   {
     slug: "saas",
-    headline: "SaaS Platforms",
-    title: "SaaS Platforms",
-    body: "We partner with SaaS founders and product teams to build platforms people actually want to pay for. **Multi-tenant** architecture, **subscription billing**, onboarding flows, admin panels — we've built it all, and we know where the pitfalls are.",
+    tier: "product",
+    headline: "SaaS platforms",
+    title: "Subscription software for many clients",
+    body: "Accounts, billing, admin — when you **sell access to software**, not a one-off project.",
     deliverables: [
-      "Multi-tenant architecture & data isolation",
-      "Subscription billing (Stripe, Paddle, custom)",
-      "User onboarding & self-serve workflows",
-      "Admin dashboards & usage analytics",
+      "Multi-tenant architecture",
+      "Subscription billing",
+      "Onboarding and client panel",
+      "Usage analytics",
     ],
-    footnote: "4 SaaS products we built reached $1M+ ARR.",
-    cta: "Launch Your SaaS →",
+    cta: "Launch your SaaS →",
   },
   {
     slug: "ai",
-    headline: "AI Integration",
-    title: "AI Integration",
-    body: "AI is not magic — it's a tool. We help businesses integrate **large language models**, computer vision, and predictive analytics into existing products and workflows. The result: smarter automation, better user experiences, and **RAG**-ready pipelines when you need grounded answers.",
+    tier: "product",
+    headline: "Automation & AI",
+    title: "AI inside daily workflows",
+    body: "Site bots, document processing, CRM assistants — **concrete time saved**, not a slide that says “we do AI”.",
     deliverables: [
-      "LLM integration (OpenAI, Anthropic, open-source models)",
-      "AI-powered search, chat, and content generation",
-      "Predictive analytics & recommendation engines",
-      "Custom model fine-tuning & RAG pipelines",
+      "Integration with existing tools",
+      "Chatbot or workflow assistant",
+      "Safe handling of company data",
+      "Monitoring after launch",
     ],
-    footnote: "We make AI practical, not experimental.",
-    cta: "Add AI to Your Product →",
+    cta: "Add automation →",
   },
   {
     slug: "devsecops",
+    tier: "product",
     headline: "DevSecOps",
     title: "DevSecOps",
-    body: "We embed security and reliability into **CI/CD**, cloud, and day-to-day workflows — **Terraform**, **Kubernetes**, automated scans on every merge — so you ship fast without firefighting.",
+    body: "Security and reliability in **CI/CD**, cloud, and release workflows — for product teams that ship often.",
     whyMatters: [
       "Pipeline checks catch most issues before production.",
       "Solid IaC and monitoring mean fewer outages and faster recovery.",
@@ -99,7 +140,8 @@ export const SERVICES: Service[] = [
       "Monitoring, alerting & incident basics",
     ],
     tech: "AWS / GCP / Azure · Terraform · Kubernetes · Docker · GitHub Actions · Datadog / Grafana",
-    footnote: "Experience with fintech and HIPAA-style workloads.",
-    cta: "Secure Your Infrastructure →",
+    cta: "Secure your infrastructure →",
   },
 ];
+
+export const SERVICES: Service[] = [...ENTRY, ...PRODUCT];

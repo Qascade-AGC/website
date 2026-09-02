@@ -162,6 +162,11 @@ export function CaseStudyModal({ study, onClose }: Props) {
             >
               {study.client}
             </h2>
+            {study.conceptNote ? (
+              <p className="mt-1.5 text-[11px] font-medium text-amber-200/90">
+                {t.portfolio.conceptNoteLabel}: {study.conceptNote}
+              </p>
+            ) : null}
             <p className="mt-0.5 text-[13px] text-zinc-500">
               {study.service} · {study.timeline}
             </p>
